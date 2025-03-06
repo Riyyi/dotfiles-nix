@@ -12,6 +12,8 @@
 
     ./system/nginx.nix
     ./system/gitea.nix
+    ./system/syncthing.nix
+    ./system/transmission.nix
 
     # Home Manager
     inputs.home-manager.nixosModules.default
@@ -111,6 +113,7 @@
     sudo
     syncthing
     tlp
+    transmission_4
     tree
     zfs
     zsh

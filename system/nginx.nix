@@ -29,17 +29,33 @@ in
     };
 
     virtualHosts."git.example.test" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3000";
+        proxyWebsockets = true;
+      };
+    };
+
+    virtualHosts."syncthing.example.test" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8384";
+        proxyWebsockets = true;
+      };
+    };
+
+    virtualHosts."transmission.example.test" = {
+      # basicAuth = { myuser = "mypassword"; }; # plain text in Nix store
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:9091";
+        proxyWebsockets = true;
+      };
       locations."/".extraConfig = ''
-        proxy_pass  http://127.0.0.1:3000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Server $host;
-        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass_header  X-Transmission-Session-Id;
       '';
     };
   };
+
+  # Lift restriction to write OS disk
+  systemd.services.nginx.serviceConfig.ReadWritePaths = [ "/var/log/nginx/" ];
 
   services.phpfpm.pools.pool = {
     # enable is implicit by defining a pool
