@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, dot, ... }:
 
 let
   user = "rick";
@@ -8,14 +8,14 @@ in
 
   services.gitea = {
     enable = true;
-    user = "${user}";
-    group = "${group}";
+    user = dot.user;
+    group = dot.group;
     # stateDir = "/var/lib/gitea";
     # repositoryRoot = "${config.services.gitea.stateDir}/repositories";
     database = {
       type = "mysql";
       name = "gitea";
-      user = "${user}";
+      user = dot.user;
       password = "1qwerty1";
     };
     settings = {

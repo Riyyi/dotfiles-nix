@@ -4,7 +4,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, dot, ... }:
 
 {
   imports = [
@@ -29,28 +29,28 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos-nas"; # Define your hostname.
+  networking.hostName = dot.hostname; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
   networking.usePredictableInterfaceNames = false;
 
   # Set your time zone
-  time.timeZone = "Europe/Amsterdam";
+  time.timeZone = dot.timezone;
 
   # Select internationalisation properties
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = dot.locale;
 
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
+    LC_ADDRESS = dot.locale;
+    LC_IDENTIFICATION = dot.locale;
+    LC_MEASUREMENT = dot.locale;
+    LC_MONETARY = dot.locale;
+    LC_NAME = dot.locale;
+    LC_NUMERIC = dot.locale;
+    LC_PAPER = dot.locale;
+    LC_TELEPHONE = dot.locale;
+    LC_TIME = dot.locale;
   };
 
   # Configure keymap in X11
@@ -72,9 +72,9 @@
   };
 
   # Define a user account
-  users.users.rick = {
+  users.users.${dot.user} = {
     isNormalUser = true;
-    description = "rick";
+    description = dot.user;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
     shell = pkgs.zsh;
@@ -86,7 +86,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs dot; };
     users.root = import ./root.nix;
     users.rick = import ./home.nix;
   };
@@ -137,7 +137,7 @@
     ports = [ 4000 ];
     settings = {
       PasswordAuthentication = false;
-      AllowUsers = [ "root" "rick" ];
+      AllowUsers = [ "root" dot.user ];
       UseDns = true;
       X11Forwarding = false;
       PermitRootLogin = "yes";
@@ -157,5 +157,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = dot.version; # Did you read the comment?
 }

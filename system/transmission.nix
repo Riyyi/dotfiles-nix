@@ -1,15 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, dot, ... }:
 
-let
-  user = "rick";
-  group = "users";
-in
 {
 
   services.transmission = {
     enable = true;
-    user = "${user}";
-    group = "${group}";
+    user = dot.user;
+    group = dot.group;
     openRPCPort = true;
     openPeerPorts = true;
     package = pkgs.transmission_4;

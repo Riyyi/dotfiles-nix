@@ -1,15 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, dot, ... }:
 
-let
-  user = "rick";
-  group = "users";
-in
 {
 
   services.nginx = {
     enable = true;
-    user = "${user}";
-    group = "${group}";
+    user = dot.user;
+    group = dot.group;
 
     virtualHosts."example.test" = {
       root = "/var/www/riyyi/public";
@@ -59,8 +55,8 @@ in
 
   services.phpfpm.pools.pool = {
     # enable is implicit by defining a pool
-    user = "${user}";
-    group = "${group}";
+    user = dot.user;
+    group = dot.group;
     settings = {
       "pm" = "dynamic";
       "listen.owner" = config.services.nginx.user;
@@ -76,8 +72,8 @@ in
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
-    user = "${user}";
-    group = "${group}";
+    user = dot.user;
+    group = dot.group;
     ensureDatabases = [ "gitea" ];
     settings = {
       mysqld.bind-address = "0.0.0.0";
