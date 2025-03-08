@@ -1,9 +1,5 @@
 { config, pkgs, dot, ... }:
 
-let
-  user = "rick";
-  group = "users";
-in
 {
 
   services.gitea = {
