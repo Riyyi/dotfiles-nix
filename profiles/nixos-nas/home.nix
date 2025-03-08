@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ./user/git.nix
-    ./user/zsh.nix
+    ./../../user/git.nix
+    ./../../user/zsh.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should

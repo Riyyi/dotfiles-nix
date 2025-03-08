@@ -1,5 +1,3 @@
-# sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#nixos-nas
-
 {
   description = "NixOS configuration";
 
@@ -12,32 +10,28 @@
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, ... }:
     let
-      dot = {
-        # ----------------------------------
-        # System
-        system = "x86_64-linux";
-        hostname = "nixos-nas";
-        timezone = "Europe/Amsterdam";
-        locale = "en_US.UTF-8";
-        version = "24.11";
-        # ----------------------------------
-        # User
-        user = "rick";
-        group = "users";
-      };
+      # Get all profiles from the profiles directory
+      profileContents = builtins.readDir ./profiles;
+      isDirectory = name: profileContents.${name} == "directory";
+      profiles = builtins.filter isDirectory (builtins.attrNames profileContents);
     in
       {
-        nixosConfigurations = {
-          nixos-nas = nixpkgs.lib.nixosSystem {
-            system = dot.system;
-            specialArgs = {
-              inherit inputs dot;
+        nixosConfigurations = builtins.listToAttrs (map (profile:
+          let
+            dot = import ./profiles/${profile}/settings.nix;
+          in {
+            name = dot.hostname;
+            value = nixpkgs.lib.nixosSystem {
+              system = dot.system;
+              specialArgs = {
+                inherit inputs dot;
+              };
+              modules = [
+                ./profiles/${profile}/configuration.nix
+              ];
             };
-            modules = [
-              ./configuration.nix
-            ];
-          };
-        };
+          }
+        ) profiles);
       };
 
 }

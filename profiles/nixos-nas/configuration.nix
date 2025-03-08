@@ -1,5 +1,3 @@
-# nixos-rebuild switch --use-remote-sudo
-
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
@@ -10,10 +8,10 @@
   imports = [
     ./hardware-configuration.nix
 
-    ./system/nginx.nix
-    ./system/gitea.nix
-    ./system/syncthing.nix
-    ./system/transmission.nix
+    ./../../system/nginx.nix
+    ./../../system/gitea.nix
+    ./../../system/syncthing.nix
+    ./../../system/transmission.nix
 
     # Home Manager
     inputs.home-manager.nixosModules.default
@@ -106,6 +104,7 @@
     ncdu
     neovim
     nginx
+    nh
     openssh
     php
     rclone
