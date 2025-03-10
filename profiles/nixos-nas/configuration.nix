@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, dot, ... }:
+{ config, pkgs, inputs, dot, cwd, ... }:
 
 {
   imports = [
@@ -14,9 +14,6 @@
     ./../../system/gitea.nix
     ./../../system/syncthing.nix
     ./../../system/transmission.nix
-
-    # Home Manager
-    inputs.home-manager.nixosModules.default
   ];
 
   # Bootloader
@@ -50,7 +47,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs dot; };
+    extraSpecialArgs = { inherit inputs dot cwd; };
     users.root = import ./root.nix;
     users.${dot.user} = import ./home.nix;
   };
@@ -72,6 +69,7 @@
     php
     rclone
     rsync
+    sops
     sudo
     syncthing
     tlp

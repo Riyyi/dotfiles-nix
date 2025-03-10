@@ -1,18 +1,30 @@
 { config, pkgs, dot, ... }:
 
+let
+	user = "gitea";
+  group = "gitea";
+in
 {
+
+  users.users.${user} = {
+    isSystemUser = true;
+  };
+
+  sops.secrets."gitea/database/password" = {
+    owner = user;
+  };
 
   services.gitea = {
     enable = true;
-    user = dot.user;
-    group = dot.group;
+    user = user;
+    group = group;
     # stateDir = "/var/lib/gitea";
     # repositoryRoot = "${config.services.gitea.stateDir}/repositories";
     database = {
       type = "mysql";
-      name = "gitea";
-      user = dot.user;
-      password = "1qwerty1";
+      name = user;
+      user = user;
+      passwordFile = config.sops.secrets."gitea/database/password".path;
     };
     settings = {
       log = {

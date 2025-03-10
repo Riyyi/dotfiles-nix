@@ -1,6 +1,14 @@
-{ config, pkgs, dot, ... }:
+{ config, pkgs, dot, cwd, ... }:
 
 {
+
+  sops.secrets."syncthing/nginx/password" = {
+    owner = dot.user;
+  };
+
+  sops.secrets."transmission/nginx/password" = {
+    owner = dot.user;
+  };
 
   services.nginx = {
     enable = true;
@@ -32,6 +40,7 @@
     };
 
     virtualHosts."syncthing.example.test" = {
+      basicAuthFile = config.sops.secrets."syncthing/nginx/password".path;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8384";
         proxyWebsockets = true;
@@ -39,7 +48,7 @@
     };
 
     virtualHosts."transmission.example.test" = {
-      # basicAuth = { myuser = "mypassword"; }; # plain text in Nix store
+      basicAuthFile = config.sops.secrets."transmission/nginx/password".path;
       locations."/" = {
         proxyPass = "http://127.0.0.1:9091";
         proxyWebsockets = true;
@@ -86,10 +95,18 @@
     # y
     # y
     # y
+
     # sudo mariadb
-    # SET PASSWORD FOR 'riyyi'@'%' = PASSWORD('1qwerty1');
+    # CREATE USER 'riyyi'@'%' IDENTIFIED BY 'newpassword';
+    # CREATE DATABASE gitea;
+    # GRANT ALL ON gitea.* TO 'gitea'@'localhost' IDENTIFIED BY 'mypassword' WITH GRANT OPTION;
     # FLUSH PRIVILEGES;
     # exit
   };
 
 }
+
+  # Generate password with:
+  # nix-shell -p apacheHttpd --run 'htpasswd -B -c FILENAME USERNAME'
+
+# htpasswd -bnBC 10 "" "yourpassword" | tr -d ':\n'
