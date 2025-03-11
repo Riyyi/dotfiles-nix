@@ -20,8 +20,11 @@
       profiles = builtins.filter isDirectory (builtins.attrNames profileContents);
 
       cwd = builtins.toPath ./.;  # active store directory
+
+      system = "x86_64-linux";
     in
       {
+
         # Create a configuration for each profile
         nixosConfigurations = builtins.listToAttrs (map (profile:
           let
@@ -39,6 +42,27 @@
             };
           }
         ) profiles);
+
+        # Bootstrap script
+        packages.${system} =
+          let
+            pkgs = import nixpkgs { inherit system; };
+          in {
+            default = self.packages.${system}.install;
+            install = pkgs.writeShellApplication {
+              name = "install";
+              runtimeInputs = with pkgs; [ git ];
+              text = ''${builtins.readFile ./install.sh} "$@"'';
+            };
+          };
+        apps.${system} = {
+          default = self.apps.${system}.install;
+          install = {
+            type = "app";
+            program = "${self.packages.${system}.install}/bin/install";
+          };
+        };
+
       };
 
 }

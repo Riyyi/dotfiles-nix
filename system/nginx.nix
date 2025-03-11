@@ -1,19 +1,23 @@
 { config, pkgs, dot, cwd, ... }:
 
+let
+	user = "nginx";
+  group = "nginx";
+in
 {
 
   sops.secrets."syncthing/nginx/password" = {
-    owner = dot.user;
+    owner = user;
   };
 
   sops.secrets."transmission/nginx/password" = {
-    owner = dot.user;
+    owner = user;
   };
 
   services.nginx = {
     enable = true;
-    user = dot.user;
-    group = dot.group;
+    user = user;
+    group = group;
 
     virtualHosts."example.test" = {
       root = "/var/www/riyyi/public";
