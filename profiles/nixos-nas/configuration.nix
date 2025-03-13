@@ -6,8 +6,6 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
-
     ./../common.nix
 
     ./../../system/nginx.nix

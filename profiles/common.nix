@@ -2,6 +2,8 @@
 
 {
   imports = [
+    # disko
+    inputs.disko.nixosModules.default
     # Home Manager
     inputs.home-manager.nixosModules.default
     # Sops

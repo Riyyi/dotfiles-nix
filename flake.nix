@@ -5,6 +5,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -12,7 +15,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, disko, home-manager, ... }:
     let
       # Get all profiles from the profiles directory
       profileContents = builtins.readDir ./profiles;
@@ -38,6 +41,8 @@
               };
               modules = [
                 ./profiles/${profile}/configuration.nix
+                ./profiles/${profile}/disko.nix
+                ./profiles/${profile}/hardware-configuration.nix
               ];
             };
           }
@@ -52,7 +57,7 @@
             install = pkgs.writeShellApplication {
               name = "install";
               runtimeInputs = with pkgs; [ git ];
-              text = ''${builtins.readFile ./install.sh} "$@"'';
+              text = ''${builtins.readFile ./install.sh}'';
             };
           };
         apps.${system} = {
