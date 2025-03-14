@@ -32,6 +32,7 @@ nixos-generate-config --show-hardware-config --no-filesystems --root /mnt > "$PR
 # Move dotfiles dir into /mnt/etc/nixos
 sudo mkdir /mnt/etc
 sudo mv "$DOT" /mnt/etc/nixos
+sudo chown -R root:root /mnt/etc/nixos
 
 # Install system
 sudo nixos-install --root /mnt --flake "/mnt/etc/nixos#$PROFILE"

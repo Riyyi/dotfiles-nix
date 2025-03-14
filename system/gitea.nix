@@ -30,7 +30,7 @@ in
       log = {
         LEVEL = "Info";
         MODE = "file";
-        ROOT_PATH = "/var/log/gitea"; # FIXME: This directory doesnt get created automatically (chown rick:users)
+        ROOT_PATH = "/var/log/gitea";
       };
       picture = {
         DISABLE_GRAVATAR = false;
@@ -48,5 +48,11 @@ in
       };
     };
   };
+
+  system.activationScripts.gitea = ''
+    logDir="${config.services.gitea.settings.log.ROOT_PATH}"
+    mkdir -p $logDir
+    chown -R ${user}:${group} $logDir # fix initial directory creation
+  '';
 
 }
