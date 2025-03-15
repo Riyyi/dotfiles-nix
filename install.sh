@@ -36,6 +36,3 @@ sudo chown -R root:root /mnt/etc/nixos
 
 # Install system
 sudo nixos-install --root /mnt --flake "/mnt/etc/nixos#$PROFILE"
-
-# Install home-manager (?)
-# TODO

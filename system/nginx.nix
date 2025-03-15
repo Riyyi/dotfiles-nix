@@ -39,6 +39,13 @@ in
       };
     };
 
+    virtualHosts."jellyfin.example.test" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8096";
+        proxyWebsockets = true;
+      };
+    };
+
     virtualHosts."syncthing.example.test" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:8384";

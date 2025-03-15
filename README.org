@@ -1,0 +1,11 @@
+#+TITLE: NixOS dotfiles
+#+AUTHOR: Riyyi
+#+LANGUAGE: en
+#+OPTIONS: toc:nil
+
+NixOS dotfiles.
+
+** Todo
+
+- ZFS filesystem
+- SSL cert

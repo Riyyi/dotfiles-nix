@@ -4,8 +4,9 @@
   imports = [
     ./../common.nix
 
-    ./../../system/nginx.nix
     ./../../system/gitea.nix
+    ./../../system/jellyfin.nix
+    ./../../system/nginx.nix
     ./../../system/syncthing.nix
     ./../../system/transmission.nix
   ];
@@ -51,9 +52,12 @@
   environment.systemPackages = with pkgs; [
     duf
     fastfetch
-    htop
     git
     gitea
+    htop
+    jellyfin
+    jellyfin-web
+    jellyfin-ffmpeg
     mariadb
     ncdu
     neovim

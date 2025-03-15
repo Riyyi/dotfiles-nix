@@ -42,6 +42,7 @@
               modules = [
                 ./profiles/${profile}/configuration.nix
                 ./profiles/${profile}/disko.nix
+                ./profiles/${profile}/disko-mount.nix
                 ./profiles/${profile}/hardware-configuration.nix
               ];
             };

@@ -1,4 +1,5 @@
 {
+
   disko.devices = {
     disk = {
       # OS drive
@@ -34,4 +35,5 @@
       };
     };
   };
+
 }
