@@ -3,3 +3,5 @@
 sops/age/
 
 # Files
+
+profiles/hardware-configuration.nix

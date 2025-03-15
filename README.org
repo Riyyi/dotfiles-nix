@@ -15,6 +15,7 @@ Rough outline of the repo files.
 ├── install.sh
 ├── profiles
 │   ├── common.nix
+│   ├── hardware-configuration.nix
 │   └── nixos-nas
 │       └── <modules>
 ├── sops
@@ -41,7 +42,7 @@ The script can be run from a booted NixOS ISO.
 *** profiles
 
 This structure is used for system specific configuration, based on the hostname.\\
-Each profile has its own =configuration.nix=, =hardware-configuration.nix=, etc.
+Each profile has its own =configuration.nix=, =disko.nix=, =settings.nix=, etc.
 
 *** sops
 
