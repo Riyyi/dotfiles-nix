@@ -3,7 +3,57 @@
 #+LANGUAGE: en
 #+OPTIONS: toc:nil
 
-NixOS dotfiles.
+My attempt at dotfiles in NixOS.
+
+** Structure of the repo
+
+Rough outline of the repo files.
+
+#+BEGIN_SRC
+.
+├── flake.nix
+├── install.sh
+├── profiles
+│   ├── common.nix
+│   └── nixos-nas
+│       └── <modules>
+├── sops
+│   ├── secrets
+│   │   └── secrets.yaml
+│   └── .sops.yaml
+├── system
+│   └── <modules>
+└── user
+    └── <modules>
+#+END_SRC
+
+Interesting parts explained.
+
+*** flake.nix
+
+Entrypoint of the configuration.
+
+*** install.sh
+
+Bootstrap script to install the distro and push the configuration to it.\\
+The script can be run from a booted NixOS ISO.
+
+*** profiles
+
+This structure is used for system specific configuration, based on the hostname.\\
+Each profile has its own =configuration.nix=, =hardware-configuration.nix=, etc.
+
+*** sops
+
+Secret encryption related files.
+
+*** system
+
+All root service configuration modules.
+
+*** user
+
+All home directory application configuration modules.
 
 ** Todo
 

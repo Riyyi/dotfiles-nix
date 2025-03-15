@@ -55,9 +55,15 @@
     git
     gitea
     htop
+    intel-compute-runtime
+    intel-gpu-tools
+    intel-media-driver
+    intel-media-sdk
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
+    libva
+    libvpl
     mariadb
     ncdu
     neovim
@@ -73,6 +79,7 @@
     tlp
     transmission_4
     tree
+    vpl-gpu-rt
     zfs
     zsh
   ];
@@ -106,8 +113,8 @@
 
   # Open ports in the firewall
   # networking.firewall.enable = false;
-  networking.firewall.allowedTCPPorts = [ 80 443 3306 4000 ]; # mysql = 3306, ssh = 4000
-  networking.firewall.allowedUDPPorts = [ 80 443 3306 ];
+  networking.firewall.allowedTCPPorts = [ 4000 ];
+  networking.firewall.allowedUDPPorts = [ ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -6,7 +6,7 @@
     enable = true;
     user = dot.user;
     group = dot.group;
-    openRPCPort = true;
+    openRPCPort = false; # web access via nginx
     openPeerPorts = true;
     package = pkgs.transmission_4;
     settings = {

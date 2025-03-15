@@ -1,4 +1,4 @@
-{ config, pkgs, dot, cwd, ... }:
+{ config, pkgs, dot, ... }:
 
 let
 	user = "nginx";
@@ -109,6 +109,9 @@ in
     # FLUSH PRIVILEGES;
     # exit
   };
+
+  networking.firewall.allowedTCPPorts = [ 80 443 3306 ];
+  networking.firewall.allowedUDPPorts = [ 80 443 3306 ];
 
 }
 
