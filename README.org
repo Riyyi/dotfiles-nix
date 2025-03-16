@@ -16,7 +16,7 @@ Rough outline of the repo files.
 ├── profiles
 │   ├── common.nix
 │   ├── hardware-configuration.nix
-│   └── nixos-nas
+│   └── <profile>
 │       └── <modules>
 ├── sops
 │   ├── secrets
@@ -60,3 +60,4 @@ All home directory application configuration modules.
 
 - ZFS filesystem
 - SSL cert
+- declarative MySQL

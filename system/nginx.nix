@@ -89,7 +89,7 @@ in
     package = pkgs.mariadb;
     user = dot.user;
     group = dot.group;
-    ensureDatabases = [ "gitea" ];
+    ensureDatabases = [ "gitea" "nextcloud" ];
     settings = {
       mysqld.bind-address = "0.0.0.0";
     };

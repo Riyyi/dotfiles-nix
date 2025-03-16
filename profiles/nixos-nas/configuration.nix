@@ -67,6 +67,7 @@
     mariadb
     ncdu
     neovim
+    nextcloud30
     nginx
     nh
     openssh
