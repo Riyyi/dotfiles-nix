@@ -25,6 +25,8 @@ fi
 # Run disko from profile
 sudo nix --experimental-features "nix-command flakes" run \
 	 github:nix-community/disko/latest -- --mode destroy,format,mount "$PROFILES/$PROFILE/disko.nix"
+sudo nix --experimental-features "nix-command flakes" run \
+	 github:nix-community/disko/latest -- --mode                mount "$PROFILES/$PROFILE/disko-mount.nix"
 
 # Generate hardware config
 nixos-generate-config --show-hardware-config --no-filesystems --root /mnt > "$PROFILES/$PROFILE/hardware-configuration.nix"

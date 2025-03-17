@@ -4,8 +4,7 @@
     disk = {
       # OS drive
       os = {
-        device =
-          "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1ANNEAD612962T";
+        device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1ANNEAD612962T";
         type = "disk";
         content = {
           type = "gpt";
