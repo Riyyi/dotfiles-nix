@@ -5,6 +5,21 @@
 
 My attempt at dotfiles in NixOS.
 
+** Bootstrap
+
+Setting up a new machine only takes a couple of steps.
+
+- boot into NixOS ISO
+- run =passwd=
+- (optional) log into the machine via SSH: =ssh nixos@<ip>=
+- run
+#+BEGIN_SRC sh
+nix-shell -p git --command "nix run --experimental-features 'nix-command flakes' --no-write-lock-file --refresh github:riyyi/dotfiles-nix"
+#+END_SRC
+- run =./push.sh= from your existing machine
+- reboot
+- run =switch=
+
 ** Structure of the repo
 
 Rough outline of the repo files.
@@ -13,6 +28,7 @@ Rough outline of the repo files.
 .
 ├── flake.nix
 ├── install.sh
+├── push.sh
 ├── profiles
 │   ├── common.nix
 │   ├── hardware-configuration.nix
@@ -39,12 +55,16 @@ Entrypoint of the configuration.
 Bootstrap script to install the distro and push the configuration to it.\\
 The script can be run from a booted NixOS ISO.
 
+*** push.sh
+
+Push your private SSH key to the system, of which the SOPS key will be derived.
+
 *** profiles
 
 This structure is used for system specific configuration, based on the hostname.\\
 Each profile has its own =configuration.nix=, =disko.nix=, =settings.nix=, etc.
 
-*** sops
+*** SOPS
 
 Secret encryption related files.
 
@@ -58,6 +78,5 @@ All home directory application configuration modules.
 
 ** Todo
 
-- ZFS filesystem
 - SSL cert
 - declarative MySQL

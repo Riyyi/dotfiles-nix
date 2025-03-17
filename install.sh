@@ -25,8 +25,6 @@ fi
 # Run disko from profile
 sudo nix --experimental-features "nix-command flakes" run \
 	 github:nix-community/disko/latest -- --mode destroy,format,mount "$PROFILES/$PROFILE/disko.nix"
-sudo nix --experimental-features "nix-command flakes" run \
-	 github:nix-community/disko/latest -- --mode                mount "$PROFILES/$PROFILE/disko-mount.nix"
 
 # Generate hardware config
 nixos-generate-config --show-hardware-config --no-filesystems --root /mnt > "$PROFILES/$PROFILE/hardware-configuration.nix"
@@ -38,3 +36,14 @@ sudo chown -R root:root /mnt/etc/nixos
 
 # Install system
 sudo nixos-install --root /mnt --flake "/mnt/etc/nixos#$PROFILE"
+
+# Message user
+ip a
+echo "Copy over SSH key, then press <Ctrl-D>"
+cat
+
+# Install sops key
+sudo mkdir -p /mnt/etc/nixos/sops/age
+sudo nix-shell -p ssh-to-age --run "ssh-to-age -private-key -i /mnt/root/.ssh/id_ed25519 > /mnt/etc/nixos/sops/age/keys.txt"
+sudo nix-shell -p age        --run "age-keygen -y /mnt/etc/nixos/sops/age/keys.txt"
+sudo chmod 0600 /mnt/etc/nixos/sops/age/keys.txt
