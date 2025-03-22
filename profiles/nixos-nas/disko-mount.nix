@@ -28,7 +28,17 @@ in
     zpool = {
       znas = {
         type = "zpool";
-        mode = "raidz1";
+        mode = {
+          topology = {
+            type = "topology";
+            vdev = [
+              {
+                mode = "raidz1";
+                members = [ "nas1" "nas2" "nas3" "nas4" ];
+              }
+            ];
+          };
+        };
 
         # Pool level options (how youre storing)
         options = {
@@ -39,17 +49,18 @@ in
           acltype = "posixacl";
           atime = "off";           # disable access time updates for performance
           compression = "lz4";     # enable compression
-          mountpoint = "none";
           recordsize = "1M";       # optimize size for large file workloads
           secondarycache = "none"; # disable L2ARC
           xattr = "sa";            # set metadata directly in inodes, over separate hidden files
           "com.sun:auto-snapshot" = "true";
         };
 
+        mountpoint = "/mnt/nas";
+
         datasets = {
           dataset = {
             type = "zfs_fs";
-            mountpoint = "/mnt/nas";
+            mountpoint = "/mnt/nas/data";
             options.canmount = "on";
           };
         };
