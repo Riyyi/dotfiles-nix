@@ -28,7 +28,17 @@ in
     zpool = {
       znas = {
         type = "zpool";
-        mode = "raidz1";
+        mode = {
+          topology = {
+            type = "topology";
+            vdev = [
+              {
+                mode = "raidz1";
+                members = [ "nas1" "nas2" "nas3" "nas4" ];
+              }
+            ];
+          };
+        };
 
         # Pool level options (how youre storing)
         options = {
@@ -47,9 +57,9 @@ in
         };
 
         datasets = {
-          dataset = {
+          data = {
             type = "zfs_fs";
-            mountpoint = "/mnt/nas";
+            options.mountpoint = "/mnt/data";
             options.canmount = "on";
           };
         };

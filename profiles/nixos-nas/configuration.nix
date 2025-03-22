@@ -14,6 +14,7 @@
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = { zfs = true; };
   boot.kernelParams = [ "zfs.zfs_arc_max=21474836480" ]; # 20 GiB
   boot.zfs.extraPools = [ "znas" ];
 
