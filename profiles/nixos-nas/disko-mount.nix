@@ -20,10 +20,10 @@ in
 
   disko.devices = {
     disk = {
-      nas1 = zfsDisk { device = "ata-HGST_HUS726T6TALE6L4_V8J0R94R"; };
-      nas2 = zfsDisk { device = "ata-HGST_HUS726T6TALE6L4_V9H5Z5UR"; };
-      nas3 = zfsDisk { device = "ata-HGST_HUS726T6TALE6L4_V9HE0RVL"; };
-      nas4 = zfsDisk { device = "ata-HGST_HUS726T6TALE6L4_V9JGPU5L"; };
+      nas1 = zfsDisk { device = "wwn-0x5000cca098dc82b3"; };
+      nas2 = zfsDisk { device = "wwn-0x5000cca0bdd0ceae"; };
+      nas3 = zfsDisk { device = "wwn-0x5000cca0bdd40318"; };
+      nas4 = zfsDisk { device = "wwn-0x5000cca0bde2de15"; };
     };
     zpool = {
       znas = {
@@ -59,8 +59,11 @@ in
         datasets = {
           data = {
             type = "zfs_fs";
-            options.mountpoint = "/mnt/data";
-            options.canmount = "on";
+            options = {
+              # NOTE: ZFS native mountpoints are specified inside "options"!
+              mountpoint = "/mnt/data";
+              canmount = "on";
+            };
           };
         };
       };
