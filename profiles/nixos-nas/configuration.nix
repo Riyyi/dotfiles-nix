@@ -101,9 +101,18 @@
   # List services that you want to enable:
 
   services.fstrim.enable = true;
-  services.zfs.autoScrub.enable = true;
-  services.zfs.autoSnapshot.enable = true;
-  services.zfs.trim.enable = true;
+
+  services.zfs = {
+    autoScrub.enable = true;
+    autoSnapshot = {
+      enable = true;
+      monthly = 3; # keep 3 monthly snapshots
+      weekly = 4;  # keep 4 weekly snapshots
+      daily = 7;   # keep 7 daily snapshots
+      hourly = 12; # keep 12 hourly snapshots
+    };
+    trim.enable = true;
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh = {
