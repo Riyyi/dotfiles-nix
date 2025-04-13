@@ -1,25 +1,18 @@
-{ config, pkgs, ... }:
+{ config, pkgs, dot, ... }:
 
-let
-	user = "syncthing";
-  group = "syncthing";
-in
 {
 
-  users.users.${user} = {
-    isSystemUser = true;
-    group = group;
-  };
-  users.groups.${group} = {};
-
   sops.secrets."syncthing/gui/password" = {
-    owner = user;
+    owner = dot.user;
   };
 
   services.syncthing = {
     enable = true;
-    user = user;
-    group = group;
+    user = dot.user;
+    group = dot.group;
+    dataDir = "${dot.config}/syncthing";
+    configDir = "${config.services.syncthing.dataDir}/config";
+    databaseDir = config.services.syncthing.configDir;
     openDefaultPorts = true; # TCP/UDP = 22000, UDP = 21027
     settings = {
       gui = {
@@ -35,7 +28,12 @@ in
 
   system.activationScripts.syncthing = ''
     dataDir="${config.services.syncthing.dataDir}"
-    chown -R ${user}:${group} $dataDir # fix initial directory creation
+    mkdir -p $dataDir
+    chown -R ${dot.user}:${dot.group} $dataDir # fix initial directory creation
+
+    configDir="${config.services.syncthing.configDir}"
+    mkdir -p $configDir
+    chown -R ${dot.user}:${dot.group} $configDir # fix initial directory creation
   '';
 
 }

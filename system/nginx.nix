@@ -1,19 +1,15 @@
 { config, pkgs, dot, ... }:
 
-let
-	user = "nginx";
-  group = "nginx";
-in
 {
 
   sops.secrets."transmission/nginx/password" = {
-    owner = user;
+    owner = dot.user;
   };
 
   services.nginx = {
     enable = true;
-    user = user;
-    group = group;
+    user = dot.user;
+    group = dot.group;
 
     virtualHosts."example.test" = {
       root = "/var/www/riyyi/public";
@@ -89,7 +85,7 @@ in
     package = pkgs.mariadb;
     user = dot.user;
     group = dot.group;
-    ensureDatabases = [ "gitea" "nextcloud" ];
+    dataDir = "${dot.config}/mysql";
     settings = {
       mysqld.bind-address = "0.0.0.0";
     };

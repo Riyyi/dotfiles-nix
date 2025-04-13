@@ -1,27 +1,24 @@
-{ config, pkgs, dot, ... }:
+{ config, pkgs, lib, dot, ... }:
 
 let
-	user = "nextcloud";
-  group = "nextcloud";
+  database = "nextcloud";
 in
 {
 
-  users.users.${user} = {
-    isSystemUser = true;
-  };
-
   sops.secrets."nextcloud/database/password" = {
-    owner = user;
+    owner = dot.user;
   };
 
   sops.secrets."nextcloud/gui/password" = {
-    owner = user;
+    owner = dot.user;
   };
 
   services.nextcloud = {
     enable = true;
-    user = user;
-    group = group;
+    # user = dot.user;
+    # group = dot.group;
+    home = "${dot.config}/nextcloud";
+    datadir = config.services.nextcloud.home;
     hostName= "nextcloud.example.test";
     https = false;
     extraApps = {
@@ -31,18 +28,20 @@ in
     config = {
       dbtype = "mysql";
       dbhost = "localhost";
-      dbuser = user;
-      dbname = user;
+      dbname = database;
+      dbuser = database;
       dbpassFile = config.sops.secrets."nextcloud/database/password".path;
       adminuser = "Riyyi";
       adminpassFile = config.sops.secrets."nextcloud/gui/password".path;
     };
-    ensureUsers = {
-      ${dot.user} = {
-        email = "${dot.user}@localhost";
-        passwordFile = "/etc/nextcloud-user-pass";
-      };
-    };
+    # ensureUsers = {
+    #   ${dot.user} = {
+    #     email = "${dot.user}@localhost";
+    #     passwordFile = "/etc/nextcloud-user-pass";
+    #   };
+    # };
   };
+
+  services.mysql.ensureDatabases = lib.mkAfter [ database ];
 
 }

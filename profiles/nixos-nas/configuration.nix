@@ -6,6 +6,7 @@
 
     ./../../system/gitea.nix
     ./../../system/jellyfin.nix
+    # ./../../system/nextcloud.nix
     ./../../system/nginx.nix
     ./../../system/syncthing.nix
     ./../../system/transmission.nix

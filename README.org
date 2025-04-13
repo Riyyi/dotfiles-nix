@@ -17,8 +17,21 @@ Setting up a new machine only takes a couple of steps.
 nix-shell -p git --command "nix run --experimental-features 'nix-command flakes' --no-write-lock-file --refresh github:riyyi/dotfiles-nix"
 #+END_SRC
 - run =./push.sh= from your existing machine
+- (optional) additional configuration
 - reboot
 - run =switch=
+
+*** Additional configuration
+
+I'm using ZFS on my NAS and those need to be formatted only once, therefor their
+disko config is in a separate file, not executed in the main install. These
+commands need to be run after installing the distro, but before reboot!
+
+#+BEGIN_SRC sh
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount /mnt/etc/nixos/profiles/nixos-nas/disko-mount.nix
+sudo zfs unmount -a
+sudo zpool export znas
+#+END_SRC
 
 ** Structure of the repo
 
@@ -80,3 +93,5 @@ All home directory application configuration modules.
 
 - SSL cert
 - declarative MySQL
+  - gitea and nextcloud requires account creation after install
+- mysql backup service
