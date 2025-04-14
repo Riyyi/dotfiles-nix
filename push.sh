@@ -1,7 +1,11 @@
 #!/bin/sh
 
-echo "Enter IP address: "
-read -r IP
+IP="$1"
+
+if [ -z "$IP" ]; then
+	echo "Enter IP address: "
+	read -r IP
+fi
 
 if [ -z "$IP" ]; then
     echo "Error: please provide an IP." >&2

@@ -6,7 +6,7 @@ DOT="$HOME/dotfiles"
 PROFILES="$DOT/profiles"
 
 # Clone dotfiles
-rm -rf "./$DOT"
+rm -rf "$DOT"
 nix-shell -p git --command "git clone https://github.com/riyyi/dotfiles-nix $DOT"
 
 # Get profile
