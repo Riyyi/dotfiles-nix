@@ -17,18 +17,21 @@ Setting up a new machine only takes a couple of steps.
 nix-shell -p git --command "nix run --experimental-features 'nix-command flakes' --no-write-lock-file --refresh github:riyyi/dotfiles-nix"
 #+END_SRC
 - run =./push.sh= from your existing machine
-- (optional) additional configuration
 - reboot
 - run =switch=
 
 *** Additional configuration
 
-I'm using ZFS on my NAS and those need to be formatted only once, therefor their
-disko config is in a separate file, not executed in the main install. These
-commands need to be run after installing the distro, but before reboot!
+I'm using ZFS on my NAS. To create the ZFS pool, run the following commands.
 
 #+BEGIN_SRC sh
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount /mnt/etc/nixos/profiles/nixos-nas/disko-mount.nix
+nix-shell -p git --command "git clone https://github.com/riyyi/dotfiles-nix ~/dotfiles"
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount ~/dotfiles/profiles/nixos-nas/disko-mount.nix
+#+END_SRC
+
+To properly detach the ZFS pool, these commands need to be run before reboot!
+
+#+BEGIN_SRC sh
 sudo zfs unmount -a
 sudo zpool export znas
 #+END_SRC
@@ -95,3 +98,5 @@ All home directory application configuration modules.
 - declarative MySQL
   - gitea and nextcloud requires account creation after install
 - mysql backup service
+- nextcloud
+- ZFS rebuild array test

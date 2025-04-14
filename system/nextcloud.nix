@@ -5,10 +5,6 @@ let
 in
 {
 
-  sops.secrets."nextcloud/database/password" = {
-    owner = dot.user;
-  };
-
   sops.secrets."nextcloud/gui/password" = {
     owner = dot.user;
   };
@@ -27,10 +23,9 @@ in
     extraAppsEnable = true;
     config = {
       dbtype = "mysql";
-      dbhost = "localhost";
+      dbhost = "/run/mysqld/mysqld.sock";
       dbname = database;
-      dbuser = database;
-      dbpassFile = config.sops.secrets."nextcloud/database/password".path;
+      dbuser = dot.user;
       adminuser = "Riyyi";
       adminpassFile = config.sops.secrets."nextcloud/gui/password".path;
     };
@@ -42,6 +37,6 @@ in
     # };
   };
 
-  services.mysql.ensureDatabases = lib.mkAfter [ database ];
+  mysql.databases = lib.mkAfter [ database ];
 
 }

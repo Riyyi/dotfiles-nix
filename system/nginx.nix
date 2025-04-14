@@ -1,4 +1,4 @@
-{ config, pkgs, dot, ... }:
+{ config, pkgs, lib, dot, ... }:
 
 {
 
@@ -80,38 +80,12 @@
     };
   };
 
-  services.mysql = {
-    enable = true;
-    package = pkgs.mariadb;
-    user = dot.user;
-    group = dot.group;
-    dataDir = "${dot.config}/mysql";
-    settings = {
-      mysqld.bind-address = "0.0.0.0";
-    };
-    # sudo mysql_secure_installation
-    # <enter>
-    # n
-    # n
-    # y
-    # y
-    # y
-    # y
-
-    # sudo mariadb
-    # CREATE USER 'riyyi'@'%' IDENTIFIED BY 'newpassword';
-    # CREATE DATABASE gitea;
-    # GRANT ALL ON gitea.* TO 'gitea'@'localhost' IDENTIFIED BY 'mypassword' WITH GRANT OPTION;
-    # FLUSH PRIVILEGES;
-    # exit
-  };
-
-  networking.firewall.allowedTCPPorts = [ 80 443 3306 ];
-  networking.firewall.allowedUDPPorts = [ 80 443 3306 ];
+  networking.firewall.allowedTCPPorts = lib.mkAfter [ 80 443 ];
+  networking.firewall.allowedUDPPorts = lib.mkAfter [ 80 443 ];
 
 }
 
   # Generate password with:
   # nix-shell -p apacheHttpd --run 'htpasswd -B -c FILENAME USERNAME'
 
-# htpasswd -bnBC 10 "" "yourpassword" | tr -d ':\n'
+  # htpasswd -bnBC 10 "" "yourpassword" | tr -d ':\n'

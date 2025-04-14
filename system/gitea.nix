@@ -5,10 +5,6 @@ let
 in
 {
 
-  sops.secrets."gitea/database/password" = {
-    owner = dot.user;
-  };
-
   services.gitea = {
     enable = true;
     user = dot.user;
@@ -17,9 +13,9 @@ in
     repositoryRoot = dot.code;
     database = {
       type = "mysql";
+      socket = "/run/mysqld/mysqld.sock";
       name = database;
-      user = database;
-      passwordFile = config.sops.secrets."gitea/database/password".path;
+      user = dot.user;
       createDatabase = false; # allow for user != database.user
     };
     settings = {
@@ -45,7 +41,7 @@ in
     };
   };
 
-  services.mysql.ensureDatabases = lib.mkAfter [ database ];
+  mysql.databases = lib.mkAfter [ database ];
 
   system.activationScripts.gitea = ''
     logDir="${config.services.gitea.settings.log.ROOT_PATH}"
