@@ -95,8 +95,6 @@ All home directory application configuration modules.
 ** Todo
 
 - SSL cert
-- declarative MySQL
-  - gitea and nextcloud requires account creation after install
 - mysql backup service
 - nextcloud
 - ZFS rebuild array test

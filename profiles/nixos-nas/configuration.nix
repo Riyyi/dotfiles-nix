@@ -3,14 +3,7 @@
 {
   imports = [
     ./../common.nix
-
-    ./../../system/gitea.nix
-    ./../../system/jellyfin.nix
-    # ./../../system/nextcloud.nix
-    ./../../system/mysql.nix
-    ./../../system/nginx.nix
-    ./../../system/syncthing.nix
-    ./../../system/transmission.nix
+    ./../../system
   ];
 
   # Bootloader
@@ -100,7 +93,16 @@
   #   enableSSHSupport = true;
   # };
 
-  # List services that you want to enable:
+  # System modules
+
+  gitea.enable = true;
+  jellyfin.enable = true;
+  nextcloud.enable = false;
+  nginx.enable = true;
+  syncthing.enable = true;
+  transmission.enable = true;
+
+  # Services
 
   services.fstrim.enable = true;
 

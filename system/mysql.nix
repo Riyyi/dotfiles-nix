@@ -2,6 +2,7 @@
 
 {
   options.mysql = {
+    enable = lib.mkEnableOption "mysql";
     databases = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
@@ -9,7 +10,8 @@
     };
   };
 
-  config = {
+  config = lib.mkIf config.mysql.enable {
+
     services.mysql = {
       enable = true;
       package = pkgs.mariadb;
@@ -20,15 +22,6 @@
         mysqld.bind-address = "0.0.0.0";
       };
       ensureDatabases = config.mysql.databases;
-      # ensureUsers = [
-      #   {
-      #     name = dot.user;
-      #     ensurePermissions = {
-      #       "gitea.*" = "ALL PRIVILEGES";
-      #       "nextcloud.*" = "ALL PRIVILEGES";
-      #     };
-      #   }
-      # ];
       ensureUsers = [
         {
           name = dot.user;
@@ -49,17 +42,11 @@
       # y
       # y
       # y
-
-      # sudo mariadb
-      # CREATE USER 'riyyi'@'%' IDENTIFIED BY 'newpassword';
-      # CREATE DATABASE gitea;
-      # GRANT ALL ON gitea.* TO 'gitea'@'localhost' IDENTIFIED BY 'mypassword' WITH GRANT OPTION;
-      # FLUSH PRIVILEGES;
-      # exit
     };
 
     networking.firewall.allowedTCPPorts = lib.mkAfter [ 3306 ];
     networking.firewall.allowedUDPPorts = lib.mkAfter [ 3306 ];
+
   };
 
 }

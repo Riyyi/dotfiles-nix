@@ -1,20 +1,28 @@
-{ config, pkgs, dot, ... }:
+{ config, pkgs, lib, dot, ... }:
 
 {
 
-  users.users.${dot.user} = {
-    extraGroups = [ "render" "video" "input" ];
+	options.jellyfin = {
+    enable = lib.mkEnableOption "jellyfin";
   };
 
-  services.jellyfin = {
-    enable = true;
-    user = dot.user;
-    group = dot.group;
-    dataDir = "${dot.config}/jellyfin";
-    configDir = "${config.services.jellyfin.dataDir}/config";
-    cacheDir = "${dot.cache}/jellyfin";
-  };
+  config = lib.mkIf config.jellyfin.enable {
 
-  networking.firewall.allowedUDPPorts = [ 1900 7359 ];
+    users.users.${dot.user} = {
+      extraGroups = [ "render" "video" "input" ];
+    };
+
+    services.jellyfin = {
+      enable = true;
+      user = dot.user;
+      group = dot.group;
+      dataDir = "${dot.config}/jellyfin";
+      configDir = "${config.services.jellyfin.dataDir}/config";
+      cacheDir = "${dot.cache}/jellyfin";
+    };
+
+    networking.firewall.allowedUDPPorts = [ 1900 7359 ];
+
+  };
 
 }
