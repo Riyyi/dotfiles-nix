@@ -16,6 +16,7 @@
   code = "/mnt/data/code";
   config = "/mnt/data/config";
   downloads = "/mnt/data/downloads";
+  pictures = "/mnt/data/pictures";
 
   # ----------------------------------
   # User

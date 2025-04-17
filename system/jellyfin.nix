@@ -9,7 +9,7 @@
   config = lib.mkIf config.jellyfin.enable {
 
     users.users.${dot.user} = {
-      extraGroups = [ "render" "video" "input" ];
+      extraGroups = lib.mkAfter [ "render" "video" "input" ];
     };
 
     services.jellyfin = {

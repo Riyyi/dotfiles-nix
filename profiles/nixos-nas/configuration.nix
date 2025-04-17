@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, dot, cwd, ... }:
+{ config, pkgs, lib, inputs, dot, cwd, ... }:
 
 {
   imports = [
@@ -31,7 +31,7 @@
   users.users.${dot.user} = {
     isNormalUser = true;
     description = dot.user;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = lib.mkAfter [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
@@ -51,10 +51,13 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     duf
+    exiftool
     fastfetch
     git
     gitea
     htop
+    imagemagick
+    immich
     intel-compute-runtime
     intel-gpu-tools
     intel-media-driver
@@ -65,6 +68,7 @@
     libva
     libvpl
     mariadb
+    navidrome
     ncdu
     neovim
     nextcloud30
@@ -72,7 +76,10 @@
     nh
     openssh
     php
+    postgresql
+    postgresql16Packages.pgvecto-rs
     rclone
+    redis
     rsync
     sops
     sudo
@@ -96,7 +103,9 @@
   # System modules
 
   gitea.enable = true;
+  immich.enable = true;
   jellyfin.enable = true;
+  navidrome.enable = true;
   nextcloud.enable = false;
   nginx.enable = true;
   syncthing.enable = true;

@@ -96,5 +96,7 @@ All home directory application configuration modules.
 
 - SSL cert
 - mysql backup service
-- nextcloud
+- postgres backup service
+X nextcloud
 - ZFS rebuild array test
+- put nginx virtualhosts inside respective modules

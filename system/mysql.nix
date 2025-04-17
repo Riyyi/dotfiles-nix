@@ -14,9 +14,9 @@
 
     services.mysql = {
       enable = true;
-      package = pkgs.mariadb;
       user = dot.user;
       group = dot.group;
+      package = pkgs.mariadb;
       dataDir = "${dot.config}/mysql";
       settings = {
         mysqld.bind-address = "0.0.0.0";

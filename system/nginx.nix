@@ -41,9 +41,30 @@
         };
       };
 
+      virtualHosts."immich.example.test" = lib.mkIf config.immich.enable {
+        locations."/" = {
+          proxyPass = "http://[::1]:${toString config.services.immich.port}";
+          proxyWebsockets = true;
+          recommendedProxySettings = true;
+          extraConfig = ''
+            client_max_body_size 50000M;
+            proxy_read_timeout   600s;
+            proxy_send_timeout   600s;
+            send_timeout         600s;
+          '';
+        };
+      };
+
       virtualHosts."jellyfin.example.test" = lib.mkIf config.jellyfin.enable {
         locations."/" = {
           proxyPass = "http://127.0.0.1:8096";
+          proxyWebsockets = true;
+        };
+      };
+
+      virtualHosts."navidrome.example.test" = lib.mkIf config.navidrome.enable {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:4533";
           proxyWebsockets = true;
         };
       };
@@ -67,10 +88,10 @@
         locations."/" = {
           proxyPass = "http://127.0.0.1:9091";
           proxyWebsockets = true;
+          extraConfig = ''
+            proxy_pass_header  X-Transmission-Session-Id;
+          '';
         };
-        locations."/".extraConfig = ''
-          proxy_pass_header  X-Transmission-Session-Id;
-        '';
       };
     };
 
