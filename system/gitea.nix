@@ -36,8 +36,8 @@ in
         };
         server = {
           SSH_PORT = 4000;
-				  DOMAIN = "git.example.test";
-          ROOT_URL = "http://git.example.test/";
+          DOMAIN = "git.${dot.domain}";
+          ROOT_URL = "http://git.${dot.domain}/";
         };
         service = {
           DEFAULT_KEEP_EMAIL_PRIVATE = true;
@@ -49,6 +49,14 @@ in
 
     mysql.enable = true;
     mysql.databases = lib.mkAfter [ database ];
+
+    nginx.enable = true;
+    services.nginx.virtualHosts."git.${dot.domain}" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3000";
+        proxyWebsockets = true;
+      };
+    };
 
     system.activationScripts.gitea = ''
       logDir="${config.services.gitea.settings.log.ROOT_PATH}"

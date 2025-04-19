@@ -32,6 +32,14 @@
       };
     };
 
+    nginx.enable = true;
+    services.nginx.virtualHosts."syncthing.${dot.domain}" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8384";
+        proxyWebsockets = true;
+      };
+    };
+
     system.activationScripts.syncthing = ''
       dataDir="${config.services.syncthing.dataDir}"
       mkdir -p $dataDir

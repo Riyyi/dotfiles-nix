@@ -46,6 +46,14 @@ in
     mysql.enable = true;
     mysql.databases = lib.mkAfter [ database ];
 
+    nginx.enable = true;
+    services.nginx.virtualHosts."nextcloud.${dot.domain}" = {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:80";
+          proxyWebsockets = true;
+        };
+      };
+
   };
 
 }

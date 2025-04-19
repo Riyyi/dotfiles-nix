@@ -27,6 +27,18 @@
       };
     };
 
+    nginx.enable = true;
+    services.nginx.virtualHosts."transmission.${dot.domain}" = {
+      basicAuthFile = config.sops.secrets."transmission/nginx/password".path;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:9091";
+        proxyWebsockets = true;
+        extraConfig = ''
+          proxy_pass_header  X-Transmission-Session-Id;
+        '';
+      };
+    };
+
     system.activationScripts.transmission = ''
       configDir="${config.services.transmission.home}/.config/transmission-daemon"
       mkdir -p $configDir

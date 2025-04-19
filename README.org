@@ -99,4 +99,5 @@ All home directory application configuration modules.
 - postgres backup service
 X nextcloud
 - ZFS rebuild array test
-- put nginx virtualhosts inside respective modules
+- test jellyfin video transcode
+- syncthing directory config

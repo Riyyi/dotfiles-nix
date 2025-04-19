@@ -23,6 +23,14 @@
 
     networking.firewall.allowedUDPPorts = [ 1900 7359 ];
 
+    nginx.enable = true;
+    services.nginx.virtualHosts."jellyfin.${dot.domain}" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8096";
+        proxyWebsockets = true;
+      };
+    };
+
   };
 
 }

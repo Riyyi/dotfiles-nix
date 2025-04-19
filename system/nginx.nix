@@ -17,7 +17,7 @@
       user = dot.user;
       group = dot.group;
 
-      virtualHosts."example.test" = {
+      virtualHosts."${dot.domain}" = {
         root = "/var/www/riyyi/public";
 
         extraConfig = ''
@@ -31,67 +31,6 @@
         locations."~ \\.php$".extraConfig = ''
           fastcgi_pass  unix:${config.services.phpfpm.pools.pool.socket};
         '';
-
-      };
-
-      virtualHosts."git.example.test" = lib.mkIf config.gitea.enable {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:3000";
-          proxyWebsockets = true;
-        };
-      };
-
-      virtualHosts."immich.example.test" = lib.mkIf config.immich.enable {
-        locations."/" = {
-          proxyPass = "http://[::1]:${toString config.services.immich.port}";
-          proxyWebsockets = true;
-          recommendedProxySettings = true;
-          extraConfig = ''
-            client_max_body_size 50000M;
-            proxy_read_timeout   600s;
-            proxy_send_timeout   600s;
-            send_timeout         600s;
-          '';
-        };
-      };
-
-      virtualHosts."jellyfin.example.test" = lib.mkIf config.jellyfin.enable {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8096";
-          proxyWebsockets = true;
-        };
-      };
-
-      virtualHosts."navidrome.example.test" = lib.mkIf config.navidrome.enable {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:4533";
-          proxyWebsockets = true;
-        };
-      };
-
-      virtualHosts."nextcloud.example.test" = lib.mkIf config.nextcloud.enable {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:80";
-          proxyWebsockets = true;
-        };
-      };
-
-      virtualHosts."syncthing.example.test" = lib.mkIf config.syncthing.enable {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8384";
-          proxyWebsockets = true;
-        };
-      };
-
-      virtualHosts."transmission.example.test" = lib.mkIf config.transmission.enable {
-        basicAuthFile = config.sops.secrets."transmission/nginx/password".path;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:9091";
-          proxyWebsockets = true;
-          extraConfig = ''
-            proxy_pass_header  X-Transmission-Session-Id;
-          '';
-        };
       };
     };
 
