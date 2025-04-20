@@ -16,6 +16,7 @@
   cache = "/mnt/data/cache";
   code = "/mnt/data/code";
   config = "/mnt/data/config";
+  documents = "/mnt/data/documents";
   downloads = "/mnt/data/downloads";
   music = "/mnt/data/music";
   pictures = "/mnt/data/pictures";

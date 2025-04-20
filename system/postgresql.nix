@@ -29,6 +29,15 @@
       dataDir = "${dot.config}/postgresql/${config.services.postgresql.package.psqlSchema}";
     };
 
+    services.postgresqlBackup = {
+      enable = true;
+      location = "${dot.documents}/backup/${dot.hostname}/postgresql";
+      backupAll = true; # mutually exclusive with "databases" []
+      startAt = "*-*-* 01:00:00"; # every day at 01:00 AM, see systemd.time
+      compression = "gzip";
+      compressionLevel = 6; # 1-9 for gzip, 1-19 for zstd
+    };
+
     networking.firewall.allowedTCPPorts = lib.mkAfter [ 5432 ];
     networking.firewall.allowedUDPPorts = lib.mkAfter [ 5432 ];
 
