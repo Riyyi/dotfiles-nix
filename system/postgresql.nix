@@ -12,12 +12,18 @@
 
   config = lib.mkIf config.postgresql.enable {
 
+    sops.secrets."postgres/database/password" = {
+      owner = "postgres";
+    };
+
     services.postgresql = {
       enable = true;
       package = pkgs.postgresql;
-      authentication = pkgs.lib.mkOverride 10 ''
-        #type database  DBuser  auth-method
-        local all       all     trust
+      authentication = pkgs.lib.mkForce ''
+      # TYPE     DATABASE    USER     ADDRESS           AUTH-METHOD
+        local    all         all                        peer
+        host     all         all      127.0.0.1/32      md5
+        host     all         all      ::1/128           md5
       '';
 
       ensureDatabases = config.postgresql.databases;
@@ -45,6 +51,9 @@
       dataDir="${dot.config}/postgresql"
       mkdir -p $dataDir/${config.services.postgresql.package.psqlSchema}
       chown -R postgres:postgres $dataDir # fix initial directory creation
+
+      passwd="$(cat ${config.sops.secrets."postgres/database/password".path})";
+      runuser -u postgres -- ${pkgs.postgresql}/bin/psql -c "ALTER USER postgres WITH PASSWORD '$passwd';"
     '';
 
   };
