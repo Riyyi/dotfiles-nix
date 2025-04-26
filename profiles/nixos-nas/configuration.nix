@@ -53,6 +53,7 @@
     duf
     exiftool
     fastfetch
+    fzf
     git
     gitea
     htop
@@ -119,10 +120,12 @@
     autoScrub.enable = true;
     autoSnapshot = {
       enable = true;
+      flags = "-k -p --utc"; # make snapshot names use utc timestamp
       monthly = 3; # keep 3 monthly snapshots
       weekly = 4;  # keep 4 weekly snapshots
       daily = 7;   # keep 7 daily snapshots
       hourly = 12; # keep 12 hourly snapshots
+      frequent = 4; # keep 4 15-minute snapshots
     };
     trim.enable = true;
   };

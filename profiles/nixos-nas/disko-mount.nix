@@ -103,6 +103,7 @@ in
               mountpoint = "/mnt/data/cache";
               canmount = "on";
               recordsize = "128K";
+              "com.sun:auto-snapshot" = "false";
             };
           };
           downloads = {
@@ -110,6 +111,7 @@ in
             options = {
               mountpoint = "/mnt/data/downloads";
               canmount = "on";
+              "com.sun:auto-snapshot" = "false";
             };
           };
           games = {
@@ -117,6 +119,7 @@ in
             options = {
               mountpoint = "/mnt/data/games";
               canmount = "on";
+              "com.sun:auto-snapshot" = "false";
             };
           };
           music = {

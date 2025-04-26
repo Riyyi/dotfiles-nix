@@ -189,4 +189,8 @@ HISTORY_SUBSTRING_SEARCH_PREFIXED=1
     };
   };
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
+
 }

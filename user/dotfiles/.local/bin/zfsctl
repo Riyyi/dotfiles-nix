@@ -1,0 +1,71 @@
+#!/usr/bin/env sh
+
+set -eu
+
+# Pick a snapshot using fzf
+snapshot=$(zfs list -t snapshot -o name,used,refer -S creation | fzf --prompt="Pick a snapshot> " --nth=1 --delimiter='\t' --header-lines=1 | awk '{print $1}')
+
+if [ -z "$snapshot" ]; then
+	echo "No snapshot selected. Exiting."
+	exit 1
+fi
+
+# Ask what you want to do
+action=$(printf "exit\nrollback\nmount\ninfo\nclone" | fzf --prompt="Action for $snapshot> ")
+
+case "$action" in
+	clone)
+		printf "Enter name for new dataset (e.g., poolname/dataset_clone): "
+		read -r clone_name
+		if [ -n "$clone_name" ]; then
+			echo "Cloning $snapshot to $clone_name..."
+			zfs clone "$snapshot" "$clone_name"
+		else
+			echo "No clone name entered. Aborting."
+			exit 1
+		fi
+		;;
+	info)
+		echo "Showing snapshot info:"
+		zfs get all "$snapshot"
+		;;
+	mount)
+		echo "Mounting snapshot $snapshot temporarily..."
+		mountpoint="/tmp/zfs-snap-$(date +%s)"
+		mkdir -p "$mountpoint"
+
+		if mount -t zfs "$snapshot" "$mountpoint"; then
+			echo "Mounted at $mountpoint."
+			echo "Press ENTER to unmount and clean up."
+			read -r _dummy
+			umount "$mountpoint"
+		fi
+		rmdir "$mountpoint"
+		;;
+	rollback)
+		echo "Rolling back to $snapshot..."
+		if ! zfs rollback "$snapshot"; then
+			echo "Rollback failed."
+			echo
+			printf "Force rollback? This will destroy newer snapshots! [y/N]: "
+			read -r confirm
+			case "$confirm" in
+				y|Y)
+					echo "Force rolling back to $snapshot..."
+					zfs rollback -r "$snapshot"
+					;;
+				*)
+					echo "Aborting."
+					exit 1
+					;;
+			esac
+		fi
+		;;
+	exit)
+		echo "Exiting."
+		;;
+	*)
+		echo "Unknown action. Exiting."
+		exit 1
+		;;
+esac
