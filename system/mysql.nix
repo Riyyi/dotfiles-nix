@@ -44,6 +44,14 @@
       # y
     };
 
+    services.mysqlBackup = {
+      enable = true;
+      user = dot.user;
+      location = "${dot.documents}/backup/${dot.hostname}/mysql";
+      databases = config.mysql.databases;
+      calendar = "01:05:00"; # every day at 01:05 AM
+    };
+
     networking.firewall.allowedTCPPorts = lib.mkAfter [ 3306 ];
     networking.firewall.allowedUDPPorts = lib.mkAfter [ 3306 ];
 
