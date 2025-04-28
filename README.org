@@ -94,12 +94,13 @@ All home directory application configuration modules.
 
 ** Todo
 
-- SSL cert
+~ SSL cert
 X nextcloud
 - ZFS rebuild array test
-- ZFS test snapshots
+v ZFS test snapshots
 - test jellyfin video transcode
 - syncthing directory config
 - jellyfun *arr (Jellyseerr)
   https://github.com/iankiller77/MyAnimeSync
   https://github.com/awesome-jellyfin/awesome-jellyfin?tab=readme-ov-file#-related
+- disable "root" ssh access

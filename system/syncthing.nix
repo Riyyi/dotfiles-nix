@@ -36,7 +36,9 @@
     firewall.allowedUDPPorts = lib.mkAfter [ 22000 21027 ];
 
     nginx.enable = true;
-    services.nginx.virtualHosts."syncthing.${dot.domain}" = {
+    services.nginx.virtualHosts."syncthing-home.${dot.domain}" = {
+      forceSSL = true;
+      useACMEHost = dot.domain;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8384";
         proxyWebsockets = true;

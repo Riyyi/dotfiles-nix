@@ -25,7 +25,9 @@
     firewall.safeUDPPorts = lib.mkAfter [ 1900 7359 ]; # open port to all IPs
 
     nginx.enable = true;
-    services.nginx.virtualHosts."jellyfin.${dot.domain}" = {
+    services.nginx.virtualHosts."videos.${dot.domain}" = {
+      forceSSL = true;
+      useACMEHost = dot.domain;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8096";
         proxyWebsockets = true;

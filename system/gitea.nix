@@ -36,8 +36,8 @@ in
         };
         server = {
           SSH_PORT = 4000;
-          DOMAIN = "git.${dot.domain}";
-          ROOT_URL = "http://git.${dot.domain}/";
+          DOMAIN = "git-home.${dot.domain}";
+          ROOT_URL = "https://git-home.${dot.domain}/";
         };
         service = {
           DEFAULT_KEEP_EMAIL_PRIVATE = true;
@@ -51,7 +51,9 @@ in
     mysql.databases = lib.mkAfter [ database ];
 
     nginx.enable = true;
-    services.nginx.virtualHosts."git.${dot.domain}" = {
+    services.nginx.virtualHosts."git-home.${dot.domain}" = {
+      forceSSL = true;
+      useACMEHost = dot.domain;
       locations."/" = {
         proxyPass = "http://127.0.0.1:3000";
         proxyWebsockets = true;

@@ -48,11 +48,13 @@ in
 
     nginx.enable = true;
     services.nginx.virtualHosts."nextcloud.${dot.domain}" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:80";
-          proxyWebsockets = true;
-        };
+      forceSSL = true;
+      useACMEHost = dot.domain;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:80";
+        proxyWebsockets = true;
       };
+    };
 
   };
 

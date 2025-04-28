@@ -8,7 +8,7 @@
   timezone = "Europe/Amsterdam";
   locale = "en_US.UTF-8";
   version = "24.11";
-  domain = "example.test";
+  domain = "riyyi.com";
 
   # Paths
   # ----------------------------------

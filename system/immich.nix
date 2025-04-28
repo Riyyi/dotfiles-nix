@@ -37,14 +37,16 @@ in
       machine-learning.enable = false;
 
       # https://immich.app/docs/install/config-file/
-      settings.server.externalDomain = "http://immich.${dot.domain}";
+      settings.server.externalDomain = "https://photos.${dot.domain}";
     };
 
     postgresql.enable = true;
     postgresql.databases = lib.mkAfter [ database ];
 
     nginx.enable = true;
-    services.nginx.virtualHosts."immich.${dot.domain}" = {
+    services.nginx.virtualHosts."photos.${dot.domain}" = {
+      forceSSL = true;
+      useACMEHost = dot.domain;
       locations."/" = {
         proxyPass = "http://[::1]:${toString config.services.immich.port}";
         proxyWebsockets = true;

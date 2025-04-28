@@ -8,7 +8,7 @@
 
   config = lib.mkIf config.nginx.enable {
 
-    sops.secrets."transmission/nginx/password" = {
+    sops.secrets."cloudflare/dns/api_key" = {
       owner = dot.user;
     };
 
@@ -17,7 +17,10 @@
       user = dot.user;
       group = dot.group;
 
-      virtualHosts."${dot.domain}" = {
+      virtualHosts."home.${dot.domain}" = {
+        addSSL = true;
+        useACMEHost = dot.domain;
+
         root = "/var/www/riyyi/public";
 
         extraConfig = ''
@@ -36,6 +39,24 @@
 
     # Lift restriction to write OS disk
     systemd.services.nginx.serviceConfig.ReadWritePaths = [ "/var/log/nginx/" ];
+
+    security.acme = {
+      acceptTerms = true;
+      defaults = {
+        email = "riyyi3@gmail.com";
+      };
+      certs.${dot.domain} = {
+        group = dot.group;
+        reloadServices = [ "nginx.service" ];
+        domain = "${dot.domain}";
+        extraDomainNames = [ "*.${dot.domain}" ];
+        dnsProvider = "cloudflare";
+        dnsResolver = "1.1.1.1:53";
+        dnsPropagationCheck = true;
+        renewInterval = "monthly";
+        environmentFile = config.sops.secrets."cloudflare/dns/api_key".path;
+      };
+    };
 
     services.phpfpm.pools.pool = {
       # enable is implicit by defining a pool
@@ -56,6 +77,12 @@
     firewall.enable = true;
     firewall.allowedTCPPorts = lib.mkAfter [ 80 443 ];
     firewall.allowedUDPPorts = lib.mkAfter [ 80 443 ];
+
+    system.activationScripts.acme = ''
+      homeDir="/var/lib/acme"
+      mkdir -p $homeDir
+      chown -R acme:${dot.group} $homeDir # fix initial directory creation
+    '';
 
   };
 

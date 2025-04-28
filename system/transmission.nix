@@ -11,6 +11,10 @@ in
 
   config = lib.mkIf config.transmission.enable {
 
+    sops.secrets."transmission/nginx/password" = {
+      owner = dot.user;
+    };
+
     services.transmission = {
       enable = true;
       user = dot.user;
@@ -34,6 +38,8 @@ in
 
     nginx.enable = true;
     services.nginx.virtualHosts."transmission.${dot.domain}" = {
+      forceSSL = true;
+      useACMEHost = dot.domain;
       basicAuthFile = config.sops.secrets."transmission/nginx/password".path;
       locations."/" = {
         proxyPass = "http://127.0.0.1:9091";

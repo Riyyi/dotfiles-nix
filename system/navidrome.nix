@@ -16,7 +16,7 @@
 
       # https://www.navidrome.org/docs/usage/configuration-options/
       settings = {
-        BaseUrl = "http://navidrome.${dot.domain}";
+        BaseUrl = "https://music.${dot.domain}";
         Address = "127.0.0.1";
         Port = 4533;
 
@@ -30,7 +30,9 @@
     };
 
     nginx.enable = true;
-    services.nginx.virtualHosts."navidrome.${dot.domain}" = {
+    services.nginx.virtualHosts."music.${dot.domain}" = {
+      forceSSL = true;
+      useACMEHost = dot.domain;
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString config.services.navidrome.settings.Port}";
         proxyWebsockets = true;
