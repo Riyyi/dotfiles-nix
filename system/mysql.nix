@@ -52,8 +52,9 @@
       calendar = "01:05:00"; # every day at 01:05 AM
     };
 
-    networking.firewall.allowedTCPPorts = lib.mkAfter [ 3306 ];
-    networking.firewall.allowedUDPPorts = lib.mkAfter [ 3306 ];
+    firewall.enable = true;
+    firewall.allowedTCPPorts = lib.mkAfter [ 3306 ];
+    firewall.allowedUDPPorts = lib.mkAfter [ 3306 ];
 
   };
 

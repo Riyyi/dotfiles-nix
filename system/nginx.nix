@@ -53,8 +53,9 @@
       };
     };
 
-    networking.firewall.allowedTCPPorts = lib.mkAfter [ 80 443 ];
-    networking.firewall.allowedUDPPorts = lib.mkAfter [ 80 443 ];
+    firewall.enable = true;
+    firewall.allowedTCPPorts = lib.mkAfter [ 80 443 ];
+    firewall.allowedUDPPorts = lib.mkAfter [ 80 443 ];
 
   };
 

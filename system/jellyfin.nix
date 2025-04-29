@@ -21,7 +21,8 @@
       cacheDir = "${dot.cache}/jellyfin";
     };
 
-    networking.firewall.allowedUDPPorts = [ 1900 7359 ];
+    firewall.enable = true;
+    firewall.safeUDPPorts = lib.mkAfter [ 1900 7359 ]; # open port to all IPs
 
     nginx.enable = true;
     services.nginx.virtualHosts."jellyfin.${dot.domain}" = {

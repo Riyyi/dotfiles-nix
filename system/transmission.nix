@@ -1,5 +1,8 @@
 { config, pkgs, lib, dot, ... }:
 
+let
+	port = 51413;
+in
 {
 
 	options.transmission = {
@@ -13,10 +16,12 @@
       user = dot.user;
       group = dot.group;
       home = "${dot.config}/transmission";
-      openRPCPort = false; # web access via nginx
       openPeerPorts = true;
+      openRPCPort = false; # web access via nginx
       package = pkgs.transmission_4;
       settings = {
+        peer-port = port;
+        peer-port-random-on-start = false;
         rpc-bind-address = "0.0.0.0";
         rpc-whitelist = "*";
         rpc-whitelist-enabled = true;
@@ -38,6 +43,10 @@
         '';
       };
     };
+
+    firewall.enable = true;
+    firewall.safeTCPPorts = lib.mkAfter [ port ]; # open port to all IPs
+    firewall.safeUDPPorts = lib.mkAfter [ port ]; # open port to all IPs
 
     system.activationScripts.transmission = ''
       configDir="${config.services.transmission.home}/.config/transmission-daemon"

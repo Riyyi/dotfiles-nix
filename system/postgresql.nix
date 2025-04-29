@@ -44,8 +44,9 @@
       compressionLevel = 6; # 1-9 for gzip, 1-19 for zstd
     };
 
-    networking.firewall.allowedTCPPorts = lib.mkAfter [ 5432 ];
-    networking.firewall.allowedUDPPorts = lib.mkAfter [ 5432 ];
+    firewall.enable = true;
+    firewall.allowedTCPPorts = lib.mkAfter [ 5432 ];
+    firewall.allowedUDPPorts = lib.mkAfter [ 5432 ];
 
     system.activationScripts.postgresql = ''
       dataDir="${dot.config}/postgresql"

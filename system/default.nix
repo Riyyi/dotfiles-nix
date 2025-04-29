@@ -2,6 +2,7 @@
 {
 
   imports = [
+    ./firewall.nix
     ./gitea.nix
     ./immich.nix
     ./jellyfin.nix

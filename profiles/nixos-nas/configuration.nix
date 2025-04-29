@@ -146,9 +146,8 @@
   services.tlp.enable = true;
 
   # Open ports in the firewall
-  # networking.firewall.enable = false;
-  networking.firewall.allowedTCPPorts = [ 4000 ];
-  networking.firewall.allowedUDPPorts = [ ];
+  firewall.enable = true;
+  firewall.safeTCPPorts = lib.mkAfter [ 4000 ]; # open port to all IPs
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

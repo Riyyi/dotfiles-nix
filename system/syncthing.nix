@@ -19,7 +19,6 @@
       dataDir = "${dot.config}/syncthing";
       configDir = "${config.services.syncthing.dataDir}/config";
       databaseDir = config.services.syncthing.configDir;
-      openDefaultPorts = true; # TCP/UDP = 22000, UDP = 21027
       settings = {
         gui = {
           address = "0.0.0.0:8384"; # enable remote access
@@ -31,6 +30,10 @@
         };
       };
     };
+
+    firewall.enable = true;
+    firewall.allowedTCPPorts = lib.mkAfter [ 22000 ];
+    firewall.allowedUDPPorts = lib.mkAfter [ 22000 21027 ];
 
     nginx.enable = true;
     services.nginx.virtualHosts."syncthing.${dot.domain}" = {
