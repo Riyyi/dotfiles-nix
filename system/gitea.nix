@@ -36,6 +36,8 @@ in
         };
         server = {
           SSH_PORT = 4000;
+          SSH_DOMAIN = "git-ssh.${dot.domain}";
+          HTTP_PORT = 3000;
           DOMAIN = "git-home.${dot.domain}";
           ROOT_URL = "https://git-home.${dot.domain}/";
         };
@@ -43,6 +45,9 @@ in
           DEFAULT_KEEP_EMAIL_PRIVATE = true;
           DISABLE_REGISTRATION = true;
           NO_REPLY_ADDRESS = "noreply.localhost";
+        };
+        repository = {
+          DEFAULT_BRANCH = "master";
         };
       };
     };
@@ -55,7 +60,7 @@ in
       forceSSL = true;
       useACMEHost = dot.domain;
       locations."/" = {
-        proxyPass = "http://127.0.0.1:3000";
+        proxyPass = "http://127.0.0.1:${toString config.services.gitea.settings.server.HTTP_PORT}";
         proxyWebsockets = true;
       };
     };

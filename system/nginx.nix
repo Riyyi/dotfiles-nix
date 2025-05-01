@@ -76,7 +76,6 @@
 
     firewall.enable = true;
     firewall.allowedTCPPorts = lib.mkAfter [ 80 443 ];
-    firewall.allowedUDPPorts = lib.mkAfter [ 80 443 ];
 
     system.activationScripts.acme = ''
       homeDir="/var/lib/acme"
