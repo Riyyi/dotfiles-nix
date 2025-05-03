@@ -26,5 +26,6 @@
 
   user = "rick";
   group = "users";
+  sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINAag0kZm0MYNKz5ixAfY4XXJmwoB+Zij6egvw6h2C6/ riyyi3@gmail.com";
 
 }

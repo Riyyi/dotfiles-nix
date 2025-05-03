@@ -1,29 +1,43 @@
 { config, pkgs, lib, dot, ... }:
 
 let
-  database = "gitea";
+  user = "git";
+  group = user;
+  database = user;
 in
 {
 
-	options.gitea = {
+  options.gitea = {
     enable = lib.mkEnableOption "gitea";
   };
 
   config = lib.mkIf config.gitea.enable {
 
+    users.users.${user} = {
+      isSystemUser = true;
+      description = "Gitea Service";
+      home = config.services.gitea.stateDir;
+      useDefaultShell = true;
+      group = group;
+      openssh.authorizedKeys.keys = [ dot.sshKey ];
+    };
+
+    users.groups.${group} = {};
+
     services.gitea = {
       enable = true;
-      user = dot.user;
-      group = dot.group;
+      user = user;
+      group = group;
       stateDir = "${dot.config}/gitea";
-      repositoryRoot = dot.code;
+      repositoryRoot = "${dot.code}/gitea";
       database = {
         type = "mysql";
         socket = "/run/mysqld/mysqld.sock";
         name = database;
-        user = dot.user;
-        createDatabase = false; # allow for user != database.user
+        user = user;
+        createDatabase = true; # false means: allow for user != database.user
       };
+      # https://docs.gitea.com/next/administration/config-cheat-sheet
       settings = {
         log = {
           LEVEL = "Info";
@@ -35,6 +49,10 @@ in
           ENABLE_FEDERATED_AVATAR = true;
         };
         server = {
+          # https://docs.gitea.com/next/installation/install-with-docker#understanding-ssh-access-to-gitea-without-passthrough
+          DISABLE_SSH = false;
+          START_SSH_SERVER = false; # use system SSH
+          SSH_CREATE_AUTHORIZED_KEYS_FILE = true;
           SSH_PORT = 4000;
           SSH_DOMAIN = "git-ssh.${dot.domain}";
           HTTP_PORT = 3000;
@@ -68,7 +86,7 @@ in
     system.activationScripts.gitea = ''
       logDir="${config.services.gitea.settings.log.ROOT_PATH}"
       mkdir -p $logDir
-      chown -R ${dot.user}:${dot.group} $logDir # fix initial directory creation
+      chown -R ${user}:${group} $logDir # fix initial directory creation
     '';
 
   };

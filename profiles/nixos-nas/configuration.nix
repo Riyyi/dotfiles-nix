@@ -22,9 +22,7 @@
 	users.users.root = {
     isSystemUser = true;
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDwMjqBU9ihK/i8mWkvCcylbIxv9z4vhMlC2mvJQdnmUVuKgW6vPoY2Lp1jI0Bag+yGzV6KFRcgoOp9QxZhFczN2nDirBqqIRQtRJgaZgR+HiDVSDogFzCWEJcbfk1MUq593JferGtqGGcMfV3XoECZjbyecCQoQ4KC0q/LQDJLNu2wGyes/B0DGRiG9XfmUbgRz63uifmQ3P3A4MnUKetfte9O3vrhOJfFxbpPp1qufFL8dp1g/SLh4u5h1vN/yMa5LII1ro05cnXjT1nNboJWITMnBxiTBTWsnFDJsPvZ4TDP8cRUO1BV341sWKecUnAdM/6DTktxJLW9WywgMYJy9nEJ49bjR1H31p9M4mIERcMBurkTZ3Fxtq91n+CcXof2QzEVL7us8Z217ycm9qTztQuF9Y9GW1pF4tHKTHug+uQWMofJngU7/Pfj0ZcgLu0WIqkeC47iCB2g8BGlRybOyDp9vEmXQkGIr37s95MwzoDa5BJngvJGE7FIZp20F9iMVwq2Avim2GdW2/obqwxP/jfcMZXGSBGOE4Acp+J4DirLniL9SR26PuVQczb70uwjD4KQJ0ZCGL/SLUDPVb4+bwEJWMTlt416d1DyFtZPvAhMiXJFXcGDDAdWdxaqj3HOLo2R3mDOqu8onDl00JBO8DgyMn9ikZvejPGoFhuhMw== riyyi3@gmail.com"
-    ];
+    openssh.authorizedKeys.keys = [ dot.sshKey ];
   };
 
   # Define a user account
@@ -34,9 +32,7 @@
     extraGroups = lib.mkAfter [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDwMjqBU9ihK/i8mWkvCcylbIxv9z4vhMlC2mvJQdnmUVuKgW6vPoY2Lp1jI0Bag+yGzV6KFRcgoOp9QxZhFczN2nDirBqqIRQtRJgaZgR+HiDVSDogFzCWEJcbfk1MUq593JferGtqGGcMfV3XoECZjbyecCQoQ4KC0q/LQDJLNu2wGyes/B0DGRiG9XfmUbgRz63uifmQ3P3A4MnUKetfte9O3vrhOJfFxbpPp1qufFL8dp1g/SLh4u5h1vN/yMa5LII1ro05cnXjT1nNboJWITMnBxiTBTWsnFDJsPvZ4TDP8cRUO1BV341sWKecUnAdM/6DTktxJLW9WywgMYJy9nEJ49bjR1H31p9M4mIERcMBurkTZ3Fxtq91n+CcXof2QzEVL7us8Z217ycm9qTztQuF9Y9GW1pF4tHKTHug+uQWMofJngU7/Pfj0ZcgLu0WIqkeC47iCB2g8BGlRybOyDp9vEmXQkGIr37s95MwzoDa5BJngvJGE7FIZp20F9iMVwq2Avim2GdW2/obqwxP/jfcMZXGSBGOE4Acp+J4DirLniL9SR26PuVQczb70uwjD4KQJ0ZCGL/SLUDPVb4+bwEJWMTlt416d1DyFtZPvAhMiXJFXcGDDAdWdxaqj3HOLo2R3mDOqu8onDl00JBO8DgyMn9ikZvejPGoFhuhMw== riyyi3@gmail.com"
-    ];
+    openssh.authorizedKeys.keys = [ dot.sshKey ];
   };
 
   home-manager = {
@@ -137,7 +133,7 @@
     ports = [ 4000 ];
     settings = {
       PasswordAuthentication = false;
-      AllowUsers = [ "root" dot.user ];
+      AllowUsers = [ "root" dot.user "git" ];
       UseDns = true;
       X11Forwarding = false;
       PermitRootLogin = "yes";

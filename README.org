@@ -96,6 +96,8 @@ All home directory application configuration modules.
 
 v SSL cert
 X nextcloud
+  - Samba
+  - NFS
 - ZFS rebuild array test
 v ZFS test snapshots
 - test jellyfin video transcode
