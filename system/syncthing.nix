@@ -1,5 +1,14 @@
 { config, pkgs, lib, dot, ... }:
 
+let
+	addFolder = { id, path }: {
+    id = id;
+    path = "${config.services.syncthing.dataDir}/${path}";
+    devices = [ "arch-desktop" "arch-laptop" "debian-vps" ];
+    versioning.type = "simple";
+    versioning.params.keep = "10";
+  };
+in
 {
 
 	options.syncthing = {
@@ -27,6 +36,21 @@
         };
         options = {
           crashReportingEnabled = false;
+          urAccepted = -1; # disable usage data collection
+        };
+        devices = {
+          "arch-desktop" = { id = "QHSELGQ-7WWMSGI-GBI6JKB-QHTT34A-WG6LFZ2-L2M4HBF-P6KHSVY-SQ7NVA3"; };
+          "arch-laptop" = { id = "6PINF5J-PNZOSK6-6I4RZPD-ZTN63YM-O4XF4EX-OYAIA6D-VP4I2MS-ZLI7KQM"; };
+          "debian-vps" = { id = "PKEBMIL-XRZV5HG-ZPRKMIM-7VVL7AT-62YVBH7-SADHWFY-S4I2CPU-BDP2WA2"; };
+        };
+        folders = {
+          "Config"         = addFolder { id = "lwq5v-etaxu"; path =".config"; };
+          "Documents Root" = addFolder { id = "bngf2-vvuwd"; path ="documents"; };
+          "Local"          = addFolder { id = "wukrh-fq9tn"; path =".local/share"; };
+          "Org"            = addFolder { id = "jhv4y-mmmb9"; path ="documents/org"; };
+          "SSH"            = addFolder { id = "dia9g-xghyy"; path =".ssh"; };
+          "Scripts"        = addFolder { id = "x2ns4-4nebl"; path =".local/bin"; };
+          "Share"          = addFolder { id = "default";     path ="documents/share"; };
         };
       };
     };
