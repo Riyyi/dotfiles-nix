@@ -46,7 +46,9 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    collabora-online
     coreutils
+    cpio # dependency of collabora
     duf
     exiftool
     fastfetch
@@ -69,7 +71,7 @@
     navidrome
     ncdu
     neovim
-    nextcloud30
+    nextcloud31
     nginx
     nh
     openssh
@@ -104,7 +106,7 @@
   immich.enable = true;
   jellyfin.enable = true;
   navidrome.enable = true;
-  nextcloud.enable = false;
+  nextcloud.enable = true;
   nginx.enable = true;
   syncthing.enable = true;
   transmission.enable = true;
