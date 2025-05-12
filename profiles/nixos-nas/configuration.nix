@@ -1,12 +1,17 @@
 { config, pkgs, lib, inputs, dot, cwd, ... }:
 
 {
+  # ----------------------------------------
+  # Imports
+
   imports = [
     ./../common.nix
     ./../../system
   ];
 
+  # ----------------------------------------
   # Bootloader
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = { zfs = true; };
@@ -14,6 +19,9 @@
   boot.zfs.extraPools = [ "znas" ];
 
   networking.hostId = "b267d9ef"; # required by ZFS
+
+  # ----------------------------------------
+  # Users
 
   # ZSH
   programs.zsh.enable = true;
@@ -43,8 +51,9 @@
     users.${dot.user} = import ./home.nix;
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # ----------------------------------------
+  # Packages
+
   environment.systemPackages = with pkgs; [
     collabora-online
     coreutils
@@ -75,6 +84,7 @@
     nginx
     nh
     openssh
+    pciutils # lspci
     php
     postgresql
     postgresql16Packages.pgvecto-rs
@@ -92,14 +102,20 @@
     zsh
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  hardware.enableAllFirmware = true; # load all firmware, required for i915/dg2
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [ # add packages to the graphics driver lookup path
+      intel-media-driver
+      intel-media-sdk
+      intel-compute-runtime
+      libva
+      libvpl
+      vpl-gpu-rt
+    ];
+  };
 
+  # ----------------------------------------
   # System modules
 
   gitea.enable = true;
@@ -111,6 +127,7 @@
   syncthing.enable = true;
   transmission.enable = true;
 
+  # ----------------------------------------
   # Services
 
   services.fstrim.enable = true;
@@ -144,9 +161,15 @@
 
   services.tlp.enable = true;
 
+  # ----------------------------------------
+  # Firewall
+
   # Open ports in the firewall
   firewall.enable = true;
   firewall.safeTCPPorts = lib.mkAfter [ 4000 ]; # open port to all IPs
+
+  # ----------------------------------------
+  # Other
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

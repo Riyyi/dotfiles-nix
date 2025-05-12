@@ -183,8 +183,8 @@ HISTORY_SUBSTRING_SEARCH_PREFIXED=1
 
       # NixOS
       list = "nixos-rebuild list-generations";
-      switch = "sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#nixos-nas";
-      update = "sudo nix flake update --flake /etc/nixos && sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#nixos-nas";
+      switch = "sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#$HOST";
+      update = "sudo nix flake update --flake /etc/nixos && sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#$HOST";
       clean = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && sudo nixos-rebuild boot";
     };
   };

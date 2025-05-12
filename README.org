@@ -100,7 +100,7 @@ X nextcloud
   - NFS
 - ZFS rebuild array test
 v ZFS test snapshots
-- test jellyfin video transcode
+v test jellyfin video transcode
 v syncthing directory config
 - jellyfun *arr (Jellyseerr)
   https://github.com/iankiller77/MyAnimeSync
