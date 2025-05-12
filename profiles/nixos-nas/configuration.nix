@@ -51,10 +51,19 @@
     users.${dot.user} = import ./home.nix;
   };
 
+  # Allow default user to write to SMB share directories
+  system.activationScripts.userPermissions = ''
+    for dir in ${dot.code} ${dot.documents} ${dot.downloads} ${dot.games} ${dot.music} ${dot.pictures} ${dot.videos}; do
+      ${pkgs.acl}/bin/setfacl -R -m u:${dot.user}:rwX $dir
+      ${pkgs.acl}/bin/setfacl -R -d -m u:${dot.user}:rwX $dir
+    done
+  '';
+
   # ----------------------------------------
   # Packages
 
   environment.systemPackages = with pkgs; [
+    acl
     collabora-online
     coreutils
     cpio # dependency of collabora
@@ -81,6 +90,7 @@
     ncdu
     neovim
     nextcloud31
+    nfs-utils
     nginx
     nh
     openssh
@@ -91,6 +101,7 @@
     rclone
     redis
     rsync
+    samba4Full
     sops
     sudo
     syncthing
@@ -123,7 +134,9 @@
   jellyfin.enable = true;
   navidrome.enable = true;
   nextcloud.enable = true;
+  nfs.enable = true;
   nginx.enable = true;
+  samba.enable = true;
   syncthing.enable = true;
   transmission.enable = true;
 

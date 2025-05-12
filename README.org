@@ -95,9 +95,9 @@ All home directory application configuration modules.
 ** Todo
 
 v SSL cert
-X nextcloud
-  - Samba
-  - NFS
+~ nextcloud
+  v Samba
+  ~ NFS
 - ZFS rebuild array test
 v ZFS test snapshots
 v test jellyfin video transcode

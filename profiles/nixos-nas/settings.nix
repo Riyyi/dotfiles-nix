@@ -18,8 +18,10 @@
   config = "/mnt/data/config";
   documents = "/mnt/data/documents";
   downloads = "/mnt/data/downloads";
+  games = "/mnt/data/games";
   music = "/mnt/data/music";
   pictures = "/mnt/data/pictures";
+  videos = "/mnt/data/videos";
 
   # ----------------------------------
   # User
