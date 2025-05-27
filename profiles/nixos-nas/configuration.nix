@@ -96,7 +96,7 @@
     openssh
     pciutils # lspci
     php
-    postgresql
+    postgresql_16
     postgresql16Packages.pgvecto-rs
     rclone
     redis

@@ -18,7 +18,7 @@
 
     services.postgresql = {
       enable = true;
-      package = pkgs.postgresql;
+      package = pkgs.postgresql_16;
       authentication = pkgs.lib.mkForce ''
       # TYPE     DATABASE    USER     ADDRESS           AUTH-METHOD
         local    all         all                        peer

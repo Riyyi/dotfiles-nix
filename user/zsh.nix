@@ -21,7 +21,7 @@
     defaultKeymap = "viins";
     completionInit = "autoload -Uz promptinit colors vcs_info compinit";
 
-    initExtra = ''
+    initContent = ''
 # Disable Ctrl+S and Ctrl+Q
 stty -ixon
 
