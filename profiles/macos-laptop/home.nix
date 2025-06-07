@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, dot, ... }:
 
 {
   imports = [
@@ -8,8 +8,8 @@
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "rick";
-  home.homeDirectory = "/Users/rick";
+  home.username = dot.user;
+  home.homeDirectory = "/Users/${dot.user}";
 
   xdg.enable = true;
 

@@ -1,29 +1,15 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, inputs, dot, cwd, ... }:
 
 {
-  imports = [
-    # Fix Spotlight not finding apps
-    inputs.mac-app-util.darwinModules.default
-    # Home Manager
-    inputs.home-manager-darwin.darwinModules.default
-    # Homebrew
-    inputs.nix-homebrew.darwinModules.nix-homebrew {
-      nix-homebrew = {
-        enable = true;
-        enableRosetta = true;
-        user = "rick"; # owner of Homebrew prefix
+  # ----------------------------------------
+  # Imports
 
-        # Declarative tap management
-        taps = {
-          "homebrew/homebrew-core" = inputs.homebrew-core;
-          "homebrew/homebrew-cask" = inputs.homebrew-cask;
-        };
-        mutableTaps = false;
-      };
-    }
+  imports = [
+    ./../common-darwin.nix
   ];
 
-  networking.hostName = "macos-laptop";
+  # ----------------------------------------
+  # Users
 
   # ZSH
   programs.zsh.enable = true;
@@ -34,30 +20,53 @@
   };
 
   # Define a user account
-  users.users."rick" = {
+  users.users.${dot.user} = {
     packages = with pkgs; [];
     shell = pkgs.zsh;
-    home = "/Users/rick"; # required here AND home.nix: https://discourse.nixos.org/t/homedirectory-is-note-of-type-path-darwin/57453/7
+    home = "/Users/${dot.user}"; # required here AND home.nix, see
+    # https://discourse.nixos.org/t/homedirectory-is-note-of-type-path-darwin/57453/7
   };
 
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
-    users."rick" = import ./home.nix;
+    extraSpecialArgs = { inherit inputs dot cwd; };
+    users.${dot.user} = import ./home.nix;
   };
 
   # ----------------------------------------
-      
-  nixpkgs.config.allowUnfree = true;
+  # Packages
+
+  homebrew = {
+    enable = true;
+    onActivation = {
+      cleanup = "zap";
+      autoUpdate = true;
+      upgrade = true;
+    };
+    brewPrefix = "/opt/homebrew/bin";
+    brews = [
+      "mas"
+    ];
+    casks = [
+      "ghostty"
+      "karabiner-elements"
+      "keepassxc"
+      "krita"
+      "mysqlworkbench"
+      "openmtp"
+    ];
+    masApps = {
+      # App store apps go here
+    };
+  };
   
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     aerospace
     coreutils
     fastfetch
     firefox
+    # ghostty # broken
     git
     htop
     jq
@@ -79,43 +88,22 @@
     zsh
   ];
   
-  system.primaryUser = "rick"; # required for homebrew.enable for now
-  homebrew = {
-    enable = true;
-    brews = [
-      "mas"
-    ];
-    casks = [
-      "ghostty"
-      "karabiner-elements"
-      "keepassxc"
-      "krita"
-      "mysqlworkbench"
-    ];
-    masApps = {
-      # App store apps goo here
-    };
-    onActivation.cleanup = "zap";
-    onActivation.autoUpdate = true;
-    onActivation.upgrade = true;
-  };
+  # -----------------------------------
+  # Programs
   
-  # Necessary for using flakes on this system.
-  nix.settings.experimental-features = "nix-command flakes";
-  
-  # Enable alternative shell support in nix-darwin.
-  # programs.fish.enable = true;
-  
-  # Set Git commit hash for darwin-version.
-  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
-  
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
-  system.stateVersion = 6;
-  
-  # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = "aarch64-darwin";
-  
+  # These seem to require home-manager?
+  #programs.firefox.enable = true;
+  #programs.firefox.nativeMessagingHosts.ff2mpv = true;
+  #programs.firefox.nativeMessagingHosts.packages = [
+  #  "ff2mpv-go"
+  #];
+
+  # ----------------------------------------
+  # System modules
+
+  # ----------------------------------------
+  # System settings
+
   # macOS system settings
   system.defaults = {
     finder = {
@@ -144,15 +132,14 @@
   power.sleep.allowSleepByPowerButton = true;
   power.sleep.computer = 30;
   power.sleep.display = 10;
-  
-  # -----------------------------------
-  # Programs
-  
-  # These seem to require home-manager?
-  #programs.firefox.enable = true;
-  #programs.firefox.nativeMessagingHosts.ff2mpv = true;
-  #programs.firefox.nativeMessagingHosts.packages = [
-  #  "ff2mpv-go"
-  #];
 
+  # ----------------------------------------
+  # Services
+
+  # ----------------------------------------
+  # Other
+
+  # Used for backwards compatibility, please read the changelog before changing.
+  # $ darwin-rebuild changelog
+  system.stateVersion = 6;
 }
