@@ -23,6 +23,9 @@
 
     mac-app-util.url = "github:hraban/mac-app-util";
 
+    firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+    firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
+
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     # Declarative tap management
@@ -34,9 +37,10 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, ... }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, firefox-addons, ... }:
   let
     # Get all profiles from the profiles directory
     profileContents = builtins.readDir ./profiles;
@@ -90,6 +94,11 @@
             };
             modules = [
               ./profiles/${profile}/configuration.nix
+	      {
+                nixpkgs.overlays = [
+                  firefox-addons.overlays.default
+                ];
+	      }
             ];
           };
         }

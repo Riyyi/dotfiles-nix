@@ -1,0 +1,33 @@
+#tabbar {
+	background: #2b2e39;
+}
+
+.tab {
+	height: 26px;
+	margin-bottom: 1px;
+	background: #404552;
+	border: 0px;
+	color: #c5c8c6;
+}
+
+.tab .label {
+	line-height: 1.15;
+	margin-bottom: 1px;
+	margin-left: 0.25em;
+}
+
+.tab .closebox {
+	display: none;
+}
+
+.tab.active {
+	background: #2b2e39 !important;
+}
+
+.tab:hover {
+	background: #2b2e39;
+}
+
+.newtab-button-box {
+	display: none;
+}

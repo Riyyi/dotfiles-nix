@@ -184,8 +184,15 @@ HISTORY_SUBSTRING_SEARCH_PREFIXED=1
       # NixOS
       list = "nixos-rebuild list-generations";
       switch = "sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#$HOST";
-      update = "sudo nix flake update --flake /etc/nixos && sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#$HOST";
+      update = "sudo nix flake update --flake /etc/nixos && switch";
       clean = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && sudo nixos-rebuild boot";
+
+      switch-darwin = "sudo darwin-rebuild switch --flake ~/Code/nix/dotfiles-nix#$HOST";
+      update-darwin = "sudo nix flake update --flake ~/Code/nix/dotfiles-nix && switch-darwin";
+      clean-darwin = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && switch-darwin";
+
+      # Applications
+      mpv = "nohup mpv --idle --force-window >/dev/null 2>&1 &";
     };
   };
 

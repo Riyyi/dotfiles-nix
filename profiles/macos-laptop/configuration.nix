@@ -64,11 +64,15 @@
   environment.systemPackages = with pkgs; [
     aerospace
     coreutils
+    cyberduck
     fastfetch
+    ff2mpv-go
     firefox
     # ghostty # broken
     git
     htop
+    iina
+    jankyborders
     jq
     # keepassxc # broken
     # krita # unavailable on arm
@@ -106,6 +110,7 @@
 
   # macOS system settings
   system.defaults = {
+    dock.autohide = true;
     finder = {
       AppleShowAllExtensions = true;
       AppleShowAllFiles = true;

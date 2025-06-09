@@ -2,7 +2,11 @@
 
 {
   imports = [
+    ./../../user/aerospace.nix
+    ./../../user/firefox.nix
     ./../../user/git.nix
+    ./../../user/jankyborders.nix
+    ./../../user/mpv.nix
     ./../../user/zsh.nix
   ];
 
