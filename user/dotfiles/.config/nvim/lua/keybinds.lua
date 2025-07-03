@@ -48,7 +48,7 @@ M.setup = function()
 	-- Switch to previous buffer
 	-- Meta key
 	K("n", "<M-`>", "<C-6>")
-    -- macOS command key
+	-- macOS command key
 	K("n", "<D-`>", "<C-6>")
 
 	-- Center buffer with Ctrl+L
@@ -57,7 +57,7 @@ M.setup = function()
 	-- Close buffer with Alt-w
 	-- Meta key
 	K("n", "<M-w>", F.buffer_close)
-    -- macOS command key
+	-- macOS command key
 	K("n", "<D-w>", F.buffer_close)
 
 	-- Hungry delete
@@ -72,7 +72,7 @@ M.setup = function()
 	K("n", "<M-l>", bs.buffer_move_right)
 	K("n", "<M-H>", bs.buffer_swap_left)
 	K("n", "<M-L>", bs.buffer_swap_right)
-    -- macOS command key
+	-- macOS command key
 	K("n", "<D-h>", bs.buffer_move_left)
 	K("n", "<D-j>", bs.buffer_group_move_down)
 	K("n", "<D-k>", bs.buffer_group_move_up)
@@ -222,7 +222,7 @@ M.nvim_cmp = function()
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		}),
-        -- macOS command key
+		-- macOS command key
 		["<D-h>"] = cmp.mapping.abort(),
 		["<D-j>"] = cmp.mapping.select_next_item(),
 		["<D-k>"] = cmp.mapping.select_prev_item(),
