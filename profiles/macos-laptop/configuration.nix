@@ -63,6 +63,7 @@
   
   environment.systemPackages = with pkgs; [
     aerospace
+    autoraise
     coreutils
     cyberduck
     fastfetch
@@ -131,6 +132,7 @@
     NSGlobalDomain.AppleTemperatureUnit = "Celsius";
     NSGlobalDomain.NSDocumentSaveNewDocumentsToCloud = false;
     NSGlobalDomain.NSWindowShouldDragOnGesture = true;
+    #universalaccess.reduceMotion = true;
   };
   system.startup.chime = false;
   

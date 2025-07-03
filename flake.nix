@@ -94,11 +94,6 @@
             };
             modules = [
               ./profiles/${profile}/configuration.nix
-	      {
-                nixpkgs.overlays = [
-                  firefox-addons.overlays.default
-                ];
-	      }
             ];
           };
         }

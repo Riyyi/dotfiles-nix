@@ -38,7 +38,7 @@ let
 in
 {
 
-	options.firewall = {
+  options.firewall = {
     enable = lib.mkEnableOption "firewall";
 
     allowedTCPPorts = lib.mkOption {

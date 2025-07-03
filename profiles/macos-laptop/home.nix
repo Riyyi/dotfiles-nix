@@ -3,6 +3,7 @@
 {
   imports = [
     ./../../user/aerospace.nix
+    ./../../user/autoraise.nix
     ./../../user/firefox.nix
     ./../../user/git.nix
     ./../../user/jankyborders.nix

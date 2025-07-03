@@ -2,7 +2,7 @@
 
 {
 
-	options.nginx = {
+  options.nginx = {
     enable = lib.mkEnableOption "nginx";
   };
 

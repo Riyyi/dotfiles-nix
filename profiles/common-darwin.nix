@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, dot, ... }:
+{ config, pkgs, lib, inputs, dot, ... }:
 
 {
   imports = [
@@ -27,6 +27,12 @@
         mutableTaps = false;
       };
     }
+  ];
+
+  # Overlays
+  nixpkgs.overlays = lib.mkAfter [
+    inputs.firefox-addons.overlays.default
+    (import ./../user/autoraise.overlay.nix)
   ];
 
   # Nix settings
