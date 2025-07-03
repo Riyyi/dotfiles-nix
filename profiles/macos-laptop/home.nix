@@ -8,6 +8,7 @@
     ./../../user/git.nix
     ./../../user/jankyborders.nix
     ./../../user/mpv.nix
+    ./../../user/nvim.nix
     ./../../user/zsh.nix
   ];
 

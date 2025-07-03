@@ -47,6 +47,7 @@
     brewPrefix = "/opt/homebrew/bin";
     brews = [
       "mas"
+      "sqlite" # nvim searches in /opt/homebrew by default?
     ];
     casks = [
       "ghostty"
@@ -60,7 +61,7 @@
       # App store apps go here
     };
   };
-  
+
   environment.systemPackages = with pkgs; [
     aerospace
     autoraise
@@ -77,6 +78,7 @@
     jq
     # keepassxc # broken
     # krita # unavailable on arm
+    lua-language-server
     mpv
     # mysql-workbench # unavailable on arm
     neovim
@@ -92,16 +94,6 @@
     yt-dlp
     zsh
   ];
-  
-  # -----------------------------------
-  # Programs
-  
-  # These seem to require home-manager?
-  #programs.firefox.enable = true;
-  #programs.firefox.nativeMessagingHosts.ff2mpv = true;
-  #programs.firefox.nativeMessagingHosts.packages = [
-  #  "ff2mpv-go"
-  #];
 
   # ----------------------------------------
   # System modules
@@ -135,7 +127,7 @@
     #universalaccess.reduceMotion = true;
   };
   system.startup.chime = false;
-  
+
   power.sleep.allowSleepByPowerButton = true;
   power.sleep.computer = 30;
   power.sleep.display = 10;

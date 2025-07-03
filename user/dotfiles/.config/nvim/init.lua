@@ -1,0 +1,10 @@
+require("core")
+require("packages").setup({
+	require("ui"),
+	require("selection"),
+	require("editor"),
+	require("development"),
+	require("git"),
+})
+require("terminal").setup()
+require("keybinds").setup()
