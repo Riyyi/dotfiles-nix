@@ -22,5 +22,8 @@ keybind = super+d=unbind
 keybind = super+t=unbind
 keybind = super+w=unbind
 
-# nvim fix: forward command+backtick the <C-6> (Ctrl-^) sequence
+# Neovim fixes:
+# forward command + backtick the <C-6> (Ctrl-^) sequence
 keybind = super+grave_accent=text:\x1E
+# command + h
+keybind = unconsumed:super+h=text:h

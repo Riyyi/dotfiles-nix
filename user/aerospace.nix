@@ -81,7 +81,7 @@
         alt-8 = "workspace 8";
         alt-9 = "workspace 9";
         alt-0 = "workspace 0";
-	
+
 	# ----------------------------------
 	# Move
 
