@@ -106,3 +106,9 @@ v syncthing directory config
   https://github.com/iankiller77/MyAnimeSync
   https://github.com/awesome-jellyfin/awesome-jellyfin?tab=readme-ov-file#-related
 - disable "root" ssh access
+
+*** macOS Todo
+
+- =user/= behind option flags + default.nix
+- zfs aliases inside if-statement looking at darwin
+- lsps for nvim

@@ -5,6 +5,7 @@
     ./../../user/aerospace.nix
     ./../../user/autoraise.nix
     ./../../user/firefox.nix
+    ./../../user/ghostty.nix
     ./../../user/git.nix
     ./../../user/jankyborders.nix
     ./../../user/mpv.nix
@@ -56,8 +57,6 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-    ".config/ghostty/config".source               = ./../../user/dotfiles/.config/ghostty/config;
-    ".config/ghostty/themes/terminal-sexy".source = ./../../user/dotfiles/.config/ghostty/themes/terminal-sexy;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
