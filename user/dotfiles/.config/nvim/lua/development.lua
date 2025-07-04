@@ -101,13 +101,13 @@ return {
 					},
 				},
 				nixd = {}, -- Nix
-				omnisharp = { -- C#, via omnisharp-roslyn-bin
+				omnisharp = { -- C#, via omnisharp-roslyn
 					cmd = { "/usr/bin/omnisharp", "--languageserver", "--hostPID", tostring(pid) },
 					handlers = {
 						["textDocument/definition"] = require('omnisharp_extended').handler,
 					},
 				},
-				ts_ls = {
+				ts_ls = { -- typescript-language-server
 					init_options = {
 						plugins = {
 							{

@@ -65,6 +65,8 @@
   environment.systemPackages = with pkgs; [
     aerospace
     autoraise
+    clang-tools
+    cmake
     coreutils
     cyberduck
     fastfetch
@@ -74,6 +76,7 @@
     git
     htop
     iina
+    intelephense
     jankyborders
     jq
     # keepassxc # broken
@@ -84,6 +87,7 @@
     neovim
     nixd
     nixfmt-classic
+    omnisharp-roslyn
     openssh
     qbittorrent
     ripgrep
@@ -93,6 +97,7 @@
     streamlink
     syncthing
     tree
+    typescript-language-server
     wget
     yt-dlp
     zsh

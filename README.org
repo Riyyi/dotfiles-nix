@@ -111,4 +111,3 @@ v syncthing directory config
 
 - =user/= behind option flags + default.nix
 - zfs aliases inside if-statement looking at darwin
-- lsps for nvim
