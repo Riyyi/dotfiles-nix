@@ -82,8 +82,11 @@
     mpv
     # mysql-workbench # unavailable on arm
     neovim
+    nixd
+    nixfmt-classic
     openssh
     qbittorrent
+    ripgrep
     rsync
     sketchybar
     soundsource

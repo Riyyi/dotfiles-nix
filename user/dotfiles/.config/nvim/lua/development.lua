@@ -82,7 +82,7 @@ return {
 			local pid = vim.fn.getpid()
 
 			-- Setup language servers
-			-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+			-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 			local servers = {
 				clangd = {}, -- C/C++
 				intelephense = {}, -- PHP
@@ -100,6 +100,7 @@ return {
 						},
 					},
 				},
+				nixd = {}, -- Nix
 				omnisharp = { -- C#, via omnisharp-roslyn-bin
 					cmd = { "/usr/bin/omnisharp", "--languageserver", "--hostPID", tostring(pid) },
 					handlers = {

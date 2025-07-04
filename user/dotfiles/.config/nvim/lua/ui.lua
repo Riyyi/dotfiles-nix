@@ -122,12 +122,13 @@ return {
 	-- Show project errors
 	{
 		"folke/trouble.nvim",
-		cmd = "Trouble", -- defer
 		opts = {
 			mode = "lsp_references",
 			use_diagnostic_signs = true,
 		},
-		config = function()
+		config = function(_, opts)
+			require("trouble").setup(opts)
+
 			-- Gutter/fringe icons
 			--   https://github.com/folke/trouble.nvim/issues/52
 			local signs = {
