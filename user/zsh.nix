@@ -1,5 +1,14 @@
-{ config, pkgs, ... }:
+{ config, dot, ... }:
 
+let
+  switch-nixos = "sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#$HOST";
+  update-nixos = "sudo nix flake update --flake /etc/nixos && switch";
+  clean-nixos = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && sudo nixos-rebuild boot";
+
+  switch-darwin = "sudo darwin-rebuild switch --flake ~/Code/nix/dotfiles-nix#$HOST";
+  update-darwin = "sudo nix flake update --flake ~/Code/nix/dotfiles-nix && switch-darwin";
+  clean-darwin = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && switch-darwin";
+in
 {
 
   programs.zsh = {
@@ -170,7 +179,8 @@ HISTORY_SUBSTRING_SEARCH_PREFIXED=1
       gdc = "git diff --cached";
       gds = "git diff --staged";
       gf = "git fetch";
-      gl = "git log --graph --abbrev-commit --decorate --all";
+      gl = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d    %C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all";
+      gle = "git log --graph --stat --format=format:'%C(bold blue)commit %H%C(reset)%C(bold yellow)%d %C(reset)%nAuthor: %C(dim white)%an <%ae>%C(reset)%nDate:   %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%n%n%w(64,4,4)%B'";
       gm = "git merge";
       gp = "git pull";
       gps = "git push || git push origin $(git branch --show-current)";
@@ -178,18 +188,14 @@ HISTORY_SUBSTRING_SEARCH_PREFIXED=1
       gpsaf = "git remote | xargs -I remotes git push --force remotes $(git branch --show-current)";
       gr = "git reset";
       gs = "git status";
-      gsh = "git show";
+      gsh = "git show --format=format:'%C(bold blue)commit %H%C(reset) %C(bold yellow)%d %C(reset)%nAuthor: %C(dim white)%an <%ae>%C(reset)%nDate:   %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%n%n%w(64,4,4)%B'";
       gt = "git ls-tree -r --name-only $(git branch --show-current) .";
 
       # NixOS
       list = "nixos-rebuild list-generations";
-      switch = "sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#$HOST";
-      update = "sudo nix flake update --flake /etc/nixos && switch";
-      clean = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && sudo nixos-rebuild boot";
-
-      switch-darwin = "sudo darwin-rebuild switch --flake ~/Code/nix/dotfiles-nix#$HOST";
-      update-darwin = "sudo nix flake update --flake ~/Code/nix/dotfiles-nix && switch-darwin";
-      clean-darwin = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && switch-darwin";
+      switch = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then switch-nixos else switch-darwin;
+      update = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then update-nixos else update-darwin;
+      clean = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then clean-nixos else clean-darwin;
 
       # Applications
       mpv = "nohup mpv --idle --force-window >/dev/null 2>&1 &";

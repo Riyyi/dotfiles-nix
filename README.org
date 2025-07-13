@@ -110,4 +110,3 @@ v syncthing directory config
 *** macOS Todo
 
 - =user/= behind option flags + default.nix
-- zfs aliases inside if-statement looking at darwin
