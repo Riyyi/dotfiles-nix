@@ -1,4 +1,4 @@
-{ config, dot, ... }:
+{ config, lib, dot, ... }:
 
 let
   switch-nixos = "sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#$HOST";
@@ -11,26 +11,32 @@ let
 in
 {
 
-  programs.zsh = {
-    dotDir = ".config/zsh";
+  options.zsh = {
+    enable = lib.mkEnableOption "zsh";
+  };
 
-    enable = true;
-    enableCompletion = true;
-    syntaxHighlighting = {
+  config = lib.mkIf config.zsh.enable {
+
+    programs.zsh = {
+      dotDir = ".config/zsh";
+
       enable = true;
-      highlighters = [
-        "main"
-        "brackets"
-      ];
-      styles = {
-        path = "fg=12,underline";
+      enableCompletion = true;
+      syntaxHighlighting = {
+        enable = true;
+        highlighters = [
+          "main"
+          "brackets"
+        ];
+        styles = {
+          path = "fg=12,underline";
+        };
       };
-    };
 
-    defaultKeymap = "viins";
-    completionInit = "autoload -Uz promptinit colors vcs_info compinit";
+      defaultKeymap = "viins";
+      completionInit = "autoload -Uz promptinit colors vcs_info compinit";
 
-    initContent = ''
+      initContent = ''
 # Disable Ctrl+S and Ctrl+Q
 stty -ixon
 
@@ -119,91 +125,93 @@ bindkey "^R" history-incremental-pattern-search-backward  # ctrl-r
 
 # History
 HISTORY_SUBSTRING_SEARCH_PREFIXED=1
-    '';
+      '';
 
-    history = {
-      size = 10000;
-      path = "${config.xdg.cacheHome}/zsh/zsh_history";
-      extended = true;
-      ignoreDups = true;
-      ignoreAllDups = true;
-      ignoreSpace = true;
-      share = false;
+      history = {
+        size = 10000;
+        path = "${config.xdg.cacheHome}/zsh/zsh_history";
+        extended = true;
+        ignoreDups = true;
+        ignoreAllDups = true;
+        ignoreSpace = true;
+        share = false;
+      };
+
+      historySubstringSearch = {
+        enable = true;
+        #searchUpKey = [ "\\e[A" "\\eOA" "\\ek" ];
+        #searchDownKey = [ "\\e[B" "\\eOB" "\\ej" ];
+      };
+
+      shellAliases = {
+        # General
+        ".." = "cd ..";
+        "..." = "cd ../..";
+        "..2" = "cd ../..";
+        "..3" = "cd ../../..";
+        "..4" = "cd ../../../..";
+        cp = "cp -i";
+        df = "df -h";
+        diff = "diff --color";
+        du = "du -h";
+        e = "aliases emacs";
+        emacs = "aliases emacs";
+        fuck = "sudo $(fc -ln -1)";
+        grep = "grep --color=always";
+        ip = "ip --color";
+        ipb = "ip --color --brief a";
+        la = "ls -lAGh --color --group-directories-first --hyperlink";
+        less = "less -x 4";
+        ls = "ls --color --group-directories-first --hyperlink";
+        mkdir = "mkdir -pv";
+        mv = "mv -i";
+        pkill = "pkill -9";
+        q = "exit";
+        rm = "rm -i";
+        se = "sudoedit";
+        semacs = "sudoedit";
+        ss = "sudo systemctl";
+        v = "vim --servername VIM";
+        vim = "vim --servername VIM";
+
+        # Git
+        g = "git";
+        ga = "git add";
+        gap = "git add -p";
+        gb = "git branch";
+        gc = "git commit";
+        gch = "git checkout";
+        gd = "git diff";
+        gdc = "git diff --cached";
+        gds = "git diff --staged";
+        gf = "git fetch";
+        gl = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d    %C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all";
+        gle = "git log --graph --stat --format=format:'%C(bold blue)commit %H%C(reset)%C(bold yellow)%d %C(reset)%nAuthor: %C(dim white)%an <%ae>%C(reset)%nDate:   %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%n%n%w(64,4,4)%B'";
+        gm = "git merge";
+        gp = "git pull";
+        gps = "git push || git push origin $(git branch --show-current)";
+        gpsa = "git remote | xargs -I remotes git push remotes $(git branch --show-current)";
+        gpsaf = "git remote | xargs -I remotes git push --force remotes $(git branch --show-current)";
+        gr = "git reset";
+        gs = "git status";
+        gsh = "git show --format=format:'%C(bold blue)commit %H%C(reset) %C(bold yellow)%d %C(reset)%nAuthor: %C(dim white)%an <%ae>%C(reset)%nDate:   %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%n%n%w(64,4,4)%B'";
+        gt = "git ls-tree -r --name-only $(git branch --show-current) .";
+
+        # NixOS
+        list = "nixos-rebuild list-generations";
+        switch = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then switch-nixos else switch-darwin;
+        update = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then update-nixos else update-darwin;
+        clean = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then clean-nixos else clean-darwin;
+
+        # Applications
+        mpv = "nohup mpv --idle --force-window >/dev/null 2>&1 &";
+      };
     };
 
-    historySubstringSearch = {
-      enable = true;
-      #searchUpKey = [ "\\e[A" "\\eOA" "\\ek" ];
-      #searchDownKey = [ "\\e[B" "\\eOB" "\\ej" ];
-    };
+    home.sessionPath = [
+      "$HOME/.local/bin"
+    ];
 
-    shellAliases = {
-      # General
-      ".." = "cd ..";
-      "..." = "cd ../..";
-      "..2" = "cd ../..";
-      "..3" = "cd ../../..";
-      "..4" = "cd ../../../..";
-      cp = "cp -i";
-      df = "df -h";
-      diff = "diff --color";
-      du = "du -h";
-      e = "aliases emacs";
-      emacs = "aliases emacs";
-      fuck = "sudo $(fc -ln -1)";
-      grep = "grep --color=always";
-      ip = "ip --color";
-      ipb = "ip --color --brief a";
-      la = "ls -lAGh --color --group-directories-first --hyperlink";
-      less = "less -x 4";
-      ls = "ls --color --group-directories-first --hyperlink";
-      mkdir = "mkdir -pv";
-      mv = "mv -i";
-      pkill = "pkill -9";
-      q = "exit";
-      rm = "rm -i";
-      se = "sudoedit";
-      semacs = "sudoedit";
-      ss = "sudo systemctl";
-      v = "vim --servername VIM";
-      vim = "vim --servername VIM";
-
-      # Git
-      g = "git";
-      ga = "git add";
-      gap = "git add -p";
-      gb = "git branch";
-      gc = "git commit";
-      gch = "git checkout";
-      gd = "git diff";
-      gdc = "git diff --cached";
-      gds = "git diff --staged";
-      gf = "git fetch";
-      gl = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d    %C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all";
-      gle = "git log --graph --stat --format=format:'%C(bold blue)commit %H%C(reset)%C(bold yellow)%d %C(reset)%nAuthor: %C(dim white)%an <%ae>%C(reset)%nDate:   %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%n%n%w(64,4,4)%B'";
-      gm = "git merge";
-      gp = "git pull";
-      gps = "git push || git push origin $(git branch --show-current)";
-      gpsa = "git remote | xargs -I remotes git push remotes $(git branch --show-current)";
-      gpsaf = "git remote | xargs -I remotes git push --force remotes $(git branch --show-current)";
-      gr = "git reset";
-      gs = "git status";
-      gsh = "git show --format=format:'%C(bold blue)commit %H%C(reset) %C(bold yellow)%d %C(reset)%nAuthor: %C(dim white)%an <%ae>%C(reset)%nDate:   %C(bold cyan)%ai%C(reset) %C(bold green)(%ar)%C(reset)%n%n%w(64,4,4)%B'";
-      gt = "git ls-tree -r --name-only $(git branch --show-current) .";
-
-      # NixOS
-      list = "nixos-rebuild list-generations";
-      switch = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then switch-nixos else switch-darwin;
-      update = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then update-nixos else update-darwin;
-      clean = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then clean-nixos else clean-darwin;
-
-      # Applications
-      mpv = "nohup mpv --idle --force-window >/dev/null 2>&1 &";
-    };
   };
-
-  home.sessionPath = [
-    "$HOME/.local/bin"
-  ];
 
 }

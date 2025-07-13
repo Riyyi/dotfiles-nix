@@ -1,16 +1,8 @@
-{ config, pkgs, dot, ... }:
+{ dot, ... }:
 
 {
   imports = [
-    ./../../user/aerospace.nix
-    ./../../user/autoraise.nix
-    ./../../user/firefox.nix
-    ./../../user/ghostty.nix
-    ./../../user/git.nix
-    ./../../user/jankyborders.nix
-    ./../../user/mpv.nix
-    ./../../user/nvim.nix
-    ./../../user/zsh.nix
+    ./../../user
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -19,6 +11,17 @@
   home.homeDirectory = "/Users/${dot.user}";
 
   xdg.enable = true;
+
+  # User modules
+  aerospace.enable = true;
+  autoraise.enable = true;
+  firefox.enable = true;
+  ghostty.enable = true;
+  git.enable = true;
+  jankyborders.enable = true;
+  mpv.enable = true;
+  nvim.enable = true;
+  zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, dot, ... }:
+{ config, lib, dot, ... }:
 
 let
   files = [
@@ -28,13 +28,21 @@ let
   ];
 in {
 
-  home.file = lib.genAttrs files (file: {
-    source = ./dotfiles + "/${file}";
-  });
+  options.nvim = {
+    enable = lib.mkEnableOption "nvim";
+  };
 
-  # lazy-lock.json wont be linked from Nix store, so it remains writable
-  home.activation.nvim = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    ln -sf ${dot.dotfiles}/user/dotfiles/.config/nvim/lazy-lock.json "$HOME/.config/nvim/lazy-lock.json"
-  '';
+  config = lib.mkIf config.nvim.enable {
+
+    home.file = lib.genAttrs files (file: {
+      source = ./dotfiles + "/${file}";
+    });
+
+    # lazy-lock.json wont be linked from Nix store, so it remains writable
+    home.activation.nvim = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      ln -sf ${dot.dotfiles}/user/dotfiles/.config/nvim/lazy-lock.json "$HOME/.config/nvim/lazy-lock.json"
+    '';
+
+  };
 
 }

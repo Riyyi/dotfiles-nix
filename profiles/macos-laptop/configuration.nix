@@ -104,9 +104,6 @@
   ];
 
   # ----------------------------------------
-  # System modules
-
-  # ----------------------------------------
   # System settings
 
   # macOS system settings
@@ -139,6 +136,10 @@
   power.sleep.allowSleepByPowerButton = true;
   power.sleep.computer = 30;
   power.sleep.display = 10;
+
+  # ----------------------------------------
+  # System modules
+
 
   # ----------------------------------------
   # Services
