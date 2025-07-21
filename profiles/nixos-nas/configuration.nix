@@ -20,6 +20,11 @@
 
   networking.hostId = "b267d9ef"; # required by ZFS
 
+  # Mirrored boot doesnt work with systemd-boot yet, so manually copy contents
+  system.activationScripts.duplicateESP = ''
+    cp -a /boot/. /boot2/
+  '';
+
   # ----------------------------------------
   # Users
 
