@@ -2,8 +2,7 @@
 
 {
   imports = [
-    ./../../user/git.nix
-    ./../../user/zsh.nix
+    ./../../user
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -12,6 +11,11 @@
   home.homeDirectory = "/root";
 
   xdg.enable = true;
+
+  # User modules
+  git.enable = true;
+  nvim.enable = true;
+  zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

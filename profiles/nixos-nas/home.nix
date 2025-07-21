@@ -14,6 +14,7 @@
 
   # User modules
   git.enable = true;
+  nvim.enable = true;
   zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is

@@ -17,6 +17,7 @@
   code = "/mnt/data/code";
   config = "/mnt/data/config";
   documents = "/mnt/data/documents";
+  dotfiles = "/etc/nixos";
   downloads = "/mnt/data/downloads";
   games = "/mnt/data/games";
   music = "/mnt/data/music";
