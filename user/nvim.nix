@@ -1,4 +1,4 @@
-{ config, lib, dot, ... }:
+{ config, pkgs, lib, dot, ... }:
 
 let
   files = [
@@ -36,6 +36,10 @@ in {
 
     home.file = lib.genAttrs files (file: {
       source = ./dotfiles + "/${file}";
+    }) // (lib.optionalAttrs (dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin") {
+      ".config/nvim/lua/nix.lua".text = ''
+        vim.g.sqlite_clib_path = "${pkgs.sqlite.out}/lib/libsqlite3.so"
+      '';
     });
 
     # lazy-lock.json wont be linked from Nix store, so it remains writable

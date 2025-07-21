@@ -76,8 +76,10 @@
     exiftool
     fastfetch
     fzf
+    gcc
     git
     gitea
+    gnumake
     htop
     imagemagick
     immich
@@ -88,8 +90,10 @@
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
+    libgcc
     libva
     libvpl
+    lua-language-server
     mariadb
     navidrome
     ncdu
@@ -98,6 +102,8 @@
     nfs-utils
     nginx
     nh
+    nixd
+    nixfmt-classic
     openssh
     pciutils # lspci
     php
@@ -108,6 +114,7 @@
     rsync
     samba4Full
     sops
+    sqlite
     sudo
     syncthing
     tlp
