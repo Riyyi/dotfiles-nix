@@ -57,8 +57,8 @@
       "mysqlworkbench"
       "openmtp"
     ];
-    masApps = {
-      # App store apps go here
+    masApps = { # App store apps go here
+      "uBlock Origin Lite" = 6745342698;
     };
   };
 
@@ -69,19 +69,24 @@
     cmake
     coreutils
     cyberduck
+    dotnet-ef
     fastfetch
     ff2mpv-go
     firefox
+    fzf
     # ghostty # broken
     git
     htop
     iina
     intelephense
     jankyborders
+    jetbrains.rider
     jq
     # keepassxc # broken
     # krita # unavailable on arm
+    lldb
     lua-language-server
+    moonlight-qt
     mpv
     # mysql-workbench # unavailable on arm
     neovim

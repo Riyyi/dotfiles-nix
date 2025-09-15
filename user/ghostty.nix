@@ -17,10 +17,12 @@
         copy-on-select = "clipboard";
         cursor-style-blink = false;
         #font-family = "DejaVuSansM Nerd Font Mono";
+        font-feature = "-calt, -liga, -dlig"; # disable ligatures
         font-size = 12;
         link-url = true;
         macos-titlebar-style = "hidden";
         selection-invert-fg-bg = true;
+        shell-integration-features = "no-cursor";
         term = "xterm-256color";
         theme = "terminal-sexy";
         window-decoration = true;

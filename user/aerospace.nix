@@ -103,6 +103,10 @@
           alt-shift-9 = "move-node-to-workspace 9";
           alt-shift-0 = "move-node-to-workspace 0";
 
+          # Move node to previous/next desktop
+          alt-shift-minus = "move-node-to-workspace prev";
+          alt-shift-equal = "move-node-to-workspace next";
+
           # ----------------------------------
           # Resize
 
@@ -121,6 +125,10 @@
 
           # Toggle tiled/accordion layout
           alt-z = "layout tiles accordion";
+
+          # Focus the previous/next desktop on current monitor
+          alt-minus = "workspace prev";
+          alt-equal = "workspace next";
 
           # Focus last desktop
           alt-backtick = "workspace-back-and-forth";

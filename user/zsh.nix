@@ -54,19 +54,20 @@ colors
 setopt INTERACTIVE_COMMENTS
 setopt PROMPT_SUBST
 
-precmd() {
+__precmd() {
 	vcs_info
 
 	print -Pn "\e]0;%n@%m %~\a"
 }
+precmd_functions+=(__precmd)
 
 # ZSH parameters
 USR_HOST="%F{cyan}%n%f@%F{cyan}%m%f"
 DIRECTORY="%F{green}%~%f"
 ARROW="%(?..%F{red})➤%f"
-PROMPT="╭─''${USR_HOST} ''${DIRECTORY} ''${vcs_info_msg_0_}
-╰─''${ARROW} "
-RPROMPT="%t"
+PROMPT='╭─''${USR_HOST} ''${DIRECTORY} ''${vcs_info_msg_0_}
+╰─''${ARROW} '
+RPROMPT='%t'
 TIMEFMT=$"\nreal\t%*Es\nuser\t%*Us\nsys\t%*Ss"
 
 # Git
@@ -125,6 +126,19 @@ bindkey "^R" history-incremental-pattern-search-backward  # ctrl-r
 
 # History
 HISTORY_SUBSTRING_SEARCH_PREFIXED=1
+
+# HACK: Prevent blinking cursor in Ghostty
+# https://github.com/ghostty-org/ghostty/discussions/2812#discussioncomment-12419014
+function __set_beam_cursor { echo -ne '\e[6 q' }
+function __set_block_cursor { echo -ne '\e[2 q' }
+function zle-keymap-select {
+  case $KEYMAP in
+    vicmd) __set_block_cursor;;
+    viins|main) __set_beam_cursor;;
+  esac
+}
+zle -N zle-keymap-select
+precmd_functions+=(__set_beam_cursor)
       '';
 
       history = {
@@ -206,6 +220,9 @@ HISTORY_SUBSTRING_SEARCH_PREFIXED=1
         # Applications
         mpv = "nohup mpv --idle --force-window >/dev/null 2>&1 &";
       };
+
+      profileExtra = "export GHOSTTY_SHELL_INTEGRATION_NO_CURSOR=1";
+
     };
 
     home.sessionPath = [
