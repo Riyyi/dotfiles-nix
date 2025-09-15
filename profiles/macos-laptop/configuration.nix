@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, dot, cwd, ... }:
+{ config, pkgs, pkgs-unstable, inputs, dot, cwd, ... }:
 
 {
   # ----------------------------------------
@@ -97,6 +97,7 @@
     qbittorrent
     ripgrep
     rsync
+    (pkgs-unstable.signal-desktop-bin)
     sketchybar
     soundsource
     streamlink

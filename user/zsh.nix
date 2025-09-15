@@ -7,7 +7,7 @@ let
 
   switch-darwin = "sudo darwin-rebuild switch --flake ~/Code/nix/dotfiles-nix#$HOST";
   update-darwin = "sudo nix flake update --flake ~/Code/nix/dotfiles-nix && switch-darwin";
-  clean-darwin = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && switch-darwin";
+  clean-darwin = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && sudo nix-collect-garbage && sudo nix-store --optimise --ignore-failures && switch-darwin";
 in
 {
 

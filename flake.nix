@@ -8,7 +8,7 @@
 
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs-darwin";
- 
+
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -40,7 +40,7 @@
 
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, firefox-addons, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, firefox-addons, ... }:
   let
     # Get all profiles from the profiles directory
     profileContents = builtins.readDir ./profiles;
@@ -56,12 +56,16 @@
     nixosConfigurations = builtins.listToAttrs (map (profile:
         let
           dot = import ./profiles/${profile}/settings.nix;
+          pkgs-unstable = import nixpkgs-unstable {
+            system = dot.system;
+            config = { allowUnfree = true; };
+          };
         in {
           name = dot.hostname;
           value = nixpkgs.lib.nixosSystem {
             system = dot.system;
             specialArgs = {
-              inherit inputs dot cwd;
+              inherit inputs dot cwd pkgs-unstable;
             };
             modules = [
               ./profiles/${profile}/configuration.nix
@@ -85,12 +89,16 @@
     darwinConfigurations = builtins.listToAttrs (map (profile:
         let
           dot = import ./profiles/${profile}/settings.nix;
+          pkgs-unstable = import nixpkgs-unstable {
+            system = dot.system;
+            config = { allowUnfree = true; };
+          };
         in {
           name = dot.hostname;
           value = nix-darwin.lib.darwinSystem {
             system = dot.system;
             specialArgs = {
-              inherit inputs dot cwd;
+              inherit inputs dot cwd pkgs-unstable;
             };
             modules = [
               ./profiles/${profile}/configuration.nix

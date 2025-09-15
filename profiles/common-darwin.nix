@@ -52,7 +52,7 @@
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
   system.primaryUser = dot.user; # required for homebrew.enable for now
-  
+
   # Set your time zone
   time.timeZone = dot.timezone;
 
