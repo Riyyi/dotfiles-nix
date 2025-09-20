@@ -64,6 +64,29 @@ M.file_save = function()
 	vim.api.nvim_command("w")
 end
 
+M.find_other_file = function()
+    local ext = vim.fn.expand("%:e")
+	local targets = {}
+	if ext == "h" or ext == "hpp" then
+		targets = { "c", "cpp" }
+	elseif ext == "c" or ext == "cpp" then
+		targets = { "h", "hpp" }
+	else return end
+
+    local file = vim.fn.expand("%:t:r")
+
+	local root, _ = F.find_project_root()
+	if not root then return end
+
+	local files = vim.fs.find(function(name, _)
+		local find_file, find_ext = name:match("(.+)%.(.+)$")
+		return find_file == file and (find_ext == targets[1] or find_ext == targets[2])
+	end, { limit = math.huge, type = "file", path = root })
+	if #files == 0 then return end
+
+	vim.cmd("edit " .. vim.fn.fnameescape(files[1]))
+end
+
 M.goto_trouble = function()
 	vim.api.nvim_command("Trouble")
 end

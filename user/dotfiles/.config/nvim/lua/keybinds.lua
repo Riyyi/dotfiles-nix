@@ -113,6 +113,7 @@ M.setup = function()
 	K("n", "<leader>fc", F.file_config, { desc = "Config file" })
 	K("n", "<leader>ff", F.file_find, { desc = "Find file" })
 	K("n", "<leader>fh", F.file_find_home, { desc = "Find file in ~" })
+	K("n", "<leader>fo", F.find_other_file, { desc = "Find other file" })
 	K("n", "<leader>fr", F.file_find_recent, { desc = "Find recent file" })
 	K("n", "<leader>fs", F.file_save, { desc = "Save file" })
 
