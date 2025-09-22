@@ -65,7 +65,7 @@
   environment.systemPackages = with pkgs; [
     aerospace
     autoraise
-    clang-tools
+    cppcheck
     cmake
     coreutils
     cyberduck
@@ -84,7 +84,6 @@
     jq
     # keepassxc # broken
     # krita # unavailable on arm
-    lldb
     lua-language-server
     moonlight-qt
     mpv
@@ -108,6 +107,10 @@
     yt-dlp
     zsh
   ];
+
+  # Some Apple specific packages are managed via:
+  # softwareupdate --list
+  # softwareupdate --install "Command Line Tools for Xcode 26.0-26.0"
 
   # ----------------------------------------
   # System settings
