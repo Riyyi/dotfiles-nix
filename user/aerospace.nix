@@ -107,6 +107,17 @@
           alt-shift-minus = "move-node-to-workspace prev";
           alt-shift-equal = "move-node-to-workspace next";
 
+          # Move nodes around the workspace
+          alt-shift-h = "move left";
+          alt-shift-j = "move down";
+          alt-shift-k = "move up";
+          alt-shift-l = "move right";
+
+          alt-shift-left = "move left";
+          alt-shift-down = "move down";
+          alt-shift-up = "move up";
+          alt-shift-right = "move right";
+
           # ----------------------------------
           # Resize
 
