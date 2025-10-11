@@ -7,6 +7,7 @@
     ./firefox.nix
     ./ghostty.nix
     ./git.nix
+    ./hammerspoon.nix
     ./jankyborders.nix
     ./mpv.nix
     ./nvim.nix

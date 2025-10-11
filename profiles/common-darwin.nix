@@ -27,6 +27,9 @@
         mutableTaps = false;
       };
     }
+
+    # User modules that also want to change "system" namespace settings
+    ./../user/hammerspoon.system.nix
   ];
 
   # Overlays

@@ -51,6 +51,7 @@
     ];
     casks = [
       "ghostty"
+      "hammerspoon"
       "karabiner-elements"
       "keepassxc"
       "krita"
@@ -84,7 +85,9 @@
     jq
     # keepassxc # broken
     # krita # unavailable on arm
+    lua
     lua-language-server
+    mesa
     moonlight-qt
     mpv
     # mysql-workbench # unavailable on arm
@@ -103,6 +106,7 @@
     syncthing
     tree
     typescript-language-server
+    util-linux
     wget
     yt-dlp
     zsh
