@@ -65,6 +65,7 @@
 
   environment.systemPackages = with pkgs; [
     aerospace
+    aldente
     autoraise
     cppcheck
     cmake

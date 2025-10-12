@@ -11,14 +11,24 @@
     home.file.".config/hammerspoon/init.lua".text = ''
       local SkyRocket = hs.loadSpoon("SkyRocket")
 
-      sky = SkyRocket:new({
-        opacity = 0.75,
-        moveModifiers = { "alt" },
-        moveMouseButton = "left",
-        resizeModifiers = { "alt" },
-        resizeMouseButton = "right",
-        focusWindowOnClick = true,
+      local sky = SkyRocket:new({
+          opacity = 0.75,
+          moveModifiers = { "alt" },
+          moveMouseButton = "left",
+          resizeModifiers = { "alt" },
+          resizeMouseButton = "right",
+          focusWindowOnClick = true,
       })
+
+      -- Kill Ghostty when its last window closes
+      hs.application.watcher.new(function(appName, eventType, appObject)
+          if appName ~= "Ghostty" then return end
+          if eventType ~= hs.application.watcher.deactivated then return end
+
+          if #appObject:allWindows() == 0 then
+              appObject:kill()
+          end
+      end):start()
     '';
 
     home.file.".config/hammerspoon/Spoons/SkyRocket.spoon" = {
