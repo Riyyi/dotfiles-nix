@@ -16,7 +16,7 @@
         confirm-close-surface = false;
         copy-on-select = "clipboard";
         cursor-style-blink = false;
-        #font-family = "DejaVuSansM Nerd Font Mono";
+        font-family = "DejaVuSansM Nerd Font Mono";
         font-feature = "-calt, -liga, -dlig"; # disable ligatures
         font-size = 12;
         link-url = true;

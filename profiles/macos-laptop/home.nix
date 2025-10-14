@@ -18,10 +18,11 @@
   firefox.enable = true;
   ghostty.enable = true;
   git.enable = true;
-  hammerspoon.enable = true;
+  # hammerspoon.enable = true;
   jankyborders.enable = true;
   mpv.enable = true;
   nvim.enable = true;
+  sketchybar.enable = true;
   zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, dot, ... }:
+{ config, pkgs, lib, ... }:
 
 {
 
@@ -9,6 +9,11 @@
   config = lib.mkIf config.hammerspoon.enable {
 
     home.file.".config/hammerspoon/init.lua".text = ''
+
+      -- enable IPC for CLI usage
+      -- https://www.hammerspoon.org/docs/hs.ipc.html
+      require("hs.ipc")
+
       local SkyRocket = hs.loadSpoon("SkyRocket")
 
       local sky = SkyRocket:new({
@@ -29,6 +34,16 @@
               appObject:kill()
           end
       end):start()
+
+      -- Open new Ghostty window
+      hs.hotkey.bind({"alt"}, "return", function()
+          local app = hs.application.find("Ghostty")
+          if not app then
+              hs.application.launchOrFocus("Ghostty")
+          else
+              app:selectMenuItem({"File", "New Window"})
+          end
+      end)
     '';
 
     home.file.".config/hammerspoon/Spoons/SkyRocket.spoon" = {
@@ -39,6 +54,10 @@
         sha256 = "sha256-U74TD1Q1Rozf9SxtwEr8xcmURm/pmlJknAz3WadtMdI=";
       };
     };
+
+    # home.activation.hammerspoon = ''
+    #   /opt/homebrew/bin/hs -c "hs.reload()"
+    # '';
 
   };
 

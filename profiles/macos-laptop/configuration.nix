@@ -50,6 +50,7 @@
       "sqlite" # nvim searches in /opt/homebrew by default?
     ];
     casks = [
+      "font-dejavu-sans-mono-nerd-font"
       "ghostty"
       "hammerspoon"
       "karabiner-elements"
@@ -79,7 +80,6 @@
     # ghostty # broken
     git
     htop
-    iina
     intelephense
     jankyborders
     jetbrains.rider
@@ -93,6 +93,7 @@
     mpv
     # mysql-workbench # unavailable on arm
     neovim
+    # nerd-fonts.dejavu-sans-mono # doesnt become system font
     nixd
     nixfmt-classic
     omnisharp-roslyn
@@ -123,6 +124,7 @@
   # macOS system settings
   system.defaults = {
     dock.autohide = true;
+    dock.expose-group-apps = true; # helps with small icons in Mission Control
     finder = {
       AppleShowAllExtensions = true;
       AppleShowAllFiles = true;
@@ -141,8 +143,9 @@
     NSGlobalDomain.AppleMeasurementUnits = "Centimeters";
     NSGlobalDomain.AppleMetricUnits = 1;
     NSGlobalDomain.AppleTemperatureUnit = "Celsius";
+    NSGlobalDomain.NSAutomaticWindowAnimationsEnabled = false; # window open animation
     NSGlobalDomain.NSDocumentSaveNewDocumentsToCloud = false;
-    NSGlobalDomain.NSWindowShouldDragOnGesture = true;
+    NSGlobalDomain.NSWindowShouldDragOnGesture = true; # ctrl + cmd drag anywhere
     #universalaccess.reduceMotion = true;
   };
   system.startup.chime = false;
