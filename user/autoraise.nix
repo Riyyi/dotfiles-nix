@@ -10,8 +10,8 @@
 
     home.file = {
       ".config/AutoRaise/config".text = ''
-        delay=0
-        focusdelay=1
+        delay=1
+        focusDelay=0
       '';
     };
 

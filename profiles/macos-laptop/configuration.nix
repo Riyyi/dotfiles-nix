@@ -58,6 +58,7 @@
       "krita"
       "mysqlworkbench"
       "openmtp"
+      "steam"
     ];
     masApps = { # App store apps go here
       "uBlock Origin Lite" = 6745342698;
@@ -92,6 +93,7 @@
     moonlight-qt
     mpv
     # mysql-workbench # unavailable on arm
+    ncdu
     neovim
     # nerd-fonts.dejavu-sans-mono # doesnt become system font
     nixd

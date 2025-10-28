@@ -167,7 +167,7 @@ end tell'
           # Desktop
 
           # Toggle tiled/accordion layout
-          alt-z = "layout tiles accordion";
+          alt-z = "layout h_tiles h_accordion";
 
           # Focus the previous/next desktop on current monitor
           alt-minus = "workspace prev";

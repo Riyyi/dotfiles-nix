@@ -43,11 +43,15 @@ source "$CONFIG_DIR/colors.sh"
 if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
     sketchybar --set $NAME background.drawing=on label.color=$FGCOLOR
 else
-    # FIXME: This has too many edge cases to work properly
-    # Make the workspace faded if there are no windows on it
-    # workspace="$(echo $NAME | cut -d '.' -f 2)"
-    # hasWindow="$(aerospace list-windows --workspace $workspace --count)"
-    # [ "$hasWindow" -eq 0 ] && color=$BGCOLOR || color=$FGCOLOR_INACTIVE
+    # FIXME: This doesnt update properly when killing apps, also do a poll (?)
+    # $ aerospace list-workspaces --focused
 
-    sketchybar --set $NAME background.drawing=off label.color=$FGCOLOR_INACTIVE
+    # Make the workspace faded if there are no windows on it
+    if aerospace list-workspaces --monitor all --empty no | grep -q -- "$1"; then
+        color=$FGCOLOR_INACTIVE
+    else
+        color=$BGCOLOR
+    fi
+
+    sketchybar --set $NAME background.drawing=off label.color=$color
 fi
