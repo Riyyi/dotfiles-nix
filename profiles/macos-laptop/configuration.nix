@@ -30,7 +30,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs dot cwd; };
+    extraSpecialArgs = { inherit pkgs-unstable inputs dot cwd; };
     users.${dot.user} = import ./home.nix;
   };
 
@@ -66,7 +66,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    aerospace
+    (pkgs-unstable.aerospace)
     aldente
     autoraise
     cppcheck

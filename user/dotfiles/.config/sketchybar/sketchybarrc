@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 MODULE_DIR="$CONFIG_DIR/modules"
 
-source "$CONFIG_DIR/colors.sh"
+. "$CONFIG_DIR/colors.sh"
 
 # --- Bar Appearance --- #
 
@@ -16,32 +16,30 @@ sketchybar --bar position=top height=32 color=$BGCOLOR_INACTIVE notch_width=220
 
 # https://felixkratz.github.io/SketchyBar/config/items
 
-default=(
-	padding_left=4
-	padding_right=4
-	icon.font="DejaVuSansM Nerd Font:Regular:16.0"
-	label.font="DejaVuSansM Nerd Font:Regular:13.0"
-	icon.color=$FGCOLOR
-	label.color=$FGCOLOR
-	icon.padding_left=4
-	icon.padding_right=4
-	label.padding_left=4
+sketchybar --default \
+	padding_left=4 \
+	padding_right=4 \
+	icon.font="DejaVuSansM Nerd Font:Regular:16.0" \
+	label.font="DejaVuSansM Nerd Font:Regular:13.0" \
+	icon.color=$FGCOLOR \
+	label.color=$FGCOLOR \
+	icon.padding_left=4 \
+	icon.padding_right=4 \
+	label.padding_left=4 \
 	label.padding_right=4
-)
-sketchybar --default "${default[@]}"
 
 # --- Modules --- #
 
 # ------------------------------------------
 # Left modules
 
-source "$PLUGIN_DIR/aerospace.sh" init
+. "$PLUGIN_DIR/aerospace.sh" init
 
 # ------------------------------------------
 # Center modules
 
-source "$PLUGIN_DIR/front_app.sh" init
-source "$PLUGIN_DIR/btc.sh" init
+. "$PLUGIN_DIR/front_app.sh" init
+. "$PLUGIN_DIR/btc.sh" init
 
 # ------------------------------------------
 # Right modules
@@ -49,19 +47,15 @@ source "$PLUGIN_DIR/btc.sh" init
 # Plugins grow from the edges of the screen,
 # so right-side plugins are defined in reverse-order
 
-source "$PLUGIN_DIR/clock.sh" init
-source "$PLUGIN_DIR/wifi.sh" init
-source "$PLUGIN_DIR/volume.sh" init
-source "$PLUGIN_DIR/battery.sh" init
+. "$PLUGIN_DIR/clock.sh" init
+. "$PLUGIN_DIR/wifi.sh" init
+. "$PLUGIN_DIR/volume.sh" init
+. "$PLUGIN_DIR/battery.sh" init
 
 # ------------------------------------------
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update
-
-# Highlight current workspace immediately
-sleep 2
-sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused)
 
 # TODO:
 # - Calendar UI on hover/click?

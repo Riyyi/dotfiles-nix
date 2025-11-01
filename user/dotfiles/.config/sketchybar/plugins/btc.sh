@@ -30,7 +30,7 @@ fi
 # ------------------------------------------
 # Update
 
-source "$CONFIG_DIR/colors.sh"
+. "$CONFIG_DIR/colors.sh"
 
 # Enable mathematics in POSIX shell
 calc() { awk "BEGIN { printf(\"%.2f\", $*) }"; }

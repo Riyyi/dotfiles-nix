@@ -18,7 +18,7 @@
   firefox.enable = true;
   ghostty.enable = true;
   git.enable = true;
-  # hammerspoon.enable = true;
+  hammerspoon.enable = true;
   jankyborders.enable = true;
   mpv.enable = true;
   nvim.enable = true;

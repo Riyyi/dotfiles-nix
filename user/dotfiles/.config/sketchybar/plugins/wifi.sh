@@ -22,7 +22,7 @@ fi
 # ------------------------------------------
 # Update
 
-source "$CONFIG_DIR/colors.sh"
+. "$CONFIG_DIR/colors.sh"
 
 if ipconfig getsummary en0 | grep -q 'LinkStatusActive : TRUE'; then
 	ICON="󰖩"

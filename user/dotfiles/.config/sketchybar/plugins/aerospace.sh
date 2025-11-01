@@ -13,7 +13,11 @@ if [ "$1" = "init" ]; then
     for sid in $WORKSPACES; do
         sketchybar \
             --add item "space.$sid" left \
-            --subscribe "space.$sid" aerospace_workspace_change \
+            --subscribe "space.$sid" \
+                aerospace_workspace_change \
+                display_change \
+                mouse.entered.global \
+                mouse.exited.global \
             --set "space.$sid" \
             \
             padding_left=0 \
@@ -22,7 +26,7 @@ if [ "$1" = "init" ]; then
             icon.padding_right=0 \
             label.padding_left=12 \
             label.padding_right=12 \
-            background.color=$BGCOLOR \
+            background.color="$BGCOLOR" \
             background.corner_radius=0 \
             background.height=32 \
             background.drawing=off \
@@ -32,26 +36,30 @@ if [ "$1" = "init" ]; then
             script="$CONFIG_DIR/plugins/aerospace.sh $sid"
     done
 
+    # Highlight current workspace immediately
+    sketchybar --trigger aerospace_workspace_change
+
     return 0
 fi
 
 # ------------------------------------------
 # Update
 
-source "$CONFIG_DIR/colors.sh"
+. "$CONFIG_DIR/colors.sh"
+
+if [ -z "$FOCUSED_WORKSPACE" ]; then
+    FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused)
+fi
 
 if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
-    sketchybar --set $NAME background.drawing=on label.color=$FGCOLOR
+    sketchybar --set "$NAME" background.drawing=on label.color="$FGCOLOR"
 else
-    # FIXME: This doesnt update properly when killing apps, also do a poll (?)
-    # $ aerospace list-workspaces --focused
-
     # Make the workspace faded if there are no windows on it
     if aerospace list-workspaces --monitor all --empty no | grep -q -- "$1"; then
-        color=$FGCOLOR_INACTIVE
+        COLOR=$FGCOLOR_INACTIVE
     else
-        color=$BGCOLOR
+        COLOR=$BGCOLOR
     fi
 
-    sketchybar --set $NAME background.drawing=off label.color=$color
+    sketchybar --set "$NAME" background.drawing=off label.color="$COLOR"
 fi

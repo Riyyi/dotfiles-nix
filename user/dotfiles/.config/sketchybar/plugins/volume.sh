@@ -16,7 +16,7 @@ fi
 # ------------------------------------------
 # Update
 
-source "$CONFIG_DIR/colors.sh"
+. "$CONFIG_DIR/colors.sh"
 
 # Event: mouse.clicked returns a JSON object
 # {

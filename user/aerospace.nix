@@ -1,5 +1,10 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, pkgs-unstable, ... }:
 
+let
+  aerospace-pkg = pkgs-unstable.aerospace;
+  sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
+  sketchybar-trigger = "exec-and-forget ${sketchybar} --trigger aerospace_workspace_change";
+in
 {
 
   options.aerospace = {
@@ -10,6 +15,8 @@
 
     programs.aerospace = {
       enable = true;
+      package = aerospace-pkg;
+
       userSettings = {
 
         automatically-unhide-macos-hidden-apps = true; # disable macOS "hide application"
@@ -19,7 +26,10 @@
 
         start-at-login = true;
 
-        after-startup-command = [ "exec-and-forget sketchybar" ];
+        after-startup-command = [
+          "exec-and-forget ${sketchybar}"
+          "exec-and-forget open -g -a /Applications/Hammerspoon.app"
+        ];
         # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
 
         # ------------------------------------
@@ -28,9 +38,9 @@
         on-focus-changed = [ "move-mouse window-lazy-center" ];
         on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
 
-        exec-on-workspace-change = [ "/bin/zsh" "-c"
+        exec-on-workspace-change = [ "${pkgs.zsh}/bin/zsh" "-c"
           # Notify Sketchybar about workspace change
-          "sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+          "${sketchybar} --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
         ];
 
         # ------------------------------------
@@ -129,20 +139,20 @@ end tell'
           # Move
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-          alt-shift-1 = "move-node-to-workspace 一";
-          alt-shift-2 = "move-node-to-workspace 二";
-          alt-shift-3 = "move-node-to-workspace 三";
-          alt-shift-4 = "move-node-to-workspace 四";
-          alt-shift-5 = "move-node-to-workspace 五";
-          alt-shift-6 = "move-node-to-workspace 六";
-          alt-shift-7 = "move-node-to-workspace 七";
-          alt-shift-8 = "move-node-to-workspace 八";
-          alt-shift-9 = "move-node-to-workspace 九";
-          alt-shift-0 = "move-node-to-workspace 十";
+          alt-shift-1 = [ "move-node-to-workspace 一" sketchybar-trigger ];
+          alt-shift-2 = [ "move-node-to-workspace 二" sketchybar-trigger ];
+          alt-shift-3 = [ "move-node-to-workspace 三" sketchybar-trigger ];
+          alt-shift-4 = [ "move-node-to-workspace 四" sketchybar-trigger ];
+          alt-shift-5 = [ "move-node-to-workspace 五" sketchybar-trigger ];
+          alt-shift-6 = [ "move-node-to-workspace 六" sketchybar-trigger ];
+          alt-shift-7 = [ "move-node-to-workspace 七" sketchybar-trigger ];
+          alt-shift-8 = [ "move-node-to-workspace 八" sketchybar-trigger ];
+          alt-shift-9 = [ "move-node-to-workspace 九" sketchybar-trigger ];
+          alt-shift-0 = [ "move-node-to-workspace 十" sketchybar-trigger ];
 
           # Move node to previous/next desktop
-          alt-shift-minus = "move-node-to-workspace prev";
-          alt-shift-equal = "move-node-to-workspace next";
+          alt-shift-minus = [ "move-node-to-workspace prev" sketchybar-trigger ];
+          alt-shift-equal = [ "move-node-to-workspace next" sketchybar-trigger ];
 
           # Move nodes around the workspace
           alt-shift-h = "move left";
@@ -170,8 +180,8 @@ end tell'
           alt-z = "layout h_tiles h_accordion";
 
           # Focus the previous/next desktop on current monitor
-          alt-minus = "workspace prev";
-          alt-equal = "workspace next";
+          alt-minus = "exec-and-forget printf 一\\\\n二\\\\n三\\\\n四\\\\n五\\\\n六\\\\n七\\\\n八\\\\n九\\\\n十\\\\n | ${aerospace-pkg}/bin/aerospace workspace prev";
+          alt-equal = "exec-and-forget printf 一\\\\n二\\\\n三\\\\n四\\\\n五\\\\n六\\\\n七\\\\n八\\\\n九\\\\n十\\\\n | ${aerospace-pkg}/bin/aerospace workspace next";
 
           # Focus last desktop
           alt-backtick = "workspace-back-and-forth";
@@ -180,6 +190,17 @@ end tell'
         # ------------------------------------
         # Windoes and Workspaces
 
+        # $ aeropace list-apps
+        on-window-detected = [
+          # Set to floating
+          {
+            "if".app-id = "io.mpv";
+            check-further-callbacks = true;
+            run = [ "layout floating" ]; # the callback itself
+          }
+        ];
+
+        # Put workspaces on specific monitors
         workspace-to-monitor-force-assignment = {
           "一" = "main";
           "二" = "main";
