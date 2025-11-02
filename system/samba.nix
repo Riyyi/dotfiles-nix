@@ -13,7 +13,7 @@ let
 in
 {
 
-	options.samba = {
+  options.samba = {
     enable = lib.mkEnableOption "samba";
   };
 

@@ -69,7 +69,7 @@
 
   environment.systemPackages = with pkgs; [
     acl
-    collabora-online
+    # collabora-online
     coreutils
     cpio # dependency of collabora
     duf
@@ -90,6 +90,7 @@
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
+    ksmbd-tools
     libgcc
     libva
     libvpl
@@ -105,6 +106,7 @@
     nixd
     nixfmt-classic
     openssh
+    openssl
     pciutils # lspci
     php
     postgresql_16
@@ -144,11 +146,12 @@
   gitea.enable = true;
   immich.enable = true;
   jellyfin.enable = true;
+  ksmbd.enable = true;
   navidrome.enable = true;
-  nextcloud.enable = true;
+  # nextcloud.enable = true;
   nfs.enable = true;
   nginx.enable = true;
-  samba.enable = true;
+  # samba.enable = true;
   syncthing.enable = true;
   transmission.enable = true;
 

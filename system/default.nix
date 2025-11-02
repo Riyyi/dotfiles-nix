@@ -1,4 +1,5 @@
 { ... }:
+
 {
 
   imports = [
@@ -6,6 +7,7 @@
     ./gitea.nix
     ./immich.nix
     ./jellyfin.nix
+    ./ksmbd.nix
     ./mysql.nix
     ./navidrome.nix
     ./nextcloud.nix
