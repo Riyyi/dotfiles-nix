@@ -37,10 +37,14 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    homebrew-sikarugir = {
+      url = "github:sikarugir-app/homebrew-sikarugir";
+      flake = false;
+    };
 
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, firefox-addons, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, ... }:
   let
     # Get all profiles from the profiles directory
     profileContents = builtins.readDir ./profiles;

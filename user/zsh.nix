@@ -219,6 +219,9 @@ precmd_functions+=(__set_beam_cursor)
 
         # Applications
         mpv = "nohup mpv --idle --force-window >/dev/null 2>&1 &";
+
+        # Devices
+        nas = "ssh nixos-nas -p 4000";
       };
 
       profileExtra = "export GHOSTTY_SHELL_INTEGRATION_NO_CURSOR=1";

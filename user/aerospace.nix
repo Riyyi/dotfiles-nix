@@ -2,6 +2,7 @@
 
 let
   aerospace-pkg = pkgs-unstable.aerospace;
+  autoraise = "${pkgs.autoraise}/bin/autoraise";
   sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
   sketchybar-trigger = "exec-and-forget ${sketchybar} --trigger aerospace_workspace_change";
 in
@@ -27,6 +28,7 @@ in
         start-at-login = true;
 
         after-startup-command = [
+          "exec-and-forget ${autoraise}"
           "exec-and-forget ${sketchybar}"
           "exec-and-forget open -g -a /Applications/Hammerspoon.app"
         ];
@@ -114,6 +116,12 @@ end tell'
           # cmd-h = []; # disable "hide application"
           # cmd-alt-h = []; # disable "hide others"
 
+          # Combine windows into common parent container
+          alt-cmd-ctrl-h = "join-with left";
+          alt-cmd-ctrl-j = "join-with down";
+          alt-cmd-ctrl-k = "join-with up";
+          alt-cmd-ctrl-l = "join-with right";
+
           # ----------------------------------
           # Focus
 
@@ -178,6 +186,7 @@ end tell'
 
           # Toggle tiled/accordion layout
           alt-z = "layout h_tiles h_accordion";
+          alt-v = "layout v_tiles v_accordion";
 
           # Focus the previous/next desktop on current monitor
           alt-minus = "exec-and-forget printf 一\\\\n二\\\\n三\\\\n四\\\\n五\\\\n六\\\\n七\\\\n八\\\\n九\\\\n十\\\\n | ${aerospace-pkg}/bin/aerospace workspace prev";
@@ -188,7 +197,7 @@ end tell'
         };
 
         # ------------------------------------
-        # Windoes and Workspaces
+        # Windows and Workspaces
 
         # $ aeropace list-apps
         on-window-detected = [
@@ -219,7 +228,7 @@ end tell'
 
     home.activation.aerospace = ''
       if /usr/bin/pgrep -x "aerospace" >/dev/null; then
-          ${pkgs.aerospace}/bin/aerospace reload-config
+          ${aerospace-pkg}/bin/aerospace reload-config
       fi
     '';
 

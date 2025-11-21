@@ -44,6 +44,7 @@
       autoUpdate = true;
       upgrade = true;
     };
+    taps = builtins.attrNames config.nix-homebrew.taps;
     brewPrefix = "/opt/homebrew/bin";
     brews = [
       "mas"
@@ -58,6 +59,7 @@
       "krita"
       "mysqlworkbench"
       "openmtp"
+      "sikarugir"
       "steam"
     ];
     masApps = { # App store apps go here
@@ -67,7 +69,7 @@
 
   environment.systemPackages = with pkgs; [
     (pkgs-unstable.aerospace)
-    aldente
+    (pkgs-unstable.aldente)
     autoraise
     cppcheck
     cmake
