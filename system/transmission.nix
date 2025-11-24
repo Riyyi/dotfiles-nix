@@ -1,15 +1,16 @@
 { config, pkgs, lib, dot, ... }:
 
 let
-	port = 51413;
+  cfg = config.transmission;
+  port = 51413;
 in
 {
 
-	options.transmission = {
+  options.transmission = {
     enable = lib.mkEnableOption "transmission";
   };
 
-  config = lib.mkIf config.transmission.enable {
+  config = lib.mkIf cfg.enable {
 
     sops.secrets."transmission/nginx/password" = {
       owner = dot.user;
@@ -37,7 +38,7 @@ in
     };
 
     nginx.enable = true;
-    services.nginx.virtualHosts."transmission.${dot.domain}" = {
+    services.nginx.virtualHosts."download.${dot.domain}" = {
       forceSSL = true;
       useACMEHost = dot.domain;
       basicAuthFile = config.sops.secrets."transmission/nginx/password".path;

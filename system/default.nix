@@ -14,6 +14,7 @@
     ./nfs.nix
     ./nginx.nix
     ./postgresql.nix
+    ./qbittorrent.nix
     ./samba.nix
     ./syncthing.nix
     ./transmission.nix

@@ -111,6 +111,7 @@
     php
     postgresql_16
     postgresql16Packages.pgvecto-rs
+    qbittorrent-nox
     rclone
     redis
     rsync
@@ -151,9 +152,10 @@
   # nextcloud.enable = true;
   nfs.enable = true;
   nginx.enable = true;
+  qbittorrent-nox.enable = true;
   # samba.enable = true;
   syncthing.enable = true;
-  transmission.enable = true;
+  # transmission.enable = true;
 
   # ----------------------------------------
   # Services
