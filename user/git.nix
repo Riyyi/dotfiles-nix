@@ -10,9 +10,11 @@
 
     programs.git = {
       enable = true;
-      userName = "Riyyi";
-      userEmail = "riyyi3@gmail.com";
-      extraConfig = {
+      settings = {
+        user = {
+          name = "Riyyi";
+          email = "riyyi3@gmail.com";
+        };
         core = {
           pager = "less -x 1,5";
         };

@@ -17,6 +17,9 @@
   boot.supportedFilesystems = { zfs = true; };
   boot.kernelParams = [ "zfs.zfs_arc_max=21474836480" ]; # 20 GiB
   boot.zfs.extraPools = [ "znas" ];
+  boot.swraid.mdadmConf = ''
+    MAILADDR=nobody@nowhere
+  '';
 
   networking.hostId = "b267d9ef"; # required by ZFS
 
@@ -86,7 +89,6 @@
     intel-compute-runtime
     intel-gpu-tools
     intel-media-driver
-    intel-media-sdk
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
@@ -133,7 +135,6 @@
     enable = true;
     extraPackages = with pkgs; [ # add packages to the graphics driver lookup path
       intel-media-driver
-      intel-media-sdk
       intel-compute-runtime
       libva
       libvpl

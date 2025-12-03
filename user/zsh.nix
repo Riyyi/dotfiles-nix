@@ -18,7 +18,7 @@ in
   config = lib.mkIf config.zsh.enable {
 
     programs.zsh = {
-      dotDir = ".config/zsh";
+      dotDir = "${config.xdg.configHome}/zsh";
 
       enable = true;
       enableCompletion = true;
