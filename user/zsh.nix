@@ -1,7 +1,7 @@
 { config, lib, dot, ... }:
 
 let
-  switch-nixos = "sudo nixos-rebuild switch --use-remote-sudo --flake /etc/nixos#$HOST";
+  switch-nixos = "sudo nixos-rebuild switch --sudo --flake /etc/nixos#$HOST";
   update-nixos = "sudo nix flake update --flake /etc/nixos && switch";
   clean-nixos = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && sudo nixos-rebuild boot";
 

@@ -36,11 +36,11 @@ in {
 
     home.file = lib.genAttrs files (file: {
       source = ./dotfiles + "/${file}";
-    }) // (lib.optionalAttrs (dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin") {
-      ".config/nvim/lua/nix.lua".text = ''
-        vim.g.sqlite_clib_path = "${pkgs.sqlite.out}/lib/libsqlite3.so"
-      '';
-    });
+    }) // {
+    ".config/nvim/lua/nix.lua".text = ''
+      vim.g.sqlite_clib_path = "${pkgs.sqlite.out}/lib/libsqlite3${pkgs.stdenv.hostPlatform.extensions.sharedLibrary}"
+    '';
+    };
 
     # lazy-lock.json wont be linked from Nix store, so it remains writable
     home.activation.nvim = lib.hm.dag.entryAfter ["writeBoundary"] ''

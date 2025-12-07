@@ -4,6 +4,7 @@
   imports = [
     ./aerospace.nix
     ./autoraise.nix
+    ./beets.nix
     ./firefox.nix
     ./ghostty.nix
     ./git.nix

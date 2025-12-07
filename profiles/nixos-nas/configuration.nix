@@ -21,6 +21,37 @@
     MAILADDR=nobody@nowhere
   '';
 
+  # Some modules we don't need on a headless server
+  boot.blacklistedKernelModules = [
+    # Audio
+    "snd_compress"
+    "snd_hda_codec"
+    "snd_hda_codec_generic"
+    "snd_hda_codec_hdmi"
+    "snd_hda_codec_realtek"
+    "snd_hda_core"
+    "snd_hda_ext_core"
+    "snd_hda_intel"
+    "snd_hwdep"
+    "snd_intel_dspcfg"
+    "snd_intel_sdw_acpi"
+    "snd_pcm"
+    "snd_soc_avs"
+    "snd_soc_core"
+    "snd_soc_hda_codec"
+    "snd_timer"
+    "soundcore"
+
+    # Input devices (PS/2 stack)
+    "atkbd"
+    "i8042"
+    "libps2"
+    "psmouse"
+    "serio"
+    "serio_raw"
+    "vivaldi_fmap"
+  ];
+
   networking.hostId = "b267d9ef"; # required by ZFS
 
   # Mirrored boot doesnt work with systemd-boot yet, so manually copy contents
@@ -72,6 +103,7 @@
 
   environment.systemPackages = with pkgs; [
     acl
+    beets
     # collabora-online
     coreutils
     cpio # dependency of collabora
@@ -123,9 +155,11 @@
     sudo
     syncthing
     tlp
+    tmux
     transmission_4
     tree
     vpl-gpu-rt
+    yt-dlp
     zfs
     zsh
   ];
@@ -190,7 +224,25 @@
     };
   };
 
-  services.tlp.enable = true;
+  services.tlp = {
+    enable = true;
+    settings = {
+      TLP_AUTO_SWITCH = 0;
+      TLP_DEFAULT_MODE = "BAT";
+      TLP_PERSISTENT_DEFAULT = 1;
+
+      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_AC = "power";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+
+      USB_AUTOSUSPEND = 1;
+
+      WIFI_PWR_ON_AC = "off";
+      WIFI_PWR_ON_BAT = "off";
+    };
+  };
 
   # ----------------------------------------
   # Firewall

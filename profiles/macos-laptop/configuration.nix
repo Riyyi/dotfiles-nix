@@ -48,7 +48,6 @@
     brewPrefix = "/opt/homebrew/bin";
     brews = [
       "mas"
-      "sqlite" # nvim searches in /opt/homebrew by default?
     ];
     casks = [
       "font-dejavu-sans-mono-nerd-font"
@@ -108,6 +107,7 @@
     (pkgs-unstable.signal-desktop-bin)
     sketchybar
     soundsource
+    sqlite
     streamlink
     syncthing
     tree

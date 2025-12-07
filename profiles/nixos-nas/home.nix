@@ -13,6 +13,7 @@
   xdg.enable = true;
 
   # User modules
+  beets.enable = true;
   git.enable = true;
   nvim.enable = true;
   zsh.enable = true;
