@@ -37,6 +37,7 @@
   nixpkgs.overlays = lib.mkAfter [
     inputs.firefox-addons.overlays.default
     (import ./../user/autoraise.overlay.nix)
+    (import ./../user/soundsource.overlay.nix)
   ];
 
   # Nix settings
