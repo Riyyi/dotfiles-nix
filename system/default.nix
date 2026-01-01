@@ -1,8 +1,9 @@
-{ ... }:
+{ lib, dot, ... }:
 
 {
 
-  imports = [
+  imports = []
+  ++ lib.optionals (lib.hasSuffix "-linux" dot.system) [
     ./firewall.nix
     ./gitea.nix
     ./immich.nix
@@ -18,6 +19,9 @@
     ./samba.nix
     ./syncthing.nix
     ./transmission.nix
+  ]
+  ++ lib.optionals (lib.hasSuffix "-darwin" dot.system) [
+    ../user/hammerspoon.system.nix
   ];
 
 }
