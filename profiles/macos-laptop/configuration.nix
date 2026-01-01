@@ -106,6 +106,7 @@
     rsync
     (pkgs-unstable.signal-desktop-bin)
     sketchybar
+    sops
     soundsource
     sqlite
     streamlink

@@ -66,7 +66,7 @@
   programs.zsh.enable = true;
   environment.shells = with pkgs; [ zsh ];
 
-	users.users.root = {
+  users.users.root = {
     isSystemUser = true;
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [ dot.sshKey ];

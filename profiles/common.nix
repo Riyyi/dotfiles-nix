@@ -19,10 +19,9 @@
   # Configure sops
   sops.defaultSopsFile = ./../sops/secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/etc/nixos/sops/age/keys.txt";
-  programs.zsh.interactiveShellInit = inputs.nixpkgs.lib.mkAfter ''
-    export SOPS_AGE_KEY_FILE="/etc/nixos/sops/age/keys.txt"
-  '';
+  sops.age.generateKey = false;
+  sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
+  sops.gnupg.sshKeyPaths = []; # do not import
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

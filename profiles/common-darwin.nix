@@ -12,6 +12,9 @@
       ];
     }
 
+    # Sops
+    inputs.sops-nix.darwinModules.sops
+
     # Homebrew
     inputs.nix-homebrew.darwinModules.nix-homebrew {
       nix-homebrew = {
@@ -45,6 +48,13 @@
     settings.experimental-features = [ "nix-command" "flakes" ]; # enable flakes
     optimise.automatic = true; # store optimizer on a daily timer
   };
+
+  # Configure sops
+  sops.defaultSopsFile = ./../sops/secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.generateKey = false;
+  sops.age.sshKeyPaths = [ "/Users/${dot.user}/.ssh/id_ed25519" ];
+  sops.gnupg.sshKeyPaths = []; # do not import
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

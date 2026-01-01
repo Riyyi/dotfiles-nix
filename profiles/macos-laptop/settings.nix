@@ -1,4 +1,4 @@
-{
+rec {
 
   # ----------------------------------
   # System
@@ -12,7 +12,7 @@
   # Paths
   # ----------------------------------
 
-  dotfiles = "~/Code/nix/dotfiles-nix";
+  dotfiles = "/Users/${user}/Code/nix/dotfiles-nix";
 
   # ----------------------------------
   # User

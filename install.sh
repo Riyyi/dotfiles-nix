@@ -41,19 +41,13 @@ sudo mkdir /mnt/etc
 sudo mv "$DOT" /mnt/etc/nixos
 sudo chown -R root:root /mnt/etc/nixos
 
-# Install system
-sudo nixos-install --root /mnt --flake "/mnt/etc/nixos#$PROFILE"
-
 # Message user
 ip a
 echo "Copy over SSH key, then press <Ctrl-D>"
 cat
 
-# Install sops key
-sudo mkdir -p /mnt/etc/nixos/sops/age
-sudo nix-shell -p ssh-to-age --run "ssh-to-age -private-key -i /mnt/root/.ssh/id_ed25519 > /mnt/etc/nixos/sops/age/keys.txt"
-sudo nix-shell -p age        --run "age-keygen -y /mnt/etc/nixos/sops/age/keys.txt"
-sudo chmod 0600 /mnt/etc/nixos/sops/age/keys.txt
+# Install system
+sudo nixos-install --root /mnt --flake "/mnt/etc/nixos#$PROFILE"
 
 if [ -f "$PROFILES/$PROFILE/disko-mount.nix" ]; then
 	echo "Don't forget to unmount ZFS pools!"
