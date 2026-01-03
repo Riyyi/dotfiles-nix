@@ -138,7 +138,7 @@
     nginx
     nh
     nixd
-    nixfmt-classic
+    nixfmt
     openssh
     openssl
     pciutils # lspci

@@ -99,7 +99,7 @@
     neovim
     # nerd-fonts.dejavu-sans-mono # doesnt become system font
     nixd
-    nixfmt-classic
+    nixfmt
     omnisharp-roslyn
     openssh
     qbittorrent
