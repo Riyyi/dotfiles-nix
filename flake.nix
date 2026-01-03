@@ -141,7 +141,7 @@
     # DevShells #
 
     devShells = forAllSystems (system:
-      import ./shell.nix { pkgs = nixpkgs.legacyPackages.${system}; inherit cwd system; }
+      import ./shell.nix { pkgs = nixpkgs.legacyPackages.${system}; inherit system; }
     );
 
     # ==================================== #

@@ -1,4 +1,4 @@
-{ pkgs, cwd, system, ... }:
+{ pkgs, system, ... }:
 
 {
   default = pkgs.mkShell {
@@ -16,7 +16,7 @@
 
       alias repl="${pkgs.nix}/bin/nix repl --expr '
         let
-          flake = builtins.getFlake (toString ${cwd});
+          flake = builtins.getFlake (toString ./.);
           pkgs = flake.inputs.nixpkgs.legacyPackages.${system};
           lib = flake.inputs.nixpkgs.lib;
         in
