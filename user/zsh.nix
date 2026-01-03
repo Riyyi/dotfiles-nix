@@ -139,6 +139,8 @@ function zle-keymap-select {
 }
 zle -N zle-keymap-select
 precmd_functions+=(__set_beam_cursor)
+
+[ -f "$ZDOTDIR/.zshrc-extended" ] && source "$ZDOTDIR/.zshrc-extended"
       '';
 
       history = {
@@ -219,9 +221,7 @@ precmd_functions+=(__set_beam_cursor)
 
         # Applications
         mpv = "nohup mpv --idle --force-window >/dev/null 2>&1 &";
-
-        # Devices
-        nas = "ssh nixos-nas -p 4000";
+        neofetch = "fastfetch -c neofetch";
       };
 
       profileExtra = "export GHOSTTY_SHELL_INTEGRATION_NO_CURSOR=1";

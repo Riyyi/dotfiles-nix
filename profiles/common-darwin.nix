@@ -54,6 +54,13 @@
     export SOPS_AGE_KEY_CMD="ssh-to-age -private-key -i /Users/${dot.user}/.ssh/id_ed25519"
   '';
 
+  sops.secrets.zshrc-extended = {
+    sopsFile = ./../sops/secrets/zshrc-extended.sh;
+    key = "data";
+    path = "/Users/${dot.user}/.config/zsh/.zshrc-extended";
+    # https://github.com/Mic92/sops-nix#emit-plain-file-for-yaml-and-json-formats
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
