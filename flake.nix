@@ -54,6 +54,11 @@
     cwd = builtins.toPath ./.; # active store directory
 
     system = "x86_64-linux";
+
+    forAllSystems = nixpkgs.lib.genAttrs [
+      "x86_64-linux"
+      "aarch64-darwin"
+    ];
   in
   {
     # Create a configuration for each profile
@@ -118,6 +123,16 @@
         dot.system == "aarch64-darwin"
       ) profiles)
     );
+
+    # ==================================== #
+    # DevShells #
+
+    devShells = forAllSystems (system:
+      import ./shell.nix { pkgs = nixpkgs.legacyPackages.${system}; inherit cwd system; }
+    );
+
+    # ==================================== #
+    # Other #
 
     # Bootstrap script
     packages.${system} =
