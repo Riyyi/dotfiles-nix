@@ -17,7 +17,10 @@
       alias repl="${pkgs.nix}/bin/nix repl --expr '
         let
           flake = builtins.getFlake (toString ./.);
-          pkgs = flake.inputs.nixpkgs.legacyPackages.${system};
+          pkgs = import flake.inputs.nixpkgs {
+            system = \"${system}\";
+            overlays = [ flake.outputs.overlays.default ];
+          };
           lib = flake.inputs.nixpkgs.lib;
         in
           flake // { inherit pkgs lib; }

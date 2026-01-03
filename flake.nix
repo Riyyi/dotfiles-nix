@@ -135,7 +135,13 @@
     # DevShells #
 
     devShells = forAllSystems (system:
-      import ./shell.nix { pkgs = nixpkgs.legacyPackages.${system}; inherit system; }
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ self.overlays.default ];
+        };
+      in
+      import ./shell.nix { inherit pkgs system; }
     );
 
     # ==================================== #
