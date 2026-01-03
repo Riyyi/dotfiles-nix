@@ -42,7 +42,7 @@
 
   # Nix settings
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ]; # enable flakes
+    settings.experimental-features = [ "nix-command" "flakes" "pipe-operators" ]; # enable flakes
     optimise.automatic = true; # store optimizer on a daily timer
   };
 
