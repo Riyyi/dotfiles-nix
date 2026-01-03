@@ -117,6 +117,7 @@
     typescript-language-server
     util-linux
     wget
+    windsurf
     yt-dlp
     zsh
   ];
