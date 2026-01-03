@@ -135,7 +135,7 @@
 
     # Nix formatter available through "nix fmt"
     # https://nix.dev/manual/nix/stable/command-ref/new-cli/nix3-fmt#example
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
 
     # ==================================== #
     # DevShells #

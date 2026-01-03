@@ -100,6 +100,7 @@
     # nerd-fonts.dejavu-sans-mono # doesnt become system font
     nixd
     nixfmt
+    nixfmt-tree
     omnisharp-roslyn
     openssh
     qbittorrent

@@ -7,7 +7,7 @@
       deadnix
       git
       nixd
-      nixfmt
+      nixfmt-tree
       sops
       statix
     ];

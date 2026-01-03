@@ -139,6 +139,7 @@
     nh
     nixd
     nixfmt
+    nixfmt-tree
     openssh
     openssl
     pciutils # lspci
