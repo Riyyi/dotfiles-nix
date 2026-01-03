@@ -48,10 +48,18 @@
   let
     inherit (self) outputs;
 
-    # Get all profiles from the profiles directory
-    profileContents = builtins.readDir ./profiles;
-    isDirectory = name: profileContents.${name} == "directory";
-    profiles = builtins.filter isDirectory (builtins.attrNames profileContents);
+    # Loop through all profiles and create a configuration for matching system types
+    addProfiles =
+      { system, mkConfiguration }:
+      let
+        matchSystem = profile: (import ./profiles/${profile}/settings.nix).system == system;
+      in
+      builtins.readDir ./profiles
+      |> nixpkgs.lib.filterAttrs (name: type: type == "directory")
+      |> builtins.attrNames
+      |> builtins.filter matchSystem
+      |> builtins.map mkConfiguration
+      |> builtins.listToAttrs;
 
     cwd = builtins.toPath ./.; # active store directory
 
@@ -72,7 +80,6 @@
     # ==================================== #
     # NixOS Profiles #
 
-    # Create a configuration for each profile
     nixosConfigurations = let
       mkConfiguration = profile:
         let
@@ -93,18 +100,11 @@
           };
         };
     in
-      # Only add configurations from profiles that match
-      profiles
-      |> builtins.filter (profile:
-        (import ./profiles/${profile}/settings.nix).system == "x86_64-linux"
-      )
-      |> builtins.map mkConfiguration
-      |> builtins.listToAttrs;
+      addProfiles { system = "x86_64-linux"; mkConfiguration = mkConfiguration; };
 
     # ==================================== #
     # Darwin Profiles #
 
-    # Create a configuration for each profile
     darwinConfigurations = let
       mkConfiguration = profile:
         let
@@ -122,13 +122,7 @@
           };
         };
     in
-      # Only add configurations from profiles that match
-      profiles
-      |> builtins.filter (profile:
-        (import ./profiles/${profile}/settings.nix).system == "aarch64-darwin"
-      )
-      |> builtins.map mkConfiguration
-      |> builtins.listToAttrs;
+      addProfiles { system = "aarch64-darwin"; mkConfiguration = mkConfiguration; };
 
     # ==================================== #
     # Formatting #
