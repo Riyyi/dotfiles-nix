@@ -11,7 +11,7 @@
     ./nvim.nix
     ./zsh.nix
   ]
-  ++ lib.optionals (lib.hasSuffix "-linux" dot.system) []
+  ++ lib.optionals (lib.hasSuffix "-linux" dot.system) [ ]
   ++ lib.optionals (lib.hasSuffix "-darwin" dot.system) [
     ./aerospace.nix
     ./autoraise.nix

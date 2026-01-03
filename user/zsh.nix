@@ -1,4 +1,9 @@
-{ config, lib, dot, ... }:
+{
+  config,
+  lib,
+  dot,
+  ...
+}:
 
 let
   switch-nixos = "sudo nixos-rebuild switch --sudo --flake /etc/nixos#$HOST";
@@ -37,110 +42,110 @@ in
       completionInit = "autoload -Uz promptinit colors vcs_info compinit";
 
       initContent = ''
-# Disable Ctrl+S and Ctrl+Q
-stty -ixon
+        # Disable Ctrl+S and Ctrl+Q
+        stty -ixon
 
-# Use hard tabs
-stty tab0
+        # Use hard tabs
+        stty tab0
 
-# Set tab width
-tabs -4
+        # Set tab width
+        tabs -4
 
-## ZSH
+        ## ZSH
 
-# Prompt
-promptinit
-colors
-setopt INTERACTIVE_COMMENTS
-setopt PROMPT_SUBST
+        # Prompt
+        promptinit
+        colors
+        setopt INTERACTIVE_COMMENTS
+        setopt PROMPT_SUBST
 
-__precmd() {
-	vcs_info
+        __precmd() {
+        	vcs_info
 
-	print -Pn "\e]0;%n@%m %~\a"
-}
-precmd_functions+=(__precmd)
+        	print -Pn "\e]0;%n@%m %~\a"
+        }
+        precmd_functions+=(__precmd)
 
-# ZSH parameters
-USR_HOST="%F{cyan}%n%f@%F{cyan}%m%f"
-DIRECTORY="%F{green}%~%f"
-ARROW="%(?..%F{red})➤%f"
-PROMPT='╭─''${USR_HOST} ''${DIRECTORY} ''${vcs_info_msg_0_}
-╰─''${ARROW} '
-RPROMPT='%t'
-TIMEFMT=$"\nreal\t%*Es\nuser\t%*Us\nsys\t%*Ss"
+        # ZSH parameters
+        USR_HOST="%F{cyan}%n%f@%F{cyan}%m%f"
+        DIRECTORY="%F{green}%~%f"
+        ARROW="%(?..%F{red})➤%f"
+        PROMPT='╭─''${USR_HOST} ''${DIRECTORY} ''${vcs_info_msg_0_}
+        ╰─''${ARROW} '
+        RPROMPT='%t'
+        TIMEFMT=$"\nreal\t%*Es\nuser\t%*Us\nsys\t%*Ss"
 
-# Git
-zstyle ":vcs_info:*" enable git
-zstyle ":vcs_info:*" check-for-changes true
-zstyle ":vcs_info:*" stagedstr "%F{green}A%f"
-zstyle ":vcs_info:*" unstagedstr "%F{red}M%f"
-zstyle ":vcs_info:*" formats "%F{cyan}(%F{red}%b%F{cyan})%f %c%u"
+        # Git
+        zstyle ":vcs_info:*" enable git
+        zstyle ":vcs_info:*" check-for-changes true
+        zstyle ":vcs_info:*" stagedstr "%F{green}A%f"
+        zstyle ":vcs_info:*" unstagedstr "%F{red}M%f"
+        zstyle ":vcs_info:*" formats "%F{cyan}(%F{red}%b%F{cyan})%f %c%u"
 
-# Autocompletion
-compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
-zstyle ":completion::complete:*" use-cache 1
-zstyle ":completion::complete:*" cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
-zstyle ":completion:*:options" auto-description "%d"
-zstyle ":completion:*:default" list-colors ""
-zstyle ":completion:*:default" list-prompt ""
-zstyle ":completion:*" matcher-list "m:{a-zA-Z}={A-Za-z}" "r:|[._-]=* r:|=*" "l:|=* r:|=*"
-zstyle ":completion:*" menu select
+        # Autocompletion
+        compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
+        zstyle ":completion::complete:*" use-cache 1
+        zstyle ":completion::complete:*" cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
+        zstyle ":completion:*:options" auto-description "%d"
+        zstyle ":completion:*:default" list-colors ""
+        zstyle ":completion:*:default" list-prompt ""
+        zstyle ":completion:*" matcher-list "m:{a-zA-Z}={A-Za-z}" "r:|[._-]=* r:|=*" "l:|=* r:|=*"
+        zstyle ":completion:*" menu select
 
-zstyle ":completion:*" group-name ""
-zstyle ":completion:*" list-dirs-first true
-zstyle ":completion:*" verbose yes
-zstyle ":completion:*:default" list-prompt "%S%M matches%s"
-zstyle ":completion:*:matches" group "yes"
-zstyle ":completion:*:options" description "yes"
+        zstyle ":completion:*" group-name ""
+        zstyle ":completion:*" list-dirs-first true
+        zstyle ":completion:*" verbose yes
+        zstyle ":completion:*:default" list-prompt "%S%M matches%s"
+        zstyle ":completion:*:matches" group "yes"
+        zstyle ":completion:*:options" description "yes"
 
-# Completion formatting
-zstyle ":completion:*" format " %F{yellow}-- %d --%f"
-zstyle ":completion:*:corrections" format " %F{green}-- %d (errors: %e) --%f"
-zstyle ":completion:*:descriptions" format " %F{yellow}-- %d --%f"
-zstyle ":completion:*:messages" format " %F{purple} -- %d --%f"
-zstyle ":completion:*:warnings" format " %F{red}-- no matches found --%f"
+        # Completion formatting
+        zstyle ":completion:*" format " %F{yellow}-- %d --%f"
+        zstyle ":completion:*:corrections" format " %F{green}-- %d (errors: %e) --%f"
+        zstyle ":completion:*:descriptions" format " %F{yellow}-- %d --%f"
+        zstyle ":completion:*:messages" format " %F{purple} -- %d --%f"
+        zstyle ":completion:*:warnings" format " %F{red}-- no matches found --%f"
 
-# Bind keys, find them with $ cat -v or <C-v>
-bindkey "\eOc" forward-word                               # ctrl-right
-bindkey "\e[1;5C" forward-word                            # ctrl-right
-bindkey "\eOd" backward-word                              # ctrl-left
-bindkey "\e[1;5D" backward-word                           # ctrl-left
-bindkey "\e[3~" delete-char                               # del
-bindkey "\e[7~" beginning-of-line                         # home
-bindkey "\e[H" beginning-of-line                          # home
-bindkey "\eOH" beginning-of-line                          # home
-bindkey "\e[8~" end-of-line                               # end
-bindkey "\e[F" end-of-line                                # end
-bindkey "\eOF" end-of-line                                # end
-bindkey "\e[A" history-substring-search-up                # up
-bindkey "\eOA" history-substring-search-up                # up
-bindkey "\e[B" history-substring-search-down              # down
-bindkey "\eOB" history-substring-search-down              # down
-bindkey "\e[Z" reverse-menu-complete                      # shift-tab
-bindkey "\eh" kill-whole-line                             # meta-h
-bindkey "\ej" history-substring-search-down               # meta-j
-bindkey "\ek" history-substring-search-up                 # meta-k
-bindkey "\el" accept-line                                 # meta-l
-bindkey "^R" history-incremental-pattern-search-backward  # ctrl-r
+        # Bind keys, find them with $ cat -v or <C-v>
+        bindkey "\eOc" forward-word                               # ctrl-right
+        bindkey "\e[1;5C" forward-word                            # ctrl-right
+        bindkey "\eOd" backward-word                              # ctrl-left
+        bindkey "\e[1;5D" backward-word                           # ctrl-left
+        bindkey "\e[3~" delete-char                               # del
+        bindkey "\e[7~" beginning-of-line                         # home
+        bindkey "\e[H" beginning-of-line                          # home
+        bindkey "\eOH" beginning-of-line                          # home
+        bindkey "\e[8~" end-of-line                               # end
+        bindkey "\e[F" end-of-line                                # end
+        bindkey "\eOF" end-of-line                                # end
+        bindkey "\e[A" history-substring-search-up                # up
+        bindkey "\eOA" history-substring-search-up                # up
+        bindkey "\e[B" history-substring-search-down              # down
+        bindkey "\eOB" history-substring-search-down              # down
+        bindkey "\e[Z" reverse-menu-complete                      # shift-tab
+        bindkey "\eh" kill-whole-line                             # meta-h
+        bindkey "\ej" history-substring-search-down               # meta-j
+        bindkey "\ek" history-substring-search-up                 # meta-k
+        bindkey "\el" accept-line                                 # meta-l
+        bindkey "^R" history-incremental-pattern-search-backward  # ctrl-r
 
-# History
-HISTORY_SUBSTRING_SEARCH_PREFIXED=1
+        # History
+        HISTORY_SUBSTRING_SEARCH_PREFIXED=1
 
-# HACK: Prevent blinking cursor in Ghostty
-# https://github.com/ghostty-org/ghostty/discussions/2812#discussioncomment-12419014
-function __set_beam_cursor { echo -ne '\e[6 q' }
-function __set_block_cursor { echo -ne '\e[2 q' }
-function zle-keymap-select {
-  case $KEYMAP in
-    vicmd) __set_block_cursor;;
-    viins|main) __set_beam_cursor;;
-  esac
-}
-zle -N zle-keymap-select
-precmd_functions+=(__set_beam_cursor)
+        # HACK: Prevent blinking cursor in Ghostty
+        # https://github.com/ghostty-org/ghostty/discussions/2812#discussioncomment-12419014
+        function __set_beam_cursor { echo -ne '\e[6 q' }
+        function __set_block_cursor { echo -ne '\e[2 q' }
+        function zle-keymap-select {
+          case $KEYMAP in
+            vicmd) __set_block_cursor;;
+            viins|main) __set_beam_cursor;;
+          esac
+        }
+        zle -N zle-keymap-select
+        precmd_functions+=(__set_beam_cursor)
 
-[ -f "$ZDOTDIR/.zshrc-extended" ] && source "$ZDOTDIR/.zshrc-extended"
+        [ -f "$ZDOTDIR/.zshrc-extended" ] && source "$ZDOTDIR/.zshrc-extended"
       '';
 
       history = {
@@ -215,9 +220,21 @@ precmd_functions+=(__set_beam_cursor)
 
         # NixOS
         list = "nixos-rebuild list-generations";
-        switch = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then switch-nixos else switch-darwin;
-        update = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then update-nixos else update-darwin;
-        clean = if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then clean-nixos else clean-darwin;
+        switch =
+          if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then
+            switch-nixos
+          else
+            switch-darwin;
+        update =
+          if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then
+            update-nixos
+          else
+            update-darwin;
+        clean =
+          if dot.system != "x86_64-darwin" && dot.system != "aarch64-darwin" then
+            clean-nixos
+          else
+            clean-darwin;
 
         # Applications
         mpv = "nohup mpv --idle --force-window >/dev/null 2>&1 &";

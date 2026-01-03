@@ -1,11 +1,17 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 {
   options.mysql = {
     enable = lib.mkEnableOption "mysql";
     databases = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [];
+      default = [ ];
       description = "List of database names needed by services";
     };
   };

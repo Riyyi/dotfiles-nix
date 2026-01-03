@@ -1,4 +1,10 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 let
   user = "git";
@@ -22,7 +28,7 @@ in
       openssh.authorizedKeys.keys = [ dot.sshKey ];
     };
 
-    users.groups.${group} = {};
+    users.groups.${group} = { };
 
     services.gitea = {
       enable = true;

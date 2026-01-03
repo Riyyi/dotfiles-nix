@@ -1,20 +1,22 @@
 let
-  zfsDisk = { device }: {
-    device = "/dev/disk/by-id/${device}";
-    type = "disk";
-    content = {
-      type = "gpt";
-      partitions = {
-        zfs = {
-          size = "100%";
-          content = {
-            type = "zfs";
-            pool = "znas";
+  zfsDisk =
+    { device }:
+    {
+      device = "/dev/disk/by-id/${device}";
+      type = "disk";
+      content = {
+        type = "gpt";
+        partitions = {
+          zfs = {
+            size = "100%";
+            content = {
+              type = "zfs";
+              pool = "znas";
+            };
           };
         };
       };
     };
-  };
 in
 {
 
@@ -34,7 +36,12 @@ in
             vdev = [
               {
                 mode = "raidz1";
-                members = [ "nas1" "nas2" "nas3" "nas4" ];
+                members = [
+                  "nas1"
+                  "nas2"
+                  "nas3"
+                  "nas4"
+                ];
               }
             ];
           };
@@ -42,17 +49,17 @@ in
 
         # Pool level options (how youre storing)
         options = {
-          ashift = "12";                    # set 4KB block size
+          ashift = "12"; # set 4KB block size
         };
         # Filesystem level options (what/when youre storing)
         rootFsOptions = {
-          acltype = "posixacl";             # fine-grained permission control (getfacl, setfacl)
-          atime = "off";                    # disable access time updates, for performance
-          compression = "lz4";              # enable compression
+          acltype = "posixacl"; # fine-grained permission control (getfacl, setfacl)
+          atime = "off"; # disable access time updates, for performance
+          compression = "lz4"; # enable compression
           mountpoint = "none";
-          recordsize = "1M";                # optimize size for large file workloads
-          secondarycache = "none";          # disable L2ARC
-          xattr = "sa";                     # set metadata directly in inodes, over separate hidden files
+          recordsize = "1M"; # optimize size for large file workloads
+          secondarycache = "none"; # disable L2ARC
+          xattr = "sa"; # set metadata directly in inodes, over separate hidden files
           "com.sun:auto-snapshot" = "true"; # used by services.zfs.autoSnapshot options
         };
 

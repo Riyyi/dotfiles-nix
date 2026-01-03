@@ -1,15 +1,23 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 let
   cfg = config.services.samba;
 
-  mount = { path }: {
-    browseable = "yes";
-    comment = "Share for ${path}.";
-    "guest ok" = "no";
-    path = path;
-    "read only" = "no";
-  };
+  mount =
+    { path }:
+    {
+      browseable = "yes";
+      comment = "Share for ${path}.";
+      "guest ok" = "no";
+      path = path;
+      "read only" = "no";
+    };
 in
 {
 
@@ -40,13 +48,13 @@ in
           security = "user";
         };
 
-        code      = mount { path = dot.code; };
+        code = mount { path = dot.code; };
         documents = mount { path = dot.documents; };
         downloads = mount { path = dot.downloads; };
-        games     = mount { path = dot.games; };
-        music     = mount { path = dot.music; };
-        pictures  = mount { path = dot.pictures; };
-        videos    = mount { path = dot.videos; };
+        games = mount { path = dot.games; };
+        music = mount { path = dot.music; };
+        pictures = mount { path = dot.pictures; };
+        videos = mount { path = dot.videos; };
       };
     };
 
@@ -62,9 +70,18 @@ in
       enable = true;
     };
 
-    firewall.enable = true;                # samba     avahi  wsdd
-    firewall.allowedTCPPorts = lib.mkAfter [ 139 445          5357 ];
-    firewall.allowedUDPPorts = lib.mkAfter [ 137 138   5353   3702 ];
+    firewall.enable = true; # samba     avahi  wsdd
+    firewall.allowedTCPPorts = lib.mkAfter [
+      139
+      445
+      5357
+    ];
+    firewall.allowedUDPPorts = lib.mkAfter [
+      137
+      138
+      5353
+      3702
+    ];
 
     # Activate default user
     # To remove the user: $ smbpasswd -x <user>
@@ -79,4 +96,4 @@ in
 
 }
 
-  # $ smbpasswd -a dot.user
+# $ smbpasswd -a dot.user

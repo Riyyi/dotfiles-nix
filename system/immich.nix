@@ -1,4 +1,10 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 let
   user = "immich";
@@ -13,7 +19,10 @@ in
 
   config = lib.mkIf config.immich.enable {
 
-    users.users.${user}.extraGroups = [ "render" "video" ];
+    users.users.${user}.extraGroups = [
+      "render"
+      "video"
+    ];
 
     services.immich = {
       enable = true;
@@ -26,7 +35,8 @@ in
 
       mediaLocation = "${dot.pictures}/immich";
 
-      database = { # PostgreSQL support only
+      database = {
+        # PostgreSQL support only
         enable = true;
         createDB = true;
         name = database;

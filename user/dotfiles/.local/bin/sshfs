@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+mkdir -p ~/mnt/sftp
+sshfs rick@arch-desktop:/home/rick ~/mnt/sftp -o password_stdin
+open ~/mnt/sftp

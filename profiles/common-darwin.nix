@@ -1,4 +1,12 @@
-{ config, pkgs, lib, inputs, outputs, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  outputs,
+  dot,
+  ...
+}:
 
 {
   imports = [
@@ -6,7 +14,8 @@
     inputs.mac-app-util.darwinModules.default
 
     # Home Manager
-    inputs.home-manager-darwin.darwinModules.home-manager {
+    inputs.home-manager-darwin.darwinModules.home-manager
+    {
       home-manager.sharedModules = [
         inputs.mac-app-util.homeManagerModules.default
       ];
@@ -16,7 +25,8 @@
     inputs.sops-nix.darwinModules.sops
 
     # Homebrew
-    inputs.nix-homebrew.darwinModules.nix-homebrew {
+    inputs.nix-homebrew.darwinModules.nix-homebrew
+    {
       nix-homebrew = {
         enable = true;
         enableRosetta = true;
@@ -40,7 +50,11 @@
 
   # Nix settings
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" "pipe-operators" ]; # enable flakes
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+      "pipe-operators"
+    ]; # enable flakes
     optimise.automatic = true; # store optimizer on a daily timer
   };
 
@@ -49,7 +63,7 @@
   sops.defaultSopsFormat = "yaml";
   sops.age.generateKey = false;
   sops.age.sshKeyPaths = [ "/Users/${dot.user}/.ssh/id_ed25519" ];
-  sops.gnupg.sshKeyPaths = []; # do not import
+  sops.gnupg.sshKeyPaths = [ ]; # do not import
   programs.zsh.interactiveShellInit = inputs.nixpkgs.lib.mkAfter ''
     export SOPS_AGE_KEY_CMD="ssh-to-age -private-key -i /Users/${dot.user}/.ssh/id_ed25519"
   '';

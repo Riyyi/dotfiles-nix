@@ -1,4 +1,10 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 let
   files = [
@@ -26,7 +32,8 @@ let
     ".config/nvim/lua/terminal.lua"
     ".config/nvim/lua/ui.lua"
   ];
-in {
+in
+{
 
   options.nvim = {
     enable = lib.mkEnableOption "nvim";
@@ -34,16 +41,18 @@ in {
 
   config = lib.mkIf config.nvim.enable {
 
-    home.file = lib.genAttrs files (file: {
-      source = ./dotfiles + "/${file}";
-    }) // {
-    ".config/nvim/lua/nix.lua".text = ''
-      vim.g.sqlite_clib_path = "${pkgs.sqlite.out}/lib/libsqlite3${pkgs.stdenv.hostPlatform.extensions.sharedLibrary}"
-    '';
-    };
+    home.file =
+      lib.genAttrs files (file: {
+        source = ./dotfiles + "/${file}";
+      })
+      // {
+        ".config/nvim/lua/nix.lua".text = ''
+          vim.g.sqlite_clib_path = "${pkgs.sqlite.out}/lib/libsqlite3${pkgs.stdenv.hostPlatform.extensions.sharedLibrary}"
+        '';
+      };
 
     # lazy-lock.json wont be linked from Nix store, so it remains writable
-    home.activation.nvim = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    home.activation.nvim = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       ln -sf ${dot.dotfiles}/user/dotfiles/.config/nvim/lazy-lock.json "$HOME/.config/nvim/lazy-lock.json"
     '';
 

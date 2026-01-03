@@ -1,14 +1,22 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 let
-  mount = { name, path }: ''
-    [${name}]
-      browseable = yes
-      comment = Share for ${path}.
-      guest ok = no
-      path = ${path}
-      read only = no
-  '';
+  mount =
+    { name, path }:
+    ''
+      [${name}]
+        browseable = yes
+        comment = Share for ${path}.
+        guest ok = no
+        path = ${path}
+        read only = no
+    '';
 in
 {
 
@@ -19,25 +27,46 @@ in
   config = lib.mkIf config.ksmbd.enable {
 
     environment.etc."ksmbd/ksmbd.conf".text = ''
-[global]
-  server string = nixos-nas KSMBD
-  workgroup = WORKGROUP
-  netbios name = nixos-nas
-  invalid users = root
-  server min protocol = SMB2_10
-  smb2 leases = yes
+      [global]
+        server string = nixos-nas KSMBD
+        workgroup = WORKGROUP
+        netbios name = nixos-nas
+        invalid users = root
+        server min protocol = SMB2_10
+        smb2 leases = yes
 
-${mount { name = "code";      path = dot.code; }}
-${mount { name = "documents"; path = dot.documents; }}
-${mount { name = "downloads"; path = dot.downloads; }}
-${mount { name = "games";     path = dot.games; }}
-${mount { name = "music";     path = dot.music; }}
-${mount { name = "pictures";  path = dot.pictures; }}
-${mount { name = "videos";    path = dot.videos; }}
+      ${mount {
+        name = "code";
+        path = dot.code;
+      }}
+      ${mount {
+        name = "documents";
+        path = dot.documents;
+      }}
+      ${mount {
+        name = "downloads";
+        path = dot.downloads;
+      }}
+      ${mount {
+        name = "games";
+        path = dot.games;
+      }}
+      ${mount {
+        name = "music";
+        path = dot.music;
+      }}
+      ${mount {
+        name = "pictures";
+        path = dot.pictures;
+      }}
+      ${mount {
+        name = "videos";
+        path = dot.videos;
+      }}
     '';
 
     environment.etc."ksmbd/ksmbdpwd.db".text = ''
-${dot.user}:7APGued9PyGEkx+EhZUSLg==
+      ${dot.user}:7APGued9PyGEkx+EhZUSLg==
     '';
 
     firewall.enable = true;

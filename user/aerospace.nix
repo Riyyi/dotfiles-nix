@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   aerospace-pkg = pkgs.unstable.aerospace;
@@ -40,7 +45,9 @@ in
         on-focus-changed = [ "move-mouse window-lazy-center" ];
         on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
 
-        exec-on-workspace-change = [ "${pkgs.zsh}/bin/zsh" "-c"
+        exec-on-workspace-change = [
+          "${pkgs.zsh}/bin/zsh"
+          "-c"
           # Notify Sketchybar about workspace change
           "${sketchybar} --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
         ];
@@ -81,18 +88,18 @@ in
           # Open new Ghostty window
           # alt-enter = "exec-and-forget open -n /Applications/Ghostty.app";
           alt-enter = ''
-exec-and-forget osascript -e '
-tell application "Ghostty"
-    if it is running then
-        tell application "System Events"
-            tell process "Ghostty"
-                click menu item "New Window" of menu "File" of menu bar 1
-            end tell
-        end tell
-    else
-        activate
-    end if
-end tell'
+            exec-and-forget osascript -e '
+            tell application "Ghostty"
+                if it is running then
+                    tell application "System Events"
+                        tell process "Ghostty"
+                            click menu item "New Window" of menu "File" of menu bar 1
+                        end tell
+                    end tell
+                else
+                    activate
+                end if
+            end tell'
           '';
           # See: https://nikitabobko.github.io/AeroSpace/goodness#open-a-new-window-with-applescript
 
@@ -147,20 +154,56 @@ end tell'
           # Move
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-          alt-shift-1 = [ "move-node-to-workspace 一" sketchybar-trigger ];
-          alt-shift-2 = [ "move-node-to-workspace 二" sketchybar-trigger ];
-          alt-shift-3 = [ "move-node-to-workspace 三" sketchybar-trigger ];
-          alt-shift-4 = [ "move-node-to-workspace 四" sketchybar-trigger ];
-          alt-shift-5 = [ "move-node-to-workspace 五" sketchybar-trigger ];
-          alt-shift-6 = [ "move-node-to-workspace 六" sketchybar-trigger ];
-          alt-shift-7 = [ "move-node-to-workspace 七" sketchybar-trigger ];
-          alt-shift-8 = [ "move-node-to-workspace 八" sketchybar-trigger ];
-          alt-shift-9 = [ "move-node-to-workspace 九" sketchybar-trigger ];
-          alt-shift-0 = [ "move-node-to-workspace 十" sketchybar-trigger ];
+          alt-shift-1 = [
+            "move-node-to-workspace 一"
+            sketchybar-trigger
+          ];
+          alt-shift-2 = [
+            "move-node-to-workspace 二"
+            sketchybar-trigger
+          ];
+          alt-shift-3 = [
+            "move-node-to-workspace 三"
+            sketchybar-trigger
+          ];
+          alt-shift-4 = [
+            "move-node-to-workspace 四"
+            sketchybar-trigger
+          ];
+          alt-shift-5 = [
+            "move-node-to-workspace 五"
+            sketchybar-trigger
+          ];
+          alt-shift-6 = [
+            "move-node-to-workspace 六"
+            sketchybar-trigger
+          ];
+          alt-shift-7 = [
+            "move-node-to-workspace 七"
+            sketchybar-trigger
+          ];
+          alt-shift-8 = [
+            "move-node-to-workspace 八"
+            sketchybar-trigger
+          ];
+          alt-shift-9 = [
+            "move-node-to-workspace 九"
+            sketchybar-trigger
+          ];
+          alt-shift-0 = [
+            "move-node-to-workspace 十"
+            sketchybar-trigger
+          ];
 
           # Move node to previous/next desktop
-          alt-shift-minus = [ "move-node-to-workspace prev" sketchybar-trigger ];
-          alt-shift-equal = [ "move-node-to-workspace next" sketchybar-trigger ];
+          alt-shift-minus = [
+            "move-node-to-workspace prev"
+            sketchybar-trigger
+          ];
+          alt-shift-equal = [
+            "move-node-to-workspace next"
+            sketchybar-trigger
+          ];
 
           # Move nodes around the workspace
           alt-shift-h = "move left";
@@ -176,9 +219,9 @@ end tell'
           cmd-alt-k = "resize height +50";
           cmd-alt-l = "resize width +50";
 
-          cmd-alt-left  = "resize width -50";
-          cmd-alt-down  = "resize height -50";
-          cmd-alt-up    = "resize height +50";
+          cmd-alt-left = "resize width -50";
+          cmd-alt-down = "resize height -50";
+          cmd-alt-up = "resize height +50";
           cmd-alt-right = "resize width +50";
 
           # ----------------------------------
@@ -219,8 +262,8 @@ end tell'
           "六" = "main";
           "七" = "main";
           "八" = "main";
-          "九"  = "secondary";
-          "十"  = "secondary";
+          "九" = "secondary";
+          "十" = "secondary";
         };
 
       };

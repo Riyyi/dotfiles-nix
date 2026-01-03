@@ -44,128 +44,158 @@
 
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, ... }:
-  let
-    inherit (self) outputs;
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      nix-darwin,
+      ...
+    }:
+    let
+      inherit (self) outputs;
 
-    # Loop through all profiles and create a configuration for matching system types
-    addProfiles =
-      { system, mkConfiguration }:
-      let
-        matchSystem = profile: (import ./profiles/${profile}/settings.nix).system == system;
-      in
-      builtins.readDir ./profiles
-      |> nixpkgs.lib.filterAttrs (name: type: type == "directory")
-      |> builtins.attrNames
-      |> builtins.filter matchSystem
-      |> builtins.map mkConfiguration
-      |> builtins.listToAttrs;
-
-    cwd = builtins.toPath ./.; # active store directory
-
-    system = "x86_64-linux";
-
-    forAllSystems = nixpkgs.lib.genAttrs [
-      "x86_64-linux"
-      "aarch64-darwin"
-    ];
-  in
-  {
-    # ==================================== #
-    # Overlays #
-
-    # Custom modifications/overrides to upstream packages
-    overlays = import ./overlays { inherit inputs; };
-
-    # ==================================== #
-    # NixOS Profiles #
-
-    nixosConfigurations = let
-      mkConfiguration = profile:
+      # Loop through all profiles and create a configuration for matching system types
+      addProfiles =
+        { system, mkConfiguration }:
         let
-          dot = import ./profiles/${profile}/settings.nix;
-        in {
-          name = dot.hostname;
-          value = nixpkgs.lib.nixosSystem {
-            system = dot.system;
-            specialArgs = {
-              inherit inputs outputs dot cwd;
+          matchSystem = profile: (import ./profiles/${profile}/settings.nix).system == system;
+        in
+        builtins.readDir ./profiles
+        |> nixpkgs.lib.filterAttrs (name: type: type == "directory")
+        |> builtins.attrNames
+        |> builtins.filter matchSystem
+        |> builtins.map mkConfiguration
+        |> builtins.listToAttrs;
+
+      cwd = builtins.toPath ./.; # active store directory
+
+      system = "x86_64-linux";
+
+      forAllSystems = nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
+    in
+    {
+      # ==================================== #
+      # Overlays #
+
+      # Custom modifications/overrides to upstream packages
+      overlays = import ./overlays { inherit inputs; };
+
+      # ==================================== #
+      # NixOS Profiles #
+
+      nixosConfigurations =
+        let
+          mkConfiguration =
+            profile:
+            let
+              dot = import ./profiles/${profile}/settings.nix;
+            in
+            {
+              name = dot.hostname;
+              value = nixpkgs.lib.nixosSystem {
+                system = dot.system;
+                specialArgs = {
+                  inherit
+                    inputs
+                    outputs
+                    dot
+                    cwd
+                    ;
+                };
+                modules = [
+                  ./profiles/${profile}/configuration.nix
+                  ./profiles/${profile}/disko.nix
+                  ./profiles/${profile}/disko-mount.nix
+                  ./profiles/hardware-configuration.nix
+                ];
+              };
             };
-            modules = [
-              ./profiles/${profile}/configuration.nix
-              ./profiles/${profile}/disko.nix
-              ./profiles/${profile}/disko-mount.nix
-              ./profiles/hardware-configuration.nix
-            ];
+        in
+        addProfiles {
+          system = "x86_64-linux";
+          mkConfiguration = mkConfiguration;
+        };
+
+      # ==================================== #
+      # Darwin Profiles #
+
+      darwinConfigurations =
+        let
+          mkConfiguration =
+            profile:
+            let
+              dot = import ./profiles/${profile}/settings.nix;
+            in
+            {
+              name = dot.hostname;
+              value = nix-darwin.lib.darwinSystem {
+                system = dot.system;
+                specialArgs = {
+                  inherit
+                    inputs
+                    outputs
+                    dot
+                    cwd
+                    ;
+                };
+                modules = [
+                  ./profiles/${profile}/configuration.nix
+                ];
+              };
+            };
+        in
+        addProfiles {
+          system = "aarch64-darwin";
+          mkConfiguration = mkConfiguration;
+        };
+
+      # ==================================== #
+      # Formatting #
+
+      # Nix formatter available through "nix fmt"
+      # https://nix.dev/manual/nix/stable/command-ref/new-cli/nix3-fmt#example
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
+
+      # ==================================== #
+      # DevShells #
+
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ self.overlays.default ];
+          };
+        in
+        import ./shell.nix { inherit pkgs system; }
+      );
+
+      # ==================================== #
+      # Other #
+
+      # Bootstrap script
+      packages.${system} =
+        let
+          pkgs = import nixpkgs { inherit system; };
+        in
+        {
+          default = self.packages.${system}.install;
+          install = pkgs.writeShellApplication {
+            name = "install";
+            runtimeInputs = with pkgs; [ git ];
+            text = ''${builtins.readFile ./install.sh}'';
           };
         };
-    in
-      addProfiles { system = "x86_64-linux"; mkConfiguration = mkConfiguration; };
-
-    # ==================================== #
-    # Darwin Profiles #
-
-    darwinConfigurations = let
-      mkConfiguration = profile:
-        let
-          dot = import ./profiles/${profile}/settings.nix;
-        in {
-          name = dot.hostname;
-          value = nix-darwin.lib.darwinSystem {
-            system = dot.system;
-            specialArgs = {
-              inherit inputs outputs dot cwd;
-            };
-            modules = [
-              ./profiles/${profile}/configuration.nix
-            ];
-          };
-        };
-    in
-      addProfiles { system = "aarch64-darwin"; mkConfiguration = mkConfiguration; };
-
-    # ==================================== #
-    # Formatting #
-
-    # Nix formatter available through "nix fmt"
-    # https://nix.dev/manual/nix/stable/command-ref/new-cli/nix3-fmt#example
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
-
-    # ==================================== #
-    # DevShells #
-
-    devShells = forAllSystems (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ self.overlays.default ];
-        };
-      in
-      import ./shell.nix { inherit pkgs system; }
-    );
-
-    # ==================================== #
-    # Other #
-
-    # Bootstrap script
-    packages.${system} =
-      let
-        pkgs = import nixpkgs { inherit system; };
-      in {
-        default = self.packages.${system}.install;
-        install = pkgs.writeShellApplication {
-          name = "install";
-          runtimeInputs = with pkgs; [ git ];
-          text = ''${builtins.readFile ./install.sh}'';
+      apps.${system} = {
+        default = self.apps.${system}.install;
+        install = {
+          type = "app";
+          program = "${self.packages.${system}.install}/bin/install";
         };
       };
-    apps.${system} = {
-      default = self.apps.${system}.install;
-      install = {
-        type = "app";
-        program = "${self.packages.${system}.install}/bin/install";
-      };
+
     };
-
-  };
 }

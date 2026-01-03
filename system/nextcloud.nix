@@ -1,4 +1,10 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 let
   user = "nextcloud";
@@ -34,7 +40,13 @@ in
       autoUpdateApps.enable = true;
       extraAppsEnable = true;
       extraApps = {
-				inherit (pkgs.nextcloud31Packages.apps) contacts calendar tasks notes richdocuments;
+        inherit (pkgs.nextcloud31Packages.apps)
+          contacts
+          calendar
+          tasks
+          notes
+          richdocuments
+          ;
       };
 
       config = {
@@ -52,7 +64,10 @@ in
         overwritehost = config.services.nextcloud.hostName;
         "overwrite.cli.url" = "https://${config.services.nextcloud.hostName}/";
         default_phone_region = "NL";
-        trusted_proxies = [ "127.0.0.1" "::1" ];
+        trusted_proxies = [
+          "127.0.0.1"
+          "::1"
+        ];
       };
     };
 
@@ -118,30 +133,35 @@ in
     # --------------------------------------
     # Declaratively configure office settings
 
-    systemd.services.nextcloud-config-collabora = let
-      inherit (config.services.nextcloud) occ;
+    systemd.services.nextcloud-config-collabora =
+      let
+        inherit (config.services.nextcloud) occ;
 
-      wopi_url = "http://127.0.0.1:${toString config.services.collabora-online.port}";
-      public_wopi_url = "https://${config.services.collabora-online.settings.server_name}";
-      wopi_allowlist = lib.concatStringsSep "," [
-        "127.0.0.1"
-        "::1"
-      ];
-    in {
-      wantedBy = ["multi-user.target"];
-      after = ["nextcloud-setup.service" "coolwsd.service"];
-      requires = ["coolwsd.service"];
-      script = ''
-        ${occ}/bin/nextcloud-occ config:app:set richdocuments wopi_url --value ${lib.escapeShellArg wopi_url}
-        ${occ}/bin/nextcloud-occ config:app:set richdocuments public_wopi_url --value ${lib.escapeShellArg public_wopi_url}
-        ${occ}/bin/nextcloud-occ config:app:set richdocuments wopi_allowlist --value ${lib.escapeShellArg wopi_allowlist}
-        ${occ}/bin/nextcloud-occ richdocuments:setup
-      '';
-      serviceConfig = {
-        Type = "oneshot";
-        User = "nextcloud";
+        wopi_url = "http://127.0.0.1:${toString config.services.collabora-online.port}";
+        public_wopi_url = "https://${config.services.collabora-online.settings.server_name}";
+        wopi_allowlist = lib.concatStringsSep "," [
+          "127.0.0.1"
+          "::1"
+        ];
+      in
+      {
+        wantedBy = [ "multi-user.target" ];
+        after = [
+          "nextcloud-setup.service"
+          "coolwsd.service"
+        ];
+        requires = [ "coolwsd.service" ];
+        script = ''
+          ${occ}/bin/nextcloud-occ config:app:set richdocuments wopi_url --value ${lib.escapeShellArg wopi_url}
+          ${occ}/bin/nextcloud-occ config:app:set richdocuments public_wopi_url --value ${lib.escapeShellArg public_wopi_url}
+          ${occ}/bin/nextcloud-occ config:app:set richdocuments wopi_allowlist --value ${lib.escapeShellArg wopi_allowlist}
+          ${occ}/bin/nextcloud-occ richdocuments:setup
+        '';
+        serviceConfig = {
+          Type = "oneshot";
+          User = "nextcloud";
+        };
       };
-    };
 
     # Make Collabora resolve Nextcloud to localhost, so the WOPI whitelist works
     networking.hosts = {

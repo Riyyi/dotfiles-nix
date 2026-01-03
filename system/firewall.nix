@@ -1,4 +1,10 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 let
   # https://www.cloudflare.com/ips
@@ -43,25 +49,25 @@ in
 
     allowedTCPPorts = lib.mkOption {
       type = lib.types.listOf lib.types.int;
-      default = [];
+      default = [ ];
       description = "TCP ports to allow from LAN/Cloudflare.";
     };
 
     allowedUDPPorts = lib.mkOption {
       type = lib.types.listOf lib.types.int;
-      default = [];
+      default = [ ];
       description = "UDP ports to allow from LAN/Cloudflare.";
     };
 
     safeTCPPorts = lib.mkOption {
       type = lib.types.listOf lib.types.int;
-      default = [];
+      default = [ ];
       description = "TCP ports to allow from all IPs.";
     };
 
     safeUDPPorts = lib.mkOption {
       type = lib.types.listOf lib.types.int;
-      default = [];
+      default = [ ];
       description = "UDP ports to allow from all IPs.";
     };
   };
@@ -87,7 +93,7 @@ in
         # Cloudflare IPv6
         ip6 saddr { ${cloudflareIPv6Str} } tcp dport { ${allowedTCPPortsStr} } accept
         ip6 saddr { ${cloudflareIPv6Str} } udp dport { ${allowedUDPPortsStr} } accept
-    '';
+      '';
     };
 
   };

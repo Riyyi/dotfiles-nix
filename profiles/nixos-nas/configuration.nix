@@ -1,4 +1,12 @@
-{ config, pkgs, lib, inputs, dot, cwd, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  dot,
+  cwd,
+  ...
+}:
 
 {
   # ----------------------------------------
@@ -14,7 +22,9 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = { zfs = true; };
+  boot.supportedFilesystems = {
+    zfs = true;
+  };
   boot.kernelParams = [ "zfs.zfs_arc_max=21474836480" ]; # 20 GiB
   boot.zfs.extraPools = [ "znas" ];
   boot.swraid.mdadmConf = ''
@@ -76,8 +86,11 @@
   users.users.${dot.user} = {
     isNormalUser = true;
     description = dot.user;
-    extraGroups = lib.mkAfter [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    extraGroups = lib.mkAfter [
+      "networkmanager"
+      "wheel"
+    ];
+    packages = with pkgs; [ ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [ dot.sshKey ];
   };
@@ -169,7 +182,8 @@
   hardware.enableAllFirmware = true; # load all firmware, required for i915/dg2
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [ # add packages to the graphics driver lookup path
+    extraPackages = with pkgs; [
+      # add packages to the graphics driver lookup path
       intel-media-driver
       intel-compute-runtime
       libva
@@ -205,8 +219,8 @@
       enable = true;
       flags = "-k -p --utc"; # make snapshot names use utc timestamp
       monthly = 3; # keep 3 monthly snapshots
-      weekly = 4;  # keep 4 weekly snapshots
-      daily = 7;   # keep 7 daily snapshots
+      weekly = 4; # keep 4 weekly snapshots
+      daily = 7; # keep 7 daily snapshots
       hourly = 12; # keep 12 hourly snapshots
       frequent = 4; # keep 4 15-minute snapshots
     };
@@ -219,7 +233,11 @@
     ports = [ 4000 ];
     settings = {
       PasswordAuthentication = false;
-      AllowUsers = [ "root" dot.user "git" ];
+      AllowUsers = [
+        "root"
+        dot.user
+        "git"
+      ];
       UseDns = true;
       X11Forwarding = false;
       PermitRootLogin = "yes";

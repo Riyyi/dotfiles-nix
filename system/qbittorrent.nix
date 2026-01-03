@@ -1,4 +1,10 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 let
   cfg = config.qbittorrent-nox;
@@ -24,8 +30,8 @@ in
         LegalNotice.Accepted = true;
         BitTorrent = {
           Session = {
-            AlternativeGlobalDLSpeedLimit=10240;
-            AlternativeGlobalUPSpeedLimit=10240;
+            AlternativeGlobalDLSpeedLimit = 10240;
+            AlternativeGlobalUPSpeedLimit = 10240;
             DefaultSavePath = dot.downloads;
             GlobalDLSpeedLimit = 0;
             GlobalMaxRatio = 2.1;

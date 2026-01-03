@@ -1,15 +1,25 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 {
 
-	options.jellyfin = {
+  options.jellyfin = {
     enable = lib.mkEnableOption "jellyfin";
   };
 
   config = lib.mkIf config.jellyfin.enable {
 
     users.users.${dot.user} = {
-      extraGroups = lib.mkAfter [ "render" "video" "input" ];
+      extraGroups = lib.mkAfter [
+        "render"
+        "video"
+        "input"
+      ];
     };
 
     services.jellyfin = {
@@ -22,7 +32,10 @@
     };
 
     firewall.enable = true;
-    firewall.safeUDPPorts = lib.mkAfter [ 1900 7359 ]; # open port to all IPs
+    firewall.safeUDPPorts = lib.mkAfter [
+      1900
+      7359
+    ]; # open port to all IPs
 
     nginx.enable = true;
     services.nginx.virtualHosts."videos.${dot.domain}" = {

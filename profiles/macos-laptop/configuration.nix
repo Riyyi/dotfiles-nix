@@ -1,4 +1,11 @@
-{ config, pkgs, inputs, dot, cwd, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  dot,
+  cwd,
+  ...
+}:
 
 {
   # ----------------------------------------
@@ -22,7 +29,7 @@
 
   # Define a user account
   users.users.${dot.user} = {
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
     shell = pkgs.zsh;
     home = "/Users/${dot.user}"; # required here AND home.nix, see
     # https://discourse.nixos.org/t/homedirectory-is-note-of-type-path-darwin/57453/7
@@ -62,7 +69,8 @@
       "sikarugir"
       "steam"
     ];
-    masApps = { # App store apps go here
+    masApps = {
+      # App store apps go here
       "uBlock Origin Lite" = 6745342698;
     };
   };
@@ -165,7 +173,6 @@
 
   # ----------------------------------------
   # System modules
-
 
   # ----------------------------------------
   # Services

@@ -1,8 +1,14 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 {
 
-	options.navidrome = {
+  options.navidrome = {
     enable = lib.mkEnableOption "navidrome";
   };
 

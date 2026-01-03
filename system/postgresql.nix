@@ -1,11 +1,17 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 {
   options.postgresql = {
     enable = lib.mkEnableOption "postgresql";
     databases = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [];
+      default = [ ];
       description = "List of database names needed by services";
     };
   };
@@ -20,10 +26,10 @@
       enable = true;
       package = pkgs.postgresql_16;
       authentication = pkgs.lib.mkForce ''
-      # TYPE     DATABASE    USER     ADDRESS           AUTH-METHOD
-        local    all         all                        peer
-        host     all         all      127.0.0.1/32      md5
-        host     all         all      ::1/128           md5
+        # TYPE     DATABASE    USER     ADDRESS           AUTH-METHOD
+          local    all         all                        peer
+          host     all         all      127.0.0.1/32      md5
+          host     all         all      ::1/128           md5
       '';
 
       ensureDatabases = config.postgresql.databases;

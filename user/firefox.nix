@@ -1,24 +1,29 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   profile = "dotfiles";
 in
 {
 
-# https://hugosum.com/blog/customizing-firefox-with-nix-and-home-manager
+  # https://hugosum.com/blog/customizing-firefox-with-nix-and-home-manager
 
-# "/Applications/Nix Apps/Firefox.app/Contents/MacOS/firefox" -P "8cnqiyr4.default"
+  # "/Applications/Nix Apps/Firefox.app/Contents/MacOS/firefox" -P "8cnqiyr4.default"
 
-# via firefox-addons directly
-# https://github.com/rhoriguchi/nixos-setup/blob/master/flake.nix#L19
-# https://github.com/rhoriguchi/nixos-setup/blob/master/modules/home-manager/firefox.nix#L13
+  # via firefox-addons directly
+  # https://github.com/rhoriguchi/nixos-setup/blob/master/flake.nix#L19
+  # https://github.com/rhoriguchi/nixos-setup/blob/master/modules/home-manager/firefox.nix#L13
 
-# via nur
-# https://github.com/search?q=repo%3Abooxter%2Fnix%20rycee&type=code
-# https://github.com/booxter/nix/blob/master/flake.nix#L38
+  # via nur
+  # https://github.com/search?q=repo%3Abooxter%2Fnix%20rycee&type=code
+  # https://github.com/booxter/nix/blob/master/flake.nix#L38
 
-# via .xpi
-# https://github.com/IanHollow/nix-conf/blob/main/configs/home/programs/firefox/extensions.nix
+  # via .xpi
+  # https://github.com/IanHollow/nix-conf/blob/main/configs/home/programs/firefox/extensions.nix
 
   options.firefox = {
     enable = lib.mkEnableOption "firefox";

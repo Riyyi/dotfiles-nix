@@ -1,4 +1,12 @@
-{ config, pkgs, lib, inputs, outputs, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  outputs,
+  dot,
+  ...
+}:
 
 {
   imports = [
@@ -17,7 +25,11 @@
 
   # Nix settings
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" "pipe-operators" ]; # enable flakes
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+      "pipe-operators"
+    ]; # enable flakes
     optimise.automatic = true; # store optimizer on a daily timer
   };
 
@@ -26,7 +38,7 @@
   sops.defaultSopsFormat = "yaml";
   sops.age.generateKey = false;
   sops.age.sshKeyPaths = [ "/root/.ssh/id_ed25519" ];
-  sops.gnupg.sshKeyPaths = []; # do not import
+  sops.gnupg.sshKeyPaths = [ ]; # do not import
   programs.zsh.interactiveShellInit = inputs.nixpkgs.lib.mkAfter ''
     export SOPS_AGE_KEY_CMD="ssh-to-age -private-key -i /root/.ssh/id_ed25519"
   '';

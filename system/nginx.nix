@@ -1,4 +1,10 @@
-{ config, pkgs, lib, dot, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  dot,
+  ...
+}:
 
 {
 
@@ -75,7 +81,10 @@
     };
 
     firewall.enable = true;
-    firewall.allowedTCPPorts = lib.mkAfter [ 80 443 ];
+    firewall.allowedTCPPorts = lib.mkAfter [
+      80
+      443
+    ];
 
     system.activationScripts.acme = ''
       homeDir="/var/lib/acme"
@@ -87,7 +96,7 @@
 
 }
 
-  # Generate password with:
-  # nix-shell -p apacheHttpd --run 'htpasswd -B -c FILENAME USERNAME'
+# Generate password with:
+# nix-shell -p apacheHttpd --run 'htpasswd -B -c FILENAME USERNAME'
 
-  # htpasswd -bnBC 10 "" "yourpassword" | tr -d ':\n'
+# htpasswd -bnBC 10 "" "yourpassword" | tr -d ':\n'
