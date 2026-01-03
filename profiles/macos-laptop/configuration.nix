@@ -110,6 +110,7 @@
     sops
     soundsource
     sqlite
+    ssh-to-age
     streamlink
     syncthing
     tree

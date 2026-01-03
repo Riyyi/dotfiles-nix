@@ -152,6 +152,7 @@
     samba4Full
     sops
     sqlite
+    ssh-to-age
     sudo
     syncthing
     tlp

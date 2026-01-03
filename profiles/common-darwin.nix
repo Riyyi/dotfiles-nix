@@ -52,6 +52,9 @@
   sops.age.generateKey = false;
   sops.age.sshKeyPaths = [ "/Users/${dot.user}/.ssh/id_ed25519" ];
   sops.gnupg.sshKeyPaths = []; # do not import
+  programs.zsh.interactiveShellInit = inputs.nixpkgs.lib.mkAfter ''
+    export SOPS_AGE_KEY_CMD="ssh-to-age -private-key -i /Users/${dot.user}/.ssh/id_ed25519"
+  '';
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
