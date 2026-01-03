@@ -61,8 +61,12 @@
     ];
   in
   {
+    # ==================================== #
+    # NixOS Profiles #
+
     # Create a configuration for each profile
-    nixosConfigurations = builtins.listToAttrs (map (profile:
+    nixosConfigurations = let
+      mkConfiguration = profile:
         let
           dot = import ./profiles/${profile}/settings.nix;
           pkgs-unstable = import nixpkgs-unstable {
@@ -83,19 +87,22 @@
               ./profiles/hardware-configuration.nix
             ];
           };
-        }
+        };
+    in
+      # Only add configurations from profiles that match
+      profiles
+      |> builtins.filter (profile:
+        (import ./profiles/${profile}/settings.nix).system == "x86_64-linux"
       )
-      # Only add nixosConfigurations from profiles that match
-      (builtins.filter (profile:
-        let
-          dot = import ./profiles/${profile}/settings.nix;
-        in
-        dot.system == "x86_64-linux"
-      ) profiles)
-    );
+      |> builtins.map mkConfiguration
+      |> builtins.listToAttrs;
+
+    # ==================================== #
+    # Darwin Profiles #
 
     # Create a configuration for each profile
-    darwinConfigurations = builtins.listToAttrs (map (profile:
+    darwinConfigurations = let
+      mkConfiguration = profile:
         let
           dot = import ./profiles/${profile}/settings.nix;
           pkgs-unstable = import nixpkgs-unstable {
@@ -113,16 +120,22 @@
               ./profiles/${profile}/configuration.nix
             ];
           };
-        }
+        };
+    in
+      # Only add configurations from profiles that match
+      profiles
+      |> builtins.filter (profile:
+        (import ./profiles/${profile}/settings.nix).system == "aarch64-darwin"
       )
-      # Only add nixosConfigurations from profiles that match
-      (builtins.filter (profile:
-        let
-          dot = import ./profiles/${profile}/settings.nix;
-        in
-        dot.system == "aarch64-darwin"
-      ) profiles)
-    );
+      |> builtins.map mkConfiguration
+      |> builtins.listToAttrs;
+
+    # ==================================== #
+    # Formatting #
+
+    # Nix formatter available through "nix fmt"
+    # https://nix.dev/manual/nix/stable/command-ref/new-cli/nix3-fmt#example
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
 
     # ==================================== #
     # DevShells #
