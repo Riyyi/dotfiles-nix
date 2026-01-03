@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, dot, ... }:
+{ config, pkgs, lib, inputs, outputs, dot, ... }:
 
 {
   imports = [
@@ -35,9 +35,7 @@
 
   # Overlays
   nixpkgs.overlays = lib.mkAfter [
-    inputs.firefox-addons.overlays.default
-    (import ./../user/autoraise.overlay.nix)
-    (import ./../user/soundsource.overlay.nix)
+    outputs.overlays.default
   ];
 
   # Nix settings

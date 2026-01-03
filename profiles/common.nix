@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, dot, ... }:
+{ config, pkgs, lib, inputs, outputs, dot, ... }:
 
 {
   imports = [
@@ -8,6 +8,11 @@
     inputs.home-manager.nixosModules.default
     # Sops
     inputs.sops-nix.nixosModules.sops
+  ];
+
+  # Overlays
+  nixpkgs.overlays = lib.mkAfter [
+    outputs.overlays.default
   ];
 
   # Nix settings

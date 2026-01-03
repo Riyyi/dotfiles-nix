@@ -1,7 +1,7 @@
-{ config, pkgs, lib, pkgs-unstable, ... }:
+{ config, pkgs, lib, ... }:
 
 let
-  aerospace-pkg = pkgs-unstable.aerospace;
+  aerospace-pkg = pkgs.unstable.aerospace;
   autoraise = "${pkgs.autoraise}/bin/autoraise";
   sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
   sketchybar-trigger = "exec-and-forget ${sketchybar} --trigger aerospace_workspace_change";

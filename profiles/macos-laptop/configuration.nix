@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, inputs, dot, cwd, ... }:
+{ config, pkgs, inputs, dot, cwd, ... }:
 
 {
   # ----------------------------------------
@@ -31,7 +31,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit pkgs-unstable inputs dot cwd; };
+    extraSpecialArgs = { inherit inputs dot cwd; };
     users.${dot.user} = import ./home.nix;
   };
 
@@ -68,8 +68,8 @@
   };
 
   environment.systemPackages = with pkgs; [
-    (pkgs-unstable.aerospace)
-    (pkgs-unstable.aldente)
+    pkgs.unstable.aerospace
+    pkgs.unstable.aldente
     autoraise
     cppcheck
     cmake
@@ -105,7 +105,7 @@
     qbittorrent
     ripgrep
     rsync
-    (pkgs-unstable.signal-desktop-bin)
+    pkgs.unstable.signal-desktop-bin
     sketchybar
     sops
     soundsource
