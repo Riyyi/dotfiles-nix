@@ -25,6 +25,8 @@ in
 
       userSettings = {
 
+        config-version = 2;
+
         automatically-unhide-macos-hidden-apps = true; # disable macOS "hide application"
 
         # ------------------------------------
@@ -74,6 +76,22 @@ in
           outer.bottom = 13;
           outer.left = 13;
         };
+
+        # ------------------------------------
+        # Workspaces
+
+        persistent-workspaces = [
+          "一"
+          "二"
+          "三"
+          "四"
+          "五"
+          "六"
+          "七"
+          "八"
+          "九"
+          "十"
+        ];
 
         # ------------------------------------
         # Keybindings
