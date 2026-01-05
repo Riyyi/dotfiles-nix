@@ -1,15 +1,16 @@
 { config, lib, ... }:
 
+let
+  cfg = config.programs.ghostty;
+in
 {
 
-  options.ghostty = {
-    enable = lib.mkEnableOption "ghostty";
+  options.programs.ghostty = {
   };
 
-  config = lib.mkIf config.ghostty.enable {
+  config = lib.mkIf cfg.enable {
 
     programs.ghostty = {
-      enable = true;
       package = null; # installed via homebrew for now
       settings = {
         app-notifications = "no-clipboard-copy";

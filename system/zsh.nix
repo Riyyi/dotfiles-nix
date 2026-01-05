@@ -7,7 +7,7 @@
     mode = "0550"; # add execute permissions
     sopsFile = ./../sops/secrets/zshrc-extended.sh; # from
     key = "data"; # what
-    path = "/Users/${dot.user}/.config/zsh/.zshrc-extended"; # to
+    path = "${dot.home}/.config/zsh/.zshrc-extended"; # to
   };
 
 }

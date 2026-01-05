@@ -8,22 +8,22 @@
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = dot.user;
-  home.homeDirectory = "/Users/${dot.user}";
+  home.homeDirectory = dot.home;
 
   xdg.enable = true;
 
   # User modules
-  aerospace.enable = true;
-  autoraise.enable = true;
-  firefox.enable = true;
-  ghostty.enable = true;
-  git.enable = true;
-  hammerspoon.enable = true;
-  jankyborders.enable = true;
-  mpv.enable = true;
-  nvim.enable = true;
-  sketchybar.enable = true;
-  zsh.enable = true;
+  programs.aerospace.enable = true;
+  programs.autoraise.enable = true;
+  programs.firefox.enable = true;
+  programs.ghostty.enable = true;
+  programs.git.enable = true;
+  programs.hammerspoon.enable = true;
+  programs.jankyborders.enable = true;
+  programs.mpv.enable = true;
+  programs.nvim.enable = true;
+  programs.sketchybar.enable = true;
+  programs.zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

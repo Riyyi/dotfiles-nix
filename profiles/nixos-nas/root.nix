@@ -1,7 +1,7 @@
 {
   config,
-  pkgs,
   dot,
+  pkgs,
   ...
 }:
 
@@ -18,9 +18,9 @@
   xdg.enable = true;
 
   # User modules
-  git.enable = true;
-  nvim.enable = true;
-  zsh.enable = true;
+  programs.git.enable = true;
+  programs.nvim.enable = true;
+  programs.zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

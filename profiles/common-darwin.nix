@@ -62,10 +62,10 @@
   sops.defaultSopsFile = ./../sops/secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
   sops.age.generateKey = false;
-  sops.age.sshKeyPaths = [ "/Users/${dot.user}/.ssh/id_ed25519" ];
+  sops.age.sshKeyPaths = [ "${dot.home}/.ssh/id_ed25519" ];
   sops.gnupg.sshKeyPaths = [ ]; # do not import
   programs.zsh.interactiveShellInit = inputs.nixpkgs.lib.mkAfter ''
-    export SOPS_AGE_KEY_CMD="ssh-to-age -private-key -i /Users/${dot.user}/.ssh/id_ed25519"
+    export SOPS_AGE_KEY_CMD="ssh-to-age -private-key -i ${dot.home}/.ssh/id_ed25519"
   '';
 
   # Allow unfree packages

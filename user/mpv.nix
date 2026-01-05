@@ -1,17 +1,18 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
 
+let
+  cfg = config.programs.mpv;
+in
 {
 
-  options.mpv = {
-    enable = lib.mkEnableOption "mpv";
+  options.programs.mpv = {
   };
 
-  config = lib.mkIf config.mpv.enable {
+  config = lib.mkIf cfg.enable {
 
     # TODO: Change this to nix syntax
     home.file = {

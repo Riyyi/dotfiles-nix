@@ -1,11 +1,13 @@
 {
   config,
-  pkgs,
   lib,
+  pkgs,
   ...
 }:
 
 let
+  cfg = config.programs.aerospace;
+
   aerospace-pkg = pkgs.unstable.aerospace;
   autoraise = "${pkgs.autoraise}/bin/autoraise";
   sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
@@ -13,14 +15,12 @@ let
 in
 {
 
-  options.aerospace = {
-    enable = lib.mkEnableOption "aerospace";
+  options.programs.aerospace = {
   };
 
-  config = lib.mkIf config.aerospace.enable {
+  config = lib.mkIf cfg.enable {
 
     programs.aerospace = {
-      enable = true;
       package = aerospace-pkg;
 
       userSettings = {

@@ -1,9 +1,9 @@
 {
   config,
-  pkgs,
-  inputs,
-  dot,
   cwd,
+  dot,
+  inputs,
+  pkgs,
   ...
 }:
 
@@ -23,15 +23,22 @@
   programs.zsh.enable = true;
   environment.shells = with pkgs; [ zsh ];
 
+  # nix-darwin cant set the shell of the root user
+  # $ less /etc/shells
+  # $ chsh -s /run/current-system/sw/bin/zsh root
+
   users.users.root = {
     shell = pkgs.zsh;
+    home = "/var/root"; # required here AND root.nix, see
+    # https://discourse.nixos.org/t/homedirectory-is-note-of-type-path-darwin/57453/7
   };
 
   # Define a user account
   users.users.${dot.user} = {
+    description = dot.user;
     packages = with pkgs; [ ];
     shell = pkgs.zsh;
-    home = "/Users/${dot.user}"; # required here AND home.nix, see
+    home = dot.home; # required here AND home.nix, see
     # https://discourse.nixos.org/t/homedirectory-is-note-of-type-path-darwin/57453/7
   };
 
@@ -39,6 +46,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs dot cwd; };
+    users.root = import ./root.nix;
     users.${dot.user} = import ./home.nix;
   };
 
@@ -64,7 +72,7 @@
       "karabiner-elements"
       "keepassxc"
       "krita"
-      "mysqlworkbench"
+      # "mysqlworkbench" # broken until zhaofengli/nix-homebrew updates to 5.0.7
       "openmtp"
       "sikarugir"
       "steam"
@@ -122,6 +130,7 @@
     ssh-to-age
     streamlink
     syncthing
+    tokei
     tree
     typescript-language-server
     util-linux

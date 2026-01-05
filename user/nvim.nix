@@ -1,12 +1,14 @@
 {
   config,
-  pkgs,
-  lib,
   dot,
+  lib,
+  pkgs,
   ...
 }:
 
 let
+  cfg = config.programs.nvim;
+
   files = [
     ".config/nvim/init.lua"
     #".config/nvim/lazy-lock.json"
@@ -35,11 +37,11 @@ let
 in
 {
 
-  options.nvim = {
+  options.programs.nvim = {
     enable = lib.mkEnableOption "nvim";
   };
 
-  config = lib.mkIf config.nvim.enable {
+  config = lib.mkIf cfg.enable {
 
     home.file =
       lib.genAttrs files (file: {

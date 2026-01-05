@@ -1,15 +1,16 @@
 { config, lib, ... }:
 
+let
+  cfg = config.programs.git;
+in
 {
 
-  options.git = {
-    enable = lib.mkEnableOption "git";
+  options.programs.git = {
   };
 
-  config = lib.mkIf config.git.enable {
+  config = lib.mkIf cfg.enable {
 
     programs.git = {
-      enable = true;
       settings = {
         user = {
           name = "Riyyi";

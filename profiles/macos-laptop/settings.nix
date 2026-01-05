@@ -12,7 +12,9 @@ rec {
   # Paths
   # ----------------------------------
 
-  dotfiles = "/Users/${user}/Code/nix/dotfiles-nix";
+  home = "/Users/${user}";
+
+  dotfiles = "${home}/Code/nix/dotfiles-nix";
 
   # ----------------------------------
   # User

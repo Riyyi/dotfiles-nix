@@ -7,18 +7,16 @@
 }:
 
 let
-  cfg = config.beets;
+  cfg = config.programs.beets;
 in
 {
 
-  options.beets = {
-    enable = lib.mkEnableOption "beets";
+  options.programs.beets = {
   };
 
   config = lib.mkIf cfg.enable {
 
     programs.beets = {
-      enable = true;
       package = pkgs.beets;
       settings = {
         directory = dot.music;

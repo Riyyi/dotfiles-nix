@@ -1,12 +1,15 @@
 { config, lib, ... }:
 
+let
+  cfg = config.programs.autoraise;
+in
 {
 
-  options.autoraise = {
+  options.programs.autoraise = {
     enable = lib.mkEnableOption "autoraise";
   };
 
-  config = lib.mkIf config.autoraise.enable {
+  config = lib.mkIf cfg.enable {
 
     home.file = {
       ".config/AutoRaise/config".text = ''

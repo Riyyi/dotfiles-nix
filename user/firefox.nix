@@ -6,6 +6,8 @@
 }:
 
 let
+  cfg = config.programs.firefox;
+
   profile = "dotfiles";
 in
 {
@@ -25,14 +27,12 @@ in
   # via .xpi
   # https://github.com/IanHollow/nix-conf/blob/main/configs/home/programs/firefox/extensions.nix
 
-  options.firefox = {
-    enable = lib.mkEnableOption "firefox";
+  options.programs.firefox = {
   };
 
-  config = lib.mkIf config.firefox.enable {
+  config = lib.mkIf cfg.enable {
 
     programs.firefox = {
-      enable = true;
       nativeMessagingHosts = with pkgs; [
         ff2mpv-go
       ];

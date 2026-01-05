@@ -1,4 +1,4 @@
-{
+rec {
 
   # ----------------------------------
   # System
@@ -12,6 +12,8 @@
 
   # Paths
   # ----------------------------------
+
+  home = "/home/${user}";
 
   cache = "/mnt/data/cache";
   code = "/mnt/data/code";

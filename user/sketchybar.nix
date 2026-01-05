@@ -1,18 +1,18 @@
 {
   config,
-  pkgs,
   lib,
-  dot,
   ...
 }:
 
+let
+  cfg = config.programs.sketchybar;
+in
 {
 
-  options.sketchybar = {
-    enable = lib.mkEnableOption "sketchybar";
+  options.programs.sketchybar = {
   };
 
-  config = lib.mkIf config.sketchybar.enable {
+  config = lib.mkIf cfg.enable {
 
     home.file.".config/sketchybar" = {
       source = ./dotfiles/.config/sketchybar;

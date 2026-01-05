@@ -1,17 +1,20 @@
 {
   config,
-  pkgs,
   lib,
+  pkgs,
   ...
 }:
 
+let
+  cfg = config.programs.hammerspoon;
+in
 {
 
-  options.hammerspoon = {
+  options.programs.hammerspoon = {
     enable = lib.mkEnableOption "hammerspoon";
   };
 
-  config = lib.mkIf config.hammerspoon.enable {
+  config = lib.mkIf cfg.enable {
 
     home.file.".config/hammerspoon/init.lua".text = ''
 

@@ -46,6 +46,13 @@ ip a
 echo "Copy over SSH key, then press <Ctrl-D>"
 cat
 
+# Move SSH key to the main user of the profile
+USER="$(sed -nE 's/.*user.*=.*"(.*)";.*/\1/p' \
+    "$PROFILES/$PROFILE/settings.nix")"
+mkdir -p "/mnt/home/$USER"
+mv "/mnt/root/.ssh" "/mnt/home/$USER"
+chown -R $USER:users "/home/$USER/.ssh"
+
 # Install system
 sudo nixos-install --root /mnt --flake "/mnt/etc/nixos#$PROFILE"
 

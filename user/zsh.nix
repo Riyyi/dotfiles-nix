@@ -6,6 +6,8 @@
 }:
 
 let
+  cfg = config.programs.zsh;
+
   switch-nixos = "sudo nixos-rebuild switch --sudo --flake /etc/nixos#$HOST";
   update-nixos = "sudo nix flake update --flake /etc/nixos && switch";
   clean-nixos = "sudo nix-env --delete-generations +5 --profile /nix/var/nix/profiles/system && nix-collect-garbage && nix-store --optimise && sudo nixos-rebuild boot";
@@ -16,16 +18,14 @@ let
 in
 {
 
-  options.zsh = {
-    enable = lib.mkEnableOption "zsh";
+  options.programs.zsh = {
   };
 
-  config = lib.mkIf config.zsh.enable {
+  config = lib.mkIf cfg.enable {
 
     programs.zsh = {
       dotDir = "${config.xdg.configHome}/zsh";
 
-      enable = true;
       enableCompletion = true;
       syntaxHighlighting = {
         enable = true;

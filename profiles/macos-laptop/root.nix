@@ -12,13 +12,12 @@
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = dot.user;
-  home.homeDirectory = dot.home;
+  home.username = "root";
+  home.homeDirectory = "/var/root";
 
   xdg.enable = true;
 
   # User modules
-  programs.beets.enable = true;
   programs.git.enable = true;
   programs.nvim.enable = true;
   programs.zsh.enable = true;
@@ -59,7 +58,7 @@
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
+    ".local/bin/zfsctl".source = ../../user/dotfiles/.local/bin/zfsctl;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
