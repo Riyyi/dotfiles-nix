@@ -195,19 +195,18 @@
   # ----------------------------------------
   # System modules
 
-  gitea.enable = true;
-  immich.enable = true;
-  jellyfin.enable = true;
-  ksmbd.enable = true;
-  navidrome.enable = true;
-  # nextcloud.enable = true;
-  nfs.enable = true;
-  nginx.enable = true;
-  qbittorrent-nox.enable = true;
-  # samba.enable = true;
-  syncthing.enable = true;
-  # transmission.enable = true;
-
+  features.gitea = true;
+  features.immich = true;
+  features.jellyfin = true;
+  features.ksmbd = true;
+  features.navidrome = true;
+  # features.nextcloud = true;
+  features.nfs = true;
+  features.nginx = true;
+  features.qbittorrent-nox = true;
+  # features.samba = true;
+  features.syncthing = true;
+  # features.transmission = true;
   features.zsh = true;
 
   # ----------------------------------------
