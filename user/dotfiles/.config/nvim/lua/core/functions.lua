@@ -1,9 +1,11 @@
 local M = {}
 
-M.is_buffer_a_file = function()
-	local buffer_name = vim.fn.bufname()
+M.is_buffer_a_file = function(path)
+	if not path then
+		path = vim.fn.bufname()
+	end
 
-	return buffer_name ~= "" and vim.fn.filereadable(buffer_name) == 1
+	return path ~= "" and vim.fn.filereadable(path) == 1
 end
 
 M.normalize_path = function(path)
@@ -11,13 +13,21 @@ M.normalize_path = function(path)
 	return IS_WINDOWS() and path:gsub("\\", "/") or path
 end
 
-M.get_file_path = function()
-	if not M.is_buffer_a_file() then
+M.get_path_directory = function(path)
+	if not M.is_buffer_a_file(path) then
 		return nil
 	end
 	local file_path = vim.fn.expand("%:p")
 
 	return M.normalize_path(vim.fn.fnamemodify(file_path, ":h")) .. "/"
+end
+
+M.get_path_filename = function(path)
+	if not path then
+		path = vim.fn.bufname()
+	end
+
+	return vim.fn.fnamemodify(path, ":t")
 end
 
 M.get_netrw_path = function() -- b:netrw_curdir
@@ -29,7 +39,7 @@ M.get_netrw_path = function() -- b:netrw_curdir
 end
 
 M.get_current_directory = function()
-	return M.get_file_path() or M.get_netrw_path() or M.normalize_path(vim.fn.getcwd())
+	return M.get_path_directory() or M.get_netrw_path() or M.normalize_path(vim.fn.getcwd())
 end
 
 M.find_project_root = function()

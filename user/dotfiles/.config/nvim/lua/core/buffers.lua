@@ -151,7 +151,7 @@ local buffer_action_in_active_group = function(action, direction)
 
 	-- Get buffer set
 	local buffers = M.buffers[group_index].buffers
-    if #buffers < 2 then return end
+	if #buffers < 2 then return end
 
 	-- Determine the other index
 	local other_index = buffer_index + direction
@@ -191,6 +191,7 @@ local buffer_action_in_active_group = function(action, direction)
 		local tmp = buffers[other_index]
 		buffers[other_index] = buffers[buffer_index]
 		buffers[buffer_index] = tmp
+		M.buffers[group_index].active_index = other_index
 	end
 
 	M.buffers[group_index].buffers = buffers
@@ -206,10 +207,12 @@ end
 
 M.buffer_swap_left = function()
 	buffer_action_in_active_group("swap", -1)
+	M.buffer_render_tabline()
 end
 
 M.buffer_swap_right = function()
 	buffer_action_in_active_group("swap", 1)
+	M.buffer_render_tabline()
 end
 
 --------------------------------------------
@@ -252,7 +255,7 @@ M.buffer_group_move_down = function()
 end
 
 --------------------------------------------
--- Telescope functionss
+-- Telescope functions
 
 local pick = function(title, items, entry_maker, action)
 	local actions = require("telescope.actions")
@@ -342,6 +345,137 @@ M.buffer_pick_group = function()
 			focus_buffer(new_buffer_name)
 		 end
 	)
+end
+
+--------------------------------------------
+-- UI functions
+
+local get_unique_buffer_names = function(paths)
+	local result = {}
+
+	-- input example:
+	-- {
+	-- 	"/tmp/file.txt",
+	-- 	"/tmp/another.sh",
+	-- 	"/tmp/stuff/another.sh",
+	-- 	"/tmp/stuff/more/another.sh",
+	-- 	"/tmp/thing/more/another.sh",
+	-- 	"/tmp/that/more/another.sh",
+	-- }
+
+	-- First pass: gather duplicate occurrence
+	local duplicates = {}
+	for i, path in ipairs(paths) do
+		local filename = F.get_path_filename(path)
+		if not duplicates[filename] then
+			duplicates[filename] = { i }
+		else
+			table.insert(duplicates[filename], i)
+		end
+	end
+
+	-- duplicates will now look like:
+	-- {
+	-- 	["file.txt"] = { 1 },
+	-- 	["another.sh"] = { 2, 3, 4, 5 },
+	-- }
+
+	-- Second pass: add the non-ambiguous filenames
+	for i, path in ipairs(paths) do
+		local filename = F.get_path_filename(path)
+		if #duplicates[filename] == 1 then
+			result[i] = filename
+			duplicates[filename] = nil
+		end
+	end
+
+	-- Third pass: build the result with disambiguation
+	for filename, indexes in pairs(duplicates) do
+
+		local path_left = {}
+		local insert_pos = #filename + 1
+
+		local escape_hatch = 20
+		while #indexes > 0 and escape_hatch > 0 do
+			escape_hatch = escape_hatch - 1
+
+			for _, index in ipairs(indexes) do
+				local path = path_left[index] or paths[index]
+				local dir_path = vim.fn.fnamemodify(path, ":h")
+				local dir_name = F.get_path_filename(dir_path)
+
+				path_left[index] = dir_path
+
+				if not result[index] then
+					result[index] = filename .. "<" .. dir_name .. ">"
+				else
+					result[index] =
+						result[index]:sub(1, insert_pos)
+						.. dir_name .. "/" ..
+						result[index]:sub(insert_pos + 1)
+				end
+			end
+
+			local new_duplicates = {}
+			for i = 1, #indexes do
+				local indexA = indexes[i]
+				for j = i + 1, #indexes do
+					local indexB = indexes[j]
+					if (result[indexA] == result[indexB]) then
+						if not vim.tbl_contains(new_duplicates, indexB) then
+							table.insert(new_duplicates, indexB)
+						end
+						if not vim.tbl_contains(new_duplicates, indexA) then
+							table.insert(new_duplicates, indexA)
+						end
+					end
+				end
+			end
+			indexes = new_duplicates
+		end
+
+	end
+
+	-- output example:
+	-- {
+	-- 	"file.txt",
+	-- 	"another.sh<tmp>",
+	-- 	"another.sh<stuff>",
+	-- 	"another.sh<stuff/more>",
+	-- 	"another.sh<thing/more>",
+	-- 	"another.sh<that/more>",
+	-- }
+
+	return result
+end
+
+M.buffer_render_tabline = function()
+	local buffer_name = get_buffer_name()
+	if not buffer_name then return end
+
+	-- Get active group from the current buffer
+	local group_index, _ = get_group_from_buffer(buffer_name)
+	if not group_index then group_index, _ = M.add_buffer() end
+
+	-- Get all buffers from the active group
+	local buffers = get_unique_buffer_names(M.buffers[group_index].buffers)
+	local active_index = M.buffers[group_index].active_index
+
+	local render = "%#TablineBackground# "
+
+	-- for buffers
+	for i = 1, #buffers do
+		local active = i == active_index and "Active" or ""
+		render = render ..
+			"%#TablineSymbol" .. active .. "#" .. "" ..
+			"%#TablineTab" .. active .. "# " .. buffers[i] .. " " ..
+			"%#TablineSymbol" .. active .. "#"
+	end
+
+	render = render .. "%#TabLineFill#"
+
+	vim.o.tabline = render
+	vim.o.showtabline = 2
 end
 
 return M

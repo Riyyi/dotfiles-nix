@@ -44,10 +44,10 @@ vim.api.nvim_create_autocmd("User", {
 
 vim.api.nvim_create_autocmd("BufWinEnter", {
 	callback = function()
-	-- Buffer tracking
+		-- Buffer tracking
 		require("core.buffers").add_buffer()
 	end,
-    desc = "Track all full window buffers visited",
+	desc = "Track all full window buffers visited",
 })
 
 vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
@@ -55,5 +55,14 @@ vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
 		-- Buffer tracking
 		require("core.buffers").remove_buffer(opts.match)
 	end,
-    desc = "Track all full window buffers killed",
+	desc = "Track all full window buffers killed",
+})
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter",
+	"BufLeave", "BufWinLeave", "BufDelete", "BufWipeout" }, {
+	callback = function()
+		-- Buffer tabline
+		require("core.buffers").buffer_render_tabline()
+	end,
+	desc = "Update the buffer tabline display",
 })

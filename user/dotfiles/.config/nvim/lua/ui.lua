@@ -32,22 +32,28 @@ return {
 			local yellow = colors.base0A -- #f0c674
 
 			-- Cursor
-			vim.api.nvim_command("highlight CursorLineNr                                      guifg=" .. yellow .. " gui=bold")
+			vim.api.nvim_set_hl(0, "CursorLineNr", { fg = yellow, bold = true })
 			-- Diffview
-			vim.api.nvim_command("highlight DiffviewDiffAdd         guibg=" .. green_bg)
-			vim.api.nvim_command("highlight DiffviewDiffChange      guibg=" .. blue_p3) -- Unchanged part on a change line
-			vim.api.nvim_command("highlight DiffviewDiffDelete      guibg=" .. red_bg .. "    guifg=" .. fg_dark)
-			vim.api.nvim_command("highlight DiffviewDiffText        guibg=" .. blue_p2) -- Changed part on a change line
+			vim.api.nvim_set_hl(0, "DiffviewDiffAdd",    { bg = green_bg })
+			vim.api.nvim_set_hl(0, "DiffviewDiffChange", { bg = blue_p3 }) -- Unchanged part on a change line
+			vim.api.nvim_set_hl(0, "DiffviewDiffDelete", { bg = red_bg, fg = fg_dark })
+			vim.api.nvim_set_hl(0, "DiffviewDiffText",   { bg = blue_p2 }) -- Changed part on a change line
 			-- Git gutter
-			vim.api.nvim_command("highlight GitSignsAdd                                       guifg=" .. green_p1)
-			vim.api.nvim_command("highlight GitSignsChange                                    guifg=" .. yellow)
+			vim.api.nvim_set_hl(0, "GitSignsAdd",    { fg = green_p1 })
+			vim.api.nvim_set_hl(0, "GitSignsChange", { fg = yellow })
 			-- Rainbow delimiters
-			vim.api.nvim_command("highlight RainbowDelimiterBlue                              guifg=" .. blue)
-			vim.api.nvim_command("highlight RainbowDelimiterCyan                              guifg=" .. cyan)
-			vim.api.nvim_command("highlight RainbowDelimiterGreen                             guifg=" .. green_p1)
-			vim.api.nvim_command("highlight RainbowDelimiterOrange                            guifg=" .. fg)
-			vim.api.nvim_command("highlight RainbowDelimiterRed                               guifg=" .. red)
-			vim.api.nvim_command("highlight RainbowDelimiterYellow                            guifg=" .. yellow)
+			vim.api.nvim_set_hl(0, "RainbowDelimiterBlue",   { fg = blue })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterCyan",   { fg = cyan })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterGreen",  { fg = green_p1 })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterOrange", { fg = fg })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterRed",    { fg = red })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = yellow })
+			-- Tabline
+			vim.api.nvim_set_hl(0, "TablineBackground",    {                     bg = colors.base01 })
+			vim.api.nvim_set_hl(0, "TablineSymbol",		   { fg = colors.base01, bg = colors.base01 })
+			vim.api.nvim_set_hl(0, "TablineSymbolActive",  { fg = colors.base02, bg = colors.base01 })
+			vim.api.nvim_set_hl(0, "TablineTab",		   { fg = colors.base03, bg = colors.base01 })
+			vim.api.nvim_set_hl(0, "TablineTabActive",	   { fg = colors.base06, bg = colors.base02 })
 		end,
 	},
 
