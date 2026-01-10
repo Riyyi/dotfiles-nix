@@ -12,7 +12,8 @@
   # Imports
 
   imports = [
-    ./../../common/common-darwin.nix
+    ./../../common
+    ./../../darwin
     ./../../../system
   ];
 

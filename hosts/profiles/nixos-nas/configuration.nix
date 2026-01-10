@@ -1,10 +1,9 @@
 {
-  config,
-  pkgs,
-  lib,
-  inputs,
-  dot,
   cwd,
+  dot,
+  inputs,
+  lib,
+  pkgs,
   ...
 }:
 
@@ -13,7 +12,8 @@
   # Imports
 
   imports = [
-    ./../../common/common.nix
+    ./../../common
+    ./../../nixos
     ./../../../system
   ];
 
