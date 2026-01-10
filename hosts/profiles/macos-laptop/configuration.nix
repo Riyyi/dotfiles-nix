@@ -24,10 +24,6 @@
   # ----------------------------------------
   # Users
 
-  # ZSH
-  programs.zsh.enable = true;
-  environment.shells = with pkgs; [ zsh ];
-
   # nix-darwin cant set the shell of the root user
   # $ less /etc/shells
   # $ chsh -s /run/current-system/sw/bin/zsh root
@@ -187,6 +183,8 @@
 
   # ----------------------------------------
   # System modules
+
+  features.zsh = true;
 
   # ----------------------------------------
   # Services

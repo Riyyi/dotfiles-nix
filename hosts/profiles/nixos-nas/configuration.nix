@@ -76,10 +76,6 @@
   # ----------------------------------------
   # Users
 
-  # ZSH
-  programs.zsh.enable = true;
-  environment.shells = with pkgs; [ zsh ];
-
   users.users.root = {
     isSystemUser = true;
     shell = pkgs.zsh;
@@ -211,6 +207,8 @@
   # samba.enable = true;
   syncthing.enable = true;
   # transmission.enable = true;
+
+  features.zsh = true;
 
   # ----------------------------------------
   # Services
