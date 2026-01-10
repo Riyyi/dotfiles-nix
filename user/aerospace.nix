@@ -250,8 +250,8 @@ in
           alt-v = "layout v_tiles v_accordion";
 
           # Focus the previous/next desktop on current monitor
-          alt-minus = "exec-and-forget printf 一\\\\n二\\\\n三\\\\n四\\\\n五\\\\n六\\\\n七\\\\n八\\\\n九\\\\n十\\\\n | ${aerospace-pkg}/bin/aerospace workspace prev";
-          alt-equal = "exec-and-forget printf 一\\\\n二\\\\n三\\\\n四\\\\n五\\\\n六\\\\n七\\\\n八\\\\n九\\\\n十\\\\n | ${aerospace-pkg}/bin/aerospace workspace next";
+          alt-minus = "workspace prev";
+          alt-equal = "workspace next";
 
           # Focus last desktop
           alt-backtick = "workspace-back-and-forth";
