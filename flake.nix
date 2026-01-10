@@ -58,9 +58,9 @@
       addProfiles =
         { system, mkConfiguration }:
         let
-          matchSystem = profile: (import ./profiles/${profile}/settings.nix).system == system;
+          matchSystem = profile: (import ./hosts/profiles/${profile}/settings.nix).system == system;
         in
-        builtins.readDir ./profiles
+        builtins.readDir ./hosts/profiles
         |> nixpkgs.lib.filterAttrs (name: type: type == "directory")
         |> builtins.attrNames
         |> builtins.filter matchSystem
@@ -91,7 +91,7 @@
           mkConfiguration =
             profile:
             let
-              dot = import ./profiles/${profile}/settings.nix;
+              dot = import ./hosts/profiles/${profile}/settings.nix;
             in
             {
               name = dot.hostname;
@@ -106,10 +106,9 @@
                     ;
                 };
                 modules = [
-                  ./profiles/${profile}/configuration.nix
-                  ./profiles/${profile}/disko.nix
-                  ./profiles/${profile}/disko-mount.nix
-                  ./profiles/hardware-configuration.nix
+                  ./hosts/profiles/${profile}/configuration.nix
+                  ./hosts/profiles/${profile}/disko.nix
+                  ./hosts/profiles/${profile}/disko-mount.nix
                 ];
               };
             };
@@ -127,7 +126,7 @@
           mkConfiguration =
             profile:
             let
-              dot = import ./profiles/${profile}/settings.nix;
+              dot = import ./hosts/profiles/${profile}/settings.nix;
             in
             {
               name = dot.hostname;
@@ -142,7 +141,7 @@
                     ;
                 };
                 modules = [
-                  ./profiles/${profile}/configuration.nix
+                  ./hosts/profiles/${profile}/configuration.nix
                 ];
               };
             };

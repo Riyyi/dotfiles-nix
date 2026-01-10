@@ -13,8 +13,8 @@
   # Imports
 
   imports = [
-    ./../common.nix
-    ./../../system
+    ./../../common/common.nix
+    ./../../../system
   ];
 
   # ----------------------------------------

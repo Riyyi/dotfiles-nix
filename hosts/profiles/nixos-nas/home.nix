@@ -1,8 +1,13 @@
-{ dot, ... }:
+{
+  config,
+  dot,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
-    ./../../user
+    ./../../../user
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -13,16 +18,9 @@
   xdg.enable = true;
 
   # User modules
-  programs.aerospace.enable = true;
-  programs.autoraise.enable = true;
-  programs.firefox.enable = true;
-  programs.ghostty.enable = true;
+  programs.beets.enable = true;
   programs.git.enable = true;
-  programs.hammerspoon.enable = true;
-  programs.jankyborders.enable = true;
-  programs.mpv.enable = true;
   programs.nvim.enable = true;
-  programs.sketchybar.enable = true;
   programs.zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is
@@ -32,7 +30,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "25.05"; # Please read the comment before changing.
+  home.stateVersion = dot.version; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.

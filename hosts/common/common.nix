@@ -34,7 +34,7 @@
   };
 
   # Configure sops
-  sops.defaultSopsFile = ./../sops/secrets/secrets.yaml;
+  sops.defaultSopsFile = ./../../sops/secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
   sops.age.generateKey = false;
   sops.age.sshKeyPaths = [ "${dot.home}/.ssh/id_ed25519" ];
