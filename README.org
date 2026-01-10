@@ -42,25 +42,60 @@ Rough outline of the repo files.
 
 #+BEGIN_SRC
 .
+├── hosts/
+│   ├── common/
+│   │   └── <modules>
+│   ├── darwin/
+│   │   └── <modules>
+│   ├── nixos/
+│   │   └── <modules>
+│   └── profiles/
+│       └── <profile>
+│           └── <modules>
+├── modules/
+│   ├── common/
+│   │   └── <modules>
+│   ├── darwin/
+│   │   └── <modules>
+│   ├── home-manager/
+│   │   └── <modules>
+│   └── nixos/
+│       └── <modules>
+├── overlays/
+├── sops/
+│   ├── secrets/
+│   │   └── secrets.yaml
+│   └── .sops.yaml
 ├── flake.nix
 ├── install.sh
 ├── push.sh
-├── profiles
-│   ├── common.nix
-│   ├── hardware-configuration.nix
-│   └── <profile>
-│       └── <modules>
-├── sops
-│   ├── secrets
-│   │   └── secrets.yaml
-│   └── .sops.yaml
-├── system
-│   └── <modules>
-└── user
-    └── <modules>
+└── shell.nix
 #+END_SRC
 
 Interesting parts explained.
+
+*** hosts
+
+Stateful modules, separated by hostname.
+
+**** profiles
+
+This structure is used for system specific configuration, based on the hostname.\\
+Each profile has its own =configuration.nix=, =disko.nix=, =settings.nix=, etc.
+
+*** overlays
+
+Overwrite flake package inputs.
+
+*** SOPS
+
+Secret encryption related files.
+
+*** modules
+
+Stateful modules, separated by evaluation context.
+Includes root services and home directory application configuration modules.
+This is more general than =host= modules.
 
 *** flake.nix
 
@@ -75,22 +110,9 @@ The script can be run from a booted NixOS ISO.
 
 Push your private SSH key to the system, of which the SOPS key will be derived.
 
-*** profiles
+*** shell.nix
 
-This structure is used for system specific configuration, based on the hostname.\\
-Each profile has its own =configuration.nix=, =disko.nix=, =settings.nix=, etc.
-
-*** SOPS
-
-Secret encryption related files.
-
-*** system
-
-All root service configuration modules.
-
-*** user
-
-All home directory application configuration modules.
+Sets up a dev shell for REPL use, useful for debugging.
 
 ** Todo
 

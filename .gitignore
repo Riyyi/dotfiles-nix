@@ -5,4 +5,3 @@ sops/age/
 # Files
 
 .DS_Store
-profiles/hardware-configuration.nix
