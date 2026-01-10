@@ -1,0 +1,23 @@
+{ ... }:
+
+{
+
+  imports = [
+    ./firewall.nix
+    ./gitea.nix
+    ./immich.nix
+    ./jellyfin.nix
+    ./ksmbd.nix
+    ./mysql.nix
+    ./navidrome.nix
+    ./nextcloud.nix
+    ./nfs.nix
+    ./nginx.nix
+    ./postgresql.nix
+    ./qbittorrent-nox.nix
+    ./samba.nix
+    ./syncthing.nix
+    ./transmission.nix
+  ];
+
+}

@@ -7,7 +7,8 @@
 
 {
   imports = [
-    ./../../../user
+    ./../../../modules
+    ./../../../modules/home-manager
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -18,10 +19,10 @@
   xdg.enable = true;
 
   # User modules
-  programs.beets.enable = true;
-  programs.git.enable = true;
-  programs.nvim.enable = true;
-  programs.zsh.enable = true;
+  # features.beets = true;
+  features.git = true;
+  features.nvim = true;
+  features.zsh = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

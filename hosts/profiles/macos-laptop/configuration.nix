@@ -12,9 +12,13 @@
   # Imports
 
   imports = [
+    # Hosts
     ./../../common
     ./../../darwin
-    ./../../../system
+    # Modules
+    ./../../../modules
+    ./../../../modules/common
+    ./../../../modules/darwin
   ];
 
   # ----------------------------------------

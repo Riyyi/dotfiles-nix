@@ -1,13 +1,12 @@
 {
-  config,
   dot,
-  pkgs,
   ...
 }:
 
 {
   imports = [
-    ./../../../user
+    ./../../../modules
+    ./../../../modules/home-manager
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -58,7 +57,7 @@
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
-    ".local/bin/zfsctl".source = ../../../user/dotfiles/.local/bin/zfsctl;
+    ".local/bin/zfsctl".source = ../../../modules/home-manager/dotfiles/.local/bin/zfsctl;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''

@@ -12,9 +12,13 @@
   # Imports
 
   imports = [
+    # Hosts
     ./../../common
     ./../../nixos
-    ./../../../system
+    # Modules
+    ./../../../modules
+    ./../../../modules/common
+    ./../../../modules/nixos
   ];
 
   # ----------------------------------------

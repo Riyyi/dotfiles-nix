@@ -2,7 +2,8 @@
 
 {
   imports = [
-    ./../../../user
+    ./../../../modules
+    ./../../../modules/home-manager
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -13,17 +14,17 @@
   xdg.enable = true;
 
   # User modules
-  programs.aerospace.enable = true;
-  programs.autoraise.enable = true;
-  programs.firefox.enable = true;
-  programs.ghostty.enable = true;
-  programs.git.enable = true;
-  programs.hammerspoon.enable = true;
-  programs.jankyborders.enable = true;
-  programs.mpv.enable = true;
-  programs.nvim.enable = true;
-  programs.sketchybar.enable = true;
-  programs.zsh.enable = true;
+  features.aerospace = true;
+  features.autoraise = true;
+  features.firefox = true;
+  features.ghostty = true;
+  features.git = true;
+  features.hammerspoon = true;
+  features.jankyborders = true;
+  features.mpv = true;
+  features.nvim = true;
+  features.sketchybar = true;
+  features.zsh = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
