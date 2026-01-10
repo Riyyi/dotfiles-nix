@@ -6,8 +6,11 @@
   ...
 }:
 
+let
+  cfg = config.features.mysql;
+in
 {
-  options.mysql = {
+  options.features.mysql = {
     databases = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
@@ -15,7 +18,7 @@
     };
   };
 
-  config = lib.mkIf config.features.mysql {
+  config = lib.mkIf cfg.enable {
 
     services.mysql = {
       enable = true;
@@ -26,7 +29,7 @@
       settings = {
         mysqld.bind-address = "0.0.0.0";
       };
-      ensureDatabases = config.mysql.databases;
+      ensureDatabases = cfg.databases;
       ensureUsers = [
         {
           name = dot.user;
@@ -34,7 +37,7 @@
             map (db: {
               name = "${db}.*";
               value = "ALL PRIVILEGES";
-            }) config.mysql.databases
+            }) cfg.databases
           );
         }
       ];
@@ -53,13 +56,13 @@
       enable = true;
       user = dot.user;
       location = "${dot.documents}/backup/${dot.hostname}/mysql";
-      databases = config.mysql.databases;
+      databases = cfg.databases;
       calendar = "01:05:00"; # every day at 01:05 AM
     };
 
-    firewall.enable = true;
-    firewall.allowedTCPPorts = lib.mkAfter [ 3306 ];
-    firewall.allowedUDPPorts = lib.mkAfter [ 3306 ];
+    features.firewall.enable = true;
+    features.firewall.allowedTCPPorts = lib.mkAfter [ 3306 ];
+    features.firewall.allowedUDPPorts = lib.mkAfter [ 3306 ];
 
   };
 

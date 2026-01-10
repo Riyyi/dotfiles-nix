@@ -6,16 +6,18 @@
 }:
 
 let
+  cfg = config.features.gitea;
+
   user = "git";
   group = user;
   database = user;
 in
 {
 
-  options.gitea = {
+  options.features.gitea = {
   };
 
-  config = lib.mkIf config.features.gitea {
+  config = lib.mkIf cfg.enable {
 
     users.users.${user} = {
       isSystemUser = true;
@@ -74,10 +76,10 @@ in
       };
     };
 
-    mysql.enable = true;
-    mysql.databases = lib.mkAfter [ database ];
+    features.mysql.enable = true;
+    features.mysql.databases = lib.mkAfter [ database ];
 
-    nginx.enable = true;
+    features.nginx.enable = true;
     services.nginx.virtualHosts."git-home.${dot.domain}" = {
       forceSSL = true;
       useACMEHost = dot.domain;

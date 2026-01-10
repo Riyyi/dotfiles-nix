@@ -6,7 +6,7 @@
 }:
 
 let
-  # cfg = config.programs.firefox;
+  cfg = config.features.firefox;
 
   profile = "dotfiles";
 in
@@ -27,10 +27,10 @@ in
   # via .xpi
   # https://github.com/IanHollow/nix-conf/blob/main/configs/home/programs/firefox/extensions.nix
 
-  options.programs.firefox = {
+  options.features.firefox = {
   };
 
-  config = lib.mkIf config.features.firefox {
+  config = lib.mkIf cfg.enable {
 
     programs.firefox = {
       enable = true;

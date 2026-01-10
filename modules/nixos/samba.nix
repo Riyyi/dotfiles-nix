@@ -7,7 +7,7 @@
 }:
 
 let
-  # cfg = config.samba;
+  cfg = config.features.samba;
 
   mount =
     { path }:
@@ -21,10 +21,10 @@ let
 in
 {
 
-  options.samba = {
+  options.features.samba = {
   };
 
-  config = lib.mkIf config.features.samba {
+  config = lib.mkIf cfg.enable {
 
     sops.secrets."samba/user/password" = {
       owner = "root";
@@ -69,13 +69,13 @@ in
       enable = true;
     };
 
-    firewall.enable = true; # samba     avahi  wsdd
-    firewall.allowedTCPPorts = lib.mkAfter [
+    features.firewall.enable = true; # samba     avahi  wsdd
+    features.firewall.allowedTCPPorts = lib.mkAfter [
       139
       445
       5357
     ];
-    firewall.allowedUDPPorts = lib.mkAfter [
+    features.firewall.allowedUDPPorts = lib.mkAfter [
       137
       138
       5353

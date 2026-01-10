@@ -7,6 +7,8 @@
 }:
 
 let
+  cfg = config.features.ksmbd;
+
   mount =
     { name, path }:
     ''
@@ -20,10 +22,10 @@ let
 in
 {
 
-  options.ksmbd = {
+  options.features.ksmbd = {
   };
 
-  config = lib.mkIf config.features.ksmbd {
+  config = lib.mkIf cfg.enable {
 
     environment.etc."ksmbd/ksmbd.conf".text = ''
       [global]
@@ -68,8 +70,8 @@ in
       ${dot.user}:7APGued9PyGEkx+EhZUSLg==
     '';
 
-    firewall.enable = true;
-    firewall.allowedTCPPorts = lib.mkAfter [ 445 ];
+    features.firewall.enable = true;
+    features.firewall.allowedTCPPorts = lib.mkAfter [ 445 ];
 
     boot.kernelModules = lib.mkAfter [ "ksmbd" ];
 

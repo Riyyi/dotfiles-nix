@@ -5,12 +5,15 @@
   ...
 }:
 
+let
+  cfg = config.features.nginx;
+in
 {
 
-  options.nginx = {
+  options.features.nginx = {
   };
 
-  config = lib.mkIf config.features.nginx {
+  config = lib.mkIf cfg.enable {
 
     sops.secrets."cloudflare/dns/api_key" = {
       owner = dot.user;
@@ -78,8 +81,8 @@
       };
     };
 
-    firewall.enable = true;
-    firewall.allowedTCPPorts = lib.mkAfter [
+    features.firewall.enable = true;
+    features.firewall.allowedTCPPorts = lib.mkAfter [
       80
       443
     ];

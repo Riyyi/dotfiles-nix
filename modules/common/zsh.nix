@@ -6,9 +6,12 @@
   ...
 }:
 
+let
+  cfg = config.features.zsh;
+in
 {
 
-  config = lib.mkIf config.features.zsh {
+  config = lib.mkIf cfg.enable {
 
     programs.zsh = {
       enable = true;

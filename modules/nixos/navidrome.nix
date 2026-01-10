@@ -6,12 +6,15 @@
   ...
 }:
 
+let
+  cfg = config.features.navidrome;
+in
 {
 
-  options.navidrome = {
+  options.features.navidrome = {
   };
 
-  config = lib.mkIf config.features.navidrome {
+  config = lib.mkIf cfg.enable {
 
     services.navidrome = {
       enable = true;
@@ -34,7 +37,7 @@
       };
     };
 
-    nginx.enable = true;
+    features.nginx.enable = true;
     services.nginx.virtualHosts."music.${dot.domain}" = {
       forceSSL = true;
       useACMEHost = dot.domain;

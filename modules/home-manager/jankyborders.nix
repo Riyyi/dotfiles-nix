@@ -1,14 +1,14 @@
 { config, lib, ... }:
 
 let
-  # cfg = config.programs.jankyborders;
+  cfg = config.features.jankyborders;
 in
 {
 
-  options.programs.jankyborders = {
+  options.features.jankyborders = {
   };
 
-  config = lib.mkIf config.features.jankyborders {
+  config = lib.mkIf cfg.enable {
 
     # NOTE: This is a "service" instead of a "program", so it autostarts
     services.jankyborders = {

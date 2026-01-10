@@ -93,7 +93,7 @@ Secret encryption related files.
 
 *** modules
 
-Stateful modules, separated by evaluation context.
+Stateful modules, separated by evaluation scope.
 Includes root services and home directory application configuration modules.
 This is more general than =host= modules.
 

@@ -7,14 +7,14 @@
 }:
 
 let
-  # cfg = config.programs.beets;
+  cfg = config.features.beets;
 in
 {
 
-  options.programs.beets = {
+  options.features.beets = {
   };
 
-  config = lib.mkIf config.features.beets {
+  config = lib.mkIf cfg.enable {
 
     programs.beets = {
       enable = true;

@@ -1,14 +1,14 @@
 { config, lib, ... }:
 
 let
-  # cfg = config.programs.git;
+  cfg = config.features.git;
 in
 {
 
-  options.programs.git = {
+  options.features.git = {
   };
 
-  config = lib.mkIf config.features.git {
+  config = lib.mkIf cfg.enable {
 
     programs.git = {
       enable = true;

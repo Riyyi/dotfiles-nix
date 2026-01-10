@@ -6,8 +6,12 @@
   ...
 }:
 
+let
+  cfg = config.features.postgresql;
+in
 {
-  options.postgresql = {
+
+  options.features.postgresql = {
     databases = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
@@ -15,7 +19,7 @@
     };
   };
 
-  config = lib.mkIf config.features.postgresql {
+  config = lib.mkIf cfg.enable {
 
     sops.secrets."postgres/database/password" = {
       owner = "postgres";
@@ -31,11 +35,11 @@
           host     all         all      ::1/128           md5
       '';
 
-      ensureDatabases = config.postgresql.databases;
+      ensureDatabases = cfg.databases;
       ensureUsers = lib.map (db: {
         name = db;
         ensureDBOwnership = true;
-      }) config.postgresql.databases;
+      }) cfg.databases;
 
       dataDir = "${dot.config}/postgresql/${config.services.postgresql.package.psqlSchema}";
     };
@@ -49,9 +53,9 @@
       compressionLevel = 6; # 1-9 for gzip, 1-19 for zstd
     };
 
-    firewall.enable = true;
-    firewall.allowedTCPPorts = lib.mkAfter [ 5432 ];
-    firewall.allowedUDPPorts = lib.mkAfter [ 5432 ];
+    features.firewall.enable = true;
+    features.firewall.allowedTCPPorts = lib.mkAfter [ 5432 ];
+    features.firewall.allowedUDPPorts = lib.mkAfter [ 5432 ];
 
     system.activationScripts.postgresql = ''
       dataDir="${dot.config}/postgresql"

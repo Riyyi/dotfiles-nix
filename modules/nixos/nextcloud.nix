@@ -1,21 +1,23 @@
 {
-  config,
-  pkgs,
-  lib,
   dot,
+  config,
+  lib,
+  pkgs,
   ...
 }:
 
 let
+  cfg = config.features.nextcloud;
+
   user = "nextcloud";
   database = user;
 in
 {
 
-  options.nextcloud = {
+  options.features.nextcloud = {
   };
 
-  config = lib.mkIf config.nextcloud.enable {
+  config = lib.mkIf cfg.enable {
 
     sops.secrets."nextcloud/gui/password" = {
       owner = "nextcloud";
@@ -70,11 +72,11 @@ in
       };
     };
 
-    mysql.enable = true;
-    # mysql.databases = lib.mkafter [ database ];
+    features.mysql.enable = true;
+    # features.mysql.databases = lib.mkafter [ database ];
 
     # Nextcloud module already has an nginx entry, just extend with HTTPS
-    nginx.enable = true;
+    features.nginx.enable = true;
     services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
       forceSSL = true;
       useACMEHost = dot.domain;

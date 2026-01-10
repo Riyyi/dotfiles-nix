@@ -184,7 +184,7 @@
   # ----------------------------------------
   # System modules
 
-  features.zsh = true;
+  features.zsh.enable = true;
 
   # ----------------------------------------
   # Services

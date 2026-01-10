@@ -7,16 +7,18 @@
 }:
 
 let
+  cfg = config.features.immich;
+
   user = "immich";
   group = user;
   database = user;
 in
 {
 
-  options.immich = {
+  options.features.immich = {
   };
 
-  config = lib.mkIf config.features.immich {
+  config = lib.mkIf cfg.enable {
 
     users.users.${user}.extraGroups = [
       "render"
@@ -49,10 +51,10 @@ in
       settings.server.externalDomain = "https://pictures.${dot.domain}";
     };
 
-    postgresql.enable = true;
-    postgresql.databases = lib.mkAfter [ database ];
+    features.postgresql.enable = true;
+    features.postgresql.databases = lib.mkAfter [ database ];
 
-    nginx.enable = true;
+    features.nginx.enable = true;
     services.nginx.virtualHosts."pictures.${dot.domain}" = {
       forceSSL = true;
       useACMEHost = dot.domain;

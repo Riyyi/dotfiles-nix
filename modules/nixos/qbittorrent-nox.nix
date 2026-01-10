@@ -7,15 +7,16 @@
 }:
 
 let
-  # cfg = config.qbittorrent-nox;
+  cfg = config.features.qbittorrent-nox;
+
   port = 50000;
 in
 {
 
-  options.qbittorrent-nox = {
+  options.features.qbittorrent-nox = {
   };
 
-  config = lib.mkIf config.features.qbittorrent-nox {
+  config = lib.mkIf cfg.enable {
 
     services.qbittorrent = {
       enable = true;
@@ -47,7 +48,7 @@ in
       };
     };
 
-    nginx.enable = true;
+    features.nginx.enable = true;
     services.nginx.virtualHosts."download.${dot.domain}" = {
       forceSSL = true;
       useACMEHost = dot.domain;
@@ -67,8 +68,8 @@ in
       };
     };
 
-    firewall.enable = true;
-    firewall.safeTCPPorts = lib.mkAfter [ port ]; # open port to all IPs
+    features.firewall.enable = true;
+    features.firewall.safeTCPPorts = lib.mkAfter [ port ]; # open port to all IPs
 
   };
 

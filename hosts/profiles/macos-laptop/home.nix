@@ -14,17 +14,17 @@
   xdg.enable = true;
 
   # User modules
-  features.aerospace = true;
-  features.autoraise = true;
-  features.firefox = true;
-  features.ghostty = true;
-  features.git = true;
-  features.hammerspoon = true;
-  features.jankyborders = true;
-  features.mpv = true;
-  features.nvim = true;
-  features.sketchybar = true;
-  features.zsh = true;
+  features.aerospace.enable = true;
+  features.autoraise.enable = true;
+  features.firefox.enable = true;
+  features.ghostty.enable = true;
+  features.git.enable = true;
+  features.hammerspoon.enable = true;
+  features.jankyborders.enable = true;
+  features.mpv.enable = true;
+  features.nvim.enable = true;
+  features.sketchybar.enable = true;
+  features.zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

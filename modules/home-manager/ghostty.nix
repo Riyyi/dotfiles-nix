@@ -1,14 +1,14 @@
 { config, lib, ... }:
 
 let
-  # cfg = config.programs.ghostty;
+  cfg = config.features.ghostty;
 in
 {
 
-  options.programs.ghostty = {
+  options.features.ghostty = {
   };
 
-  config = lib.mkIf config.features.ghostty {
+  config = lib.mkIf cfg.enable {
 
     programs.ghostty = {
       enable = true;

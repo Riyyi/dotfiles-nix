@@ -6,14 +6,14 @@
 }:
 
 let
-  # cfg = config.nfs;
+  cfg = config.features.nfs;
 in
 {
 
-  options.nfs = {
+  options.features.nfs = {
   };
 
-  config = lib.mkIf config.features.nfs {
+  config = lib.mkIf cfg.enable {
 
     services.nfs = {
       server = {
@@ -31,8 +31,8 @@ in
       };
     };
 
-    firewall.enable = true;
-    firewall.allowedTCPPorts = lib.mkAfter [ 2049 ];
+    features.firewall.enable = true;
+    features.firewall.allowedTCPPorts = lib.mkAfter [ 2049 ];
 
   };
 

@@ -195,19 +195,19 @@
   # ----------------------------------------
   # System modules
 
-  features.gitea = true;
-  features.immich = true;
-  features.jellyfin = true;
-  features.ksmbd = true;
-  features.navidrome = true;
-  # features.nextcloud = true;
-  features.nfs = true;
-  features.nginx = true;
-  features.qbittorrent-nox = true;
-  # features.samba = true;
-  features.syncthing = true;
-  # features.transmission = true;
-  features.zsh = true;
+  features.gitea.enable = true;
+  features.immich.enable = true;
+  features.jellyfin.enable = true;
+  features.ksmbd.enable = true;
+  features.navidrome.enable = true;
+  # features.nextcloud.enable = true;
+  features.nfs.enable = true;
+  features.nginx.enable = true;
+  features.qbittorrent-nox.enable = true;
+  # features.samba.enable = true;
+  features.syncthing.enable = true;
+  # features.transmission.enable = true;
+  features.zsh.enable = true;
 
   # ----------------------------------------
   # Services
@@ -269,8 +269,8 @@
   # Firewall
 
   # Open ports in the firewall
-  firewall.enable = true;
-  firewall.safeTCPPorts = lib.mkAfter [ 4000 ]; # open port to all IPs
+  features.firewall.enable = true;
+  features.firewall.safeTCPPorts = lib.mkAfter [ 4000 ]; # open port to all IPs
 
   # ----------------------------------------
   # Other

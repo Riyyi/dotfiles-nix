@@ -6,6 +6,8 @@
 }:
 
 let
+  cfg = config.features.syncthing;
+
   addFolder =
     { id, path }:
     {
@@ -22,10 +24,10 @@ let
 in
 {
 
-  options.syncthing = {
+  options.features.syncthing = {
   };
 
-  config = lib.mkIf config.features.syncthing {
+  config = lib.mkIf cfg.enable {
 
     sops.secrets."syncthing/gui/password" = {
       owner = dot.user;
@@ -92,14 +94,14 @@ in
       };
     };
 
-    firewall.enable = true;
-    firewall.allowedTCPPorts = lib.mkAfter [ 22000 ];
-    firewall.allowedUDPPorts = lib.mkAfter [
+    features.firewall.enable = true;
+    features.firewall.allowedTCPPorts = lib.mkAfter [ 22000 ];
+    features.firewall.allowedUDPPorts = lib.mkAfter [
       22000
       21027
     ];
 
-    nginx.enable = true;
+    features.nginx.enable = true;
     services.nginx.virtualHosts."syncthing-home.${dot.domain}" = {
       forceSSL = true;
       useACMEHost = dot.domain;

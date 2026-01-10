@@ -1,8 +1,11 @@
 { config, lib, ... }:
 
+let
+  cfg = config.features.hammerspoon;
+in
 {
 
-  config = lib.mkIf config.features.hammerspoon {
+  config = lib.mkIf cfg.enable {
 
     system.defaults = {
       CustomUserPreferences = {

@@ -5,14 +5,14 @@
 }:
 
 let
-  # cfg = config.programs.mpv;
+  cfg = config.features.mpv;
 in
 {
 
-  options.programs.mpv = {
+  options.features.mpv = {
   };
 
-  config = lib.mkIf config.features.mpv {
+  config = lib.mkIf cfg.enable {
 
     # TODO: Change this to nix syntax
     home.file = {

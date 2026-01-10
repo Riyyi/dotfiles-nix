@@ -6,7 +6,7 @@
 }:
 
 let
-  # cfg = config.programs.aerospace;
+  cfg = config.features.aerospace;
 
   aerospace-pkg = pkgs.unstable.aerospace;
   autoraise = "${pkgs.autoraise}/bin/autoraise";
@@ -15,10 +15,10 @@ let
 in
 {
 
-  options.programs.aerospace = {
+  options.features.aerospace = {
   };
 
-  config = lib.mkIf config.features.aerospace {
+  config = lib.mkIf cfg.enable {
 
     programs.aerospace = {
       enable = true;

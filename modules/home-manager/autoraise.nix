@@ -1,14 +1,14 @@
 { config, lib, ... }:
 
 let
-  # cfg = config.programs.autoraise;
+  cfg = config.features.autoraise;
 in
 {
 
-  options.programs.autoraise = {
+  options.features.autoraise = {
   };
 
-  config = lib.mkIf config.features.autoraise {
+  config = lib.mkIf cfg.enable {
 
     home.file = {
       ".config/AutoRaise/config".text = ''

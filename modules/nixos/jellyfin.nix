@@ -5,12 +5,15 @@
   ...
 }:
 
+let
+  cfg = config.features.jellyfin;
+in
 {
 
-  options.jellyfin = {
+  options.features.jellyfin = {
   };
 
-  config = lib.mkIf config.features.jellyfin {
+  config = lib.mkIf cfg.enable {
 
     users.users.${dot.user} = {
       extraGroups = lib.mkAfter [
@@ -29,13 +32,13 @@
       cacheDir = "${dot.cache}/jellyfin";
     };
 
-    firewall.enable = true;
-    firewall.safeUDPPorts = lib.mkAfter [
+    features.firewall.enable = true;
+    features.firewall.safeUDPPorts = lib.mkAfter [
       1900
       7359
     ]; # open port to all IPs
 
-    nginx.enable = true;
+    features.nginx.enable = true;
     services.nginx.virtualHosts."videos.${dot.domain}" = {
       forceSSL = true;
       useACMEHost = dot.domain;

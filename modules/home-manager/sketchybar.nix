@@ -5,14 +5,14 @@
 }:
 
 let
-  # cfg = config.programs.sketchybar;
+  cfg = config.features.sketchybar;
 in
 {
 
-  options.programs.sketchybar = {
+  options.features.sketchybar = {
   };
 
-  config = lib.mkIf config.features.sketchybar {
+  config = lib.mkIf cfg.enable {
 
     home.file.".config/sketchybar" = {
       source = ./dotfiles/.config/sketchybar;

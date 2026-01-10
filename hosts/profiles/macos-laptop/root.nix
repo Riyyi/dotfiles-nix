@@ -17,9 +17,9 @@
   xdg.enable = true;
 
   # User modules
-  features.git = true;
-  features.nvim = true;
-  features.zsh = true;
+  features.git.enable = true;
+  features.nvim.enable = true;
+  features.zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

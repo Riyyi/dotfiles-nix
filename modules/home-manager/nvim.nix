@@ -7,7 +7,7 @@
 }:
 
 let
-  # cfg = config.programs.nvim;
+  cfg = config.features.nvim;
 
   files = [
     ".config/nvim/init.lua"
@@ -37,11 +37,10 @@ let
 in
 {
 
-  options.programs.nvim = {
-    enable = lib.mkEnableOption "nvim";
+  options.features.nvim = {
   };
 
-  config = lib.mkIf config.features.nvim {
+  config = lib.mkIf cfg.enable {
 
     home.file =
       lib.genAttrs files (file: {

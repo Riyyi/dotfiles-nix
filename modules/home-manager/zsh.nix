@@ -6,7 +6,7 @@
 }:
 
 let
-  # cfg = config.programs.zsh;
+  cfg = config.features.zsh;
 
   switch-nixos = "sudo nixos-rebuild switch --sudo --flake /etc/nixos#$HOST";
   update-nixos = "sudo nix flake update --flake /etc/nixos && switch";
@@ -18,10 +18,10 @@ let
 in
 {
 
-  options.programs.zsh = {
+  options.features.zsh = {
   };
 
-  config = lib.mkIf config.features.zsh {
+  config = lib.mkIf cfg.enable {
 
     programs.zsh = {
       enable = true;

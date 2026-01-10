@@ -5,6 +5,8 @@
 }:
 
 let
+  cfg = config.features.firewall;
+
   # https://www.cloudflare.com/ips
   cloudflareIPv4 = [
     "173.245.48.0/20"
@@ -37,12 +39,12 @@ let
   cloudflareIPv4Str = lib.concatStringsSep ", " (map toString cloudflareIPv4);
   cloudflareIPv6Str = lib.concatStringsSep ", " (map toString cloudflareIPv6);
 
-  allowedTCPPortsStr = lib.concatStringsSep ", " (map toString config.firewall.allowedTCPPorts);
-  allowedUDPPortsStr = lib.concatStringsSep ", " (map toString config.firewall.allowedUDPPorts);
+  allowedTCPPortsStr = lib.concatStringsSep ", " (map toString cfg.allowedTCPPorts);
+  allowedUDPPortsStr = lib.concatStringsSep ", " (map toString cfg.allowedUDPPorts);
 in
 {
 
-  options.firewall = {
+  options.features.firewall = {
     allowedTCPPorts = lib.mkOption {
       type = lib.types.listOf lib.types.int;
       default = [ ];
@@ -68,14 +70,14 @@ in
     };
   };
 
-  config = lib.mkIf config.features.firewall {
+  config = lib.mkIf cfg.enable {
 
     networking.nftables.enable = true;
     networking.firewall = {
       enable = true;
 
-      allowedTCPPorts = config.firewall.safeTCPPorts;
-      allowedUDPPorts = config.firewall.safeUDPPorts;
+      allowedTCPPorts = cfg.safeTCPPorts;
+      allowedUDPPorts = cfg.safeUDPPorts;
 
       extraInputRules = ''
         # Allow LAN

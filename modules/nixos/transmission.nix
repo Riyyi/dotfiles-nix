@@ -7,15 +7,16 @@
 }:
 
 let
-  # cfg = config.transmission;
+  cfg = config.features.transmission;
+
   port = 51413;
 in
 {
 
-  options.transmission = {
+  options.features.transmission = {
   };
 
-  config = lib.mkIf config.features.transmission {
+  config = lib.mkIf cfg.enable {
 
     sops.secrets."transmission/nginx/password" = {
       owner = dot.user;
@@ -42,7 +43,7 @@ in
       };
     };
 
-    nginx.enable = true;
+    features.nginx.enable = true;
     services.nginx.virtualHosts."download.${dot.domain}" = {
       forceSSL = true;
       useACMEHost = dot.domain;
@@ -56,9 +57,9 @@ in
       };
     };
 
-    firewall.enable = true;
-    firewall.safeTCPPorts = lib.mkAfter [ port ]; # open port to all IPs
-    firewall.safeUDPPorts = lib.mkAfter [ port ]; # open port to all IPs
+    features.firewall.enable = true;
+    features.firewall.safeTCPPorts = lib.mkAfter [ port ]; # open port to all IPs
+    features.firewall.safeUDPPorts = lib.mkAfter [ port ]; # open port to all IPs
 
     system.activationScripts.transmission = ''
       configDir="${config.services.transmission.home}/.config/transmission-daemon"
