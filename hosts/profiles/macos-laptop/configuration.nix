@@ -118,6 +118,7 @@
     nixd
     nixfmt
     nixfmt-tree
+    ns
     omnisharp-roslyn
     openssh
     qbittorrent

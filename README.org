@@ -62,6 +62,7 @@ Rough outline of the repo files.
 │   └── nixos/
 │       └── <modules>
 ├── overlays/
+├── pkgs/
 ├── sops/
 │   ├── secrets/
 │   │   └── secrets.yaml
@@ -86,6 +87,10 @@ Each profile has its own =configuration.nix=, =disko.nix=, =settings.nix=, etc.
 *** overlays
 
 Overwrite flake package inputs.
+
+*** pkgs
+
+Add new packages to nixpkgs.
 
 *** SOPS
 

@@ -153,6 +153,7 @@
     nixd
     nixfmt
     nixfmt-tree
+    ns
     openssh
     openssl
     pciutils # lspci

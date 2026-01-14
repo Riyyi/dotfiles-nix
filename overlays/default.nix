@@ -9,6 +9,15 @@ let
 
     soundsource = (import ./soundsource.nix);
 
+    # --------------------------------------
+
+    custom-packages =
+      final: prev:
+      (prev.lib.packagesFromDirectoryRecursive {
+        callPackage = prev.lib.callPackageWith final;
+        directory = ../pkgs;
+      });
+
     unstable-packages = final: prev: {
       unstable = import inputs.nixpkgs-unstable {
         system = final.stdenv.hostPlatform.system;
@@ -28,3 +37,6 @@ in
     |> map (name: (overlays.${name} final prev)) # nixfmt hack
     |> lib.mergeAttrsList;
 }
+
+# References:
+# - https://github.com/EmergentMind/nix-config/blob/dev/overlays/default.nix
