@@ -76,6 +76,7 @@
       # "mysqlworkbench" # broken until zhaofengli/nix-homebrew updates to 5.0.7
       "openmtp"
       "sikarugir"
+      "signal" # nixpkgs is too slow, as protocol changes break the app
       "steam"
     ];
     masApps = {
@@ -85,8 +86,8 @@
   };
 
   environment.systemPackages = with pkgs; [
-    pkgs.unstable.aerospace
-    pkgs.unstable.aldente
+    unstable.aerospace
+    unstable.aldente
     autoraise
     cppcheck
     cmake
@@ -124,7 +125,6 @@
     qbittorrent
     ripgrep
     rsync
-    pkgs.unstable.signal-desktop-bin
     sketchybar
     sops
     soundsource
