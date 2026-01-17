@@ -227,7 +227,7 @@ local buffer_group_move = function(direction)
 	if not group_index then group_index, _ = M.add_buffer() end
 
 	-- Check groups bounds
-    if #M.buffers < 2 then return end
+	if #M.buffers < 2 then return end
 
 	-- Determine the other index
 	local other_index = group_index + direction
@@ -300,22 +300,22 @@ M.buffer_pick_buffer = function()
 	end
 
 	pick("Group buffers",
-		 buffers,
-		 function(buffer)
+		buffers,
+		function(buffer)
 			-- Only show last part of the path
 			local display = buffer.key:match("^.+/(.+)$") or buffer.key
 			return {
-				display = display,       -- shown in the picker
-				ordinal = buffer.value,  -- used for sorting/filtering
-				value = buffer.value,    -- actual value
+				display = display, -- shown in the picker
+				ordinal = buffer.value, -- used for sorting/filtering
+				value = buffer.value, -- actual value
 			}
-		 end,
-		 function(selection)
+		end,
+		function(selection)
 			local new_buffer_name = M.buffers[group_index].buffers[tonumber(selection.value)]
 
 			-- Make new buffer active
 			focus_buffer(new_buffer_name)
-		 end
+		end
 	)
 end
 
@@ -327,23 +327,23 @@ M.buffer_pick_group = function()
 	end
 
 	pick("Groups",
-		 groups,
-		 function(group)
+		groups,
+		function(group)
 			-- Only show last part of the path
 			local display = group.key:match("^.+/(.+)$") or group.key
 			return {
-				display = display,      -- shown in the picker
-				ordinal = group.value,  -- used for sorting/filtering
-				value = group.value,    -- actual value
+				display = display, -- shown in the picker
+				ordinal = group.value, -- used for sorting/filtering
+				value = group.value, -- actual value
 			}
-		 end,
-		 function(selection)
+		end,
+		function(selection)
 			local buffer_group = M.buffers[tonumber(selection.value)]
 			local new_buffer_name = buffer_group.buffers[buffer_group.active_index]
 
 			-- Make new buffer active
 			focus_buffer(new_buffer_name)
-		 end
+		end
 	)
 end
 
@@ -391,7 +391,6 @@ local get_unique_buffer_names = function(paths)
 
 	-- Third pass: build the result with disambiguation
 	for filename, indexes in pairs(duplicates) do
-
 		local path_left = {}
 		local insert_pos = #filename + 1
 
@@ -433,7 +432,6 @@ local get_unique_buffer_names = function(paths)
 			end
 			indexes = new_duplicates
 		end
-
 	end
 
 	-- output example:
@@ -461,20 +459,65 @@ M.buffer_render_tabline = function()
 	local buffers = get_unique_buffer_names(M.buffers[group_index].buffers)
 	local active_index = M.buffers[group_index].active_index
 
-	local render = "%#TablineBackground# "
+	------------------------------------------
 
-	-- for buffers
+	-- Build tabline
+
+	local tabline = ""
+
 	for i = 1, #buffers do
-		local active = i == active_index and "Active" or ""
-		render = render ..
-			"%#TablineSymbol" .. active .. "#" .. "" ..
-			"%#TablineTab" .. active .. "# " .. buffers[i] .. " " ..
-			"%#TablineSymbol" .. active .. "#"
+		local padding = i ~= active_index and " " or "|"
+		local tab = "" .. padding .. buffers[i] .. padding .. ""
+		tabline = tabline .. tab
 	end
 
-	render = render .. "%#TabLineFill#"
+	-- Truncate
 
-	vim.o.tabline = render
+	-- Safe UTF‑8 codepoint extraction
+	local get_codepoints = function(index, amount)
+		local byte_start = vim.str_byteindex(tabline, index) + 1
+		local byte_end   = vim.str_byteindex(tabline, index + (amount or 1))
+		return tabline:sub(byte_start, byte_end)
+	end
+
+	local b1 = string.find(tabline, "|", 1, true)
+	local b2 = string.find(tabline, "|", b1 + 1, true) -- byte index
+	local cp2 = vim.str_utfindex(tabline, b2) + 1      -- codepoint index
+
+	local offset = 0
+	local width = vim.api.nvim_win_get_width(0)
+	if cp2 + 1 > width then offset = cp2 - width end
+	if width < vim.fn.strdisplaywidth(tabline) then
+		tabline = get_codepoints(offset, width)
+	end
+
+	-- Add font colors
+
+	local result = ""
+	local length = vim.str_utfindex(tabline)
+	for i = length - 1, 0, -1 do
+		local cur = get_codepoints(i)
+		local nxt = (i - 1 >= 0)          and get_codepoints(i - 1) or nil -- next in the backwards iteration,
+		local prv = (i + 1 <= length - 1) and get_codepoints(i + 1) or nil -- so the previous character
+
+		local active = ""
+		if (cur == "" and nxt == "|") or
+			(cur == "" and prv == "|") or
+			(cur == "|") then
+			active = "Active"
+		end
+
+		if cur == "" or cur == "" then
+			result = "%#TablineSymbol" .. active .. "#" .. cur .. result
+		elseif (cur == " " or cur == "|") and (nxt == "" or prv == "") then
+			result = "%#TablineTab" .. active .. "# " .. result
+		else
+			result = cur .. result
+		end
+	end
+	result = "%#TablineBackground#" .. result .. "%#TabLineFill#"
+
+	vim.o.tabline = result
 	vim.o.showtabline = 2
 end
 
