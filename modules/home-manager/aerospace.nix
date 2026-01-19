@@ -261,13 +261,18 @@ in
         # ------------------------------------
         # Windows and Workspaces
 
-        # $ aeropace list-apps
+        # $ aerospace list-apps
         on-window-detected = [
           # Set to floating
           {
-            "if".app-id = "io.mpv";
+            "if".app-id = "com.apple.finder";
             check-further-callbacks = true;
             run = [ "layout floating" ]; # the callback itself
+          }
+          {
+            "if".app-id = "io.mpv";
+            check-further-callbacks = true;
+            run = [ "layout floating" ];
           }
         ];
 

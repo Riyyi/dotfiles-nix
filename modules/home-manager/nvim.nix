@@ -54,7 +54,7 @@ in
 
     # lazy-lock.json wont be linked from Nix store, so it remains writable
     home.activation.nvim = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ln -sf ${dot.dotfiles}/user/dotfiles/.config/nvim/lazy-lock.json "$HOME/.config/nvim/lazy-lock.json"
+      ln -sf ${dot.dotfiles}/modules/home-manager/dotfiles/.config/nvim/lazy-lock.json "$HOME/.config/nvim/lazy-lock.json"
     '';
 
   };
