@@ -173,7 +173,7 @@ return {
 
 	-- Project
 	{
-		"ahmedkhalf/project.nvim",
+		"DrKJeff16/project.nvim",
 		opts = {
 			detection_methods = { "lsp", "pattern" },
 			patterns = { ".git", ".project" },
@@ -188,9 +188,9 @@ return {
 				pattern = "*",
 				callback = function()
 					-- Fetch project.nvim projects
-					local project = require("project_nvim.project")
-					local history = require("project_nvim.utils.history")
-					local recent = history.recent_projects or {}
+					local project = require("project")
+					local history = require("project.util.history")
+					local recent = history.get_recent_projects() or {}
 					local session = history.session_projects or {}
 					local recent_plus_session = F.table_merge_unique(recent, session)
 
@@ -212,7 +212,7 @@ return {
 				end,
 			})
 
-			require("project_nvim").setup(opts)
+			require("project").setup(opts)
 			require("telescope").load_extension("projects")
 		end
 	}

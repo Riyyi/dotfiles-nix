@@ -250,63 +250,22 @@ M.toggle_term = function()
 	vim.api.nvim_command("ToggleTerm")
 end
 
--- TODO: Temporary copy/pasted until project_nvim exposes this function
--- https://github.com/ahmedkhalf/project.nvim/issues/145
--- TODO: Create a Telescope extension out of this, for telescope-all-recent
-local function create_finder()
-	local results = require("project_nvim").get_recent_projects()
-	local entry_display = require("telescope.pickers.entry_display")
-	local finders = require("telescope.finders")
-
-	-- Reverse results
-	for i = 1, math.floor(#results / 2) do
-		results[i], results[#results - i + 1] = results[#results - i + 1], results[i]
-	end
-	local displayer = entry_display.create({
-		separator = " ",
-		items = {
-			{
-				width = 30,
-			},
-			{
-				remaining = true,
-			},
-		},
-	})
-
-	local function make_display(entry)
-		return displayer({ entry.name, { entry.value, "Comment" } })
-	end
-
-	return finders.new_table({
-		results = results,
-		entry_maker = function(entry)
-			local name = vim.fn.fnamemodify(entry, ":t")
-			return {
-				display = make_display,
-				name = name,
-				value = entry,
-				ordinal = name .. " " .. entry,
-			}
-		end,
-	})
-end
-
 M.vc_select_repo = function()
-	-- local projects = require("project_nvim").get_recent_projects()
+	-- local projects = require("project").get_recent_projects()
 
 	local actions = require("telescope.actions")
 	local action_state = require("telescope.actions.state")
 	local conf = require("telescope.config").values
 	-- local finders = require("telescope.finders")
 	local pickers = require("telescope.pickers")
+	local util = require("telescope._extensions.projects.util")
 	pickers.new({}, {
 		prompt_title = "Select Project",
-		finder = create_finder(),
-		-- finder = telescope.extensions.projects.create_finder(),
-        -- finder = finders.new_table {
-        --     results = projects,
-        -- },
+		-- finder = create_finder(),
+		finder = util.create_finder(),
+		-- finder = finders.new_table {
+		-- results = projects,
+		-- },
 		previewer = false,
 		sorter = conf.generic_sorter({}),
 		attach_mappings = function(prompt_bufnr)

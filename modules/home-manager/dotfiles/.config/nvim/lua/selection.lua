@@ -46,6 +46,9 @@ return {
 						hide_parent_dir = true, -- hide "../"
 						prompt_path = true, -- set path as prompt prefix
 					},
+					projects = {
+						prompt_title = "Select Project",
+					},
 				},
 			})
 			require("telescope").load_extension("fzf")
