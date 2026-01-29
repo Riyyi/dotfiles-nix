@@ -60,3 +60,8 @@ in
   };
 
 }
+
+# TODO: Nvim dev:
+# ln -s /Users/rick/Code/nix/dotfiles-nix/modules/home-manager/dotfiles/.config/nvim nvim-dev
+# cp ~/.config/nvim/lua/nix.lua ~/.config/nvim-dev/lua
+# NVIM_APPNAME=nvim-dev nvim
