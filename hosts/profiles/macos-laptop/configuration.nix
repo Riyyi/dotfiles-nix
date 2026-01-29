@@ -123,6 +123,7 @@
     omnisharp-roslyn
     openssh
     qbittorrent
+    qemu
     ripgrep
     rsync
     sketchybar
@@ -136,6 +137,7 @@
     tree
     typescript-language-server
     util-linux
+    utm
     wget
     windsurf
     yt-dlp
