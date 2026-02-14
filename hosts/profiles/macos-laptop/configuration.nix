@@ -21,6 +21,9 @@
     ./../../../modules/darwin
   ];
 
+  # TODO:
+  # sops.sshKeyPath = "${dot.home}/.ssh/id_ed25519";
+
   # ----------------------------------------
   # Users
 
@@ -88,6 +91,7 @@
   environment.systemPackages = with pkgs; [
     unstable.aerospace
     unstable.aldente
+    android-tools
     autoraise
     cppcheck
     cmake
@@ -140,7 +144,7 @@
     utm
     wget
     windsurf
-    yt-dlp
+    unstable.yt-dlp
     zsh
   ];
 

@@ -1,7 +1,14 @@
 {
   description = "NixOS configuration";
 
+  nixConfig = {
+    extra-experimental-features = [ "pipe-operators" ];
+  };
+
   inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
@@ -46,155 +53,35 @@
 
   outputs =
     inputs@{
-      self,
       nixpkgs,
-      nix-darwin,
+      self,
       ...
     }:
     let
+      inherit (nixpkgs) lib;
+      import-tree =
+        path:
+        path
+        |> lib.fileset.fileFilter (file: file.hasExt "nix" && !(lib.hasPrefix "_" file.name))
+        |> lib.fileset.toList;
+
       inherit (self) outputs;
-
-      # Loop through all profiles and create a configuration for matching system types
-      addProfiles =
-        { system, mkConfiguration }:
-        let
-          matchSystem = profile: (import ./hosts/profiles/${profile}/settings.nix).system == system;
-        in
-        builtins.readDir ./hosts/profiles
-        |> nixpkgs.lib.filterAttrs (name: type: type == "directory")
-        |> builtins.attrNames
-        |> builtins.filter matchSystem
-        |> builtins.map mkConfiguration
-        |> builtins.listToAttrs;
-
-      cwd = builtins.toPath ./.; # active store directory
-
-      system = "x86_64-linux";
-
-      forAllSystems = nixpkgs.lib.genAttrs [
-        "x86_64-linux"
-        "aarch64-darwin"
-      ];
     in
-    {
-      # ==================================== #
-      # Overlays #
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = import-tree ./dendritic;
 
-      # Custom modifications/overrides to upstream packages
-      overlays = import ./overlays { inherit inputs; };
-
-      # ==================================== #
-      # NixOS Profiles #
-
-      nixosConfigurations =
-        let
-          mkConfiguration =
-            profile:
-            let
-              dot = import ./hosts/profiles/${profile}/settings.nix;
-            in
-            {
-              name = dot.hostname;
-              value = nixpkgs.lib.nixosSystem {
-                system = dot.system;
-                specialArgs = {
-                  inherit
-                    inputs
-                    outputs
-                    dot
-                    cwd
-                    ;
-                };
-                modules = [
-                  ./hosts/profiles/${profile}/configuration.nix
-                  ./hosts/profiles/${profile}/disko.nix
-                  ./hosts/profiles/${profile}/disko-mount.nix
-                ];
-              };
-            };
-        in
-        addProfiles {
-          system = "x86_64-linux";
-          mkConfiguration = mkConfiguration;
-        };
-
-      # ==================================== #
-      # Darwin Profiles #
-
-      darwinConfigurations =
-        let
-          mkConfiguration =
-            profile:
-            let
-              dot = import ./hosts/profiles/${profile}/settings.nix;
-            in
-            {
-              name = dot.hostname;
-              value = nix-darwin.lib.darwinSystem {
-                system = dot.system;
-                specialArgs = {
-                  inherit
-                    inputs
-                    outputs
-                    dot
-                    cwd
-                    ;
-                };
-                modules = [
-                  ./hosts/profiles/${profile}/configuration.nix
-                ];
-              };
-            };
-        in
-        addProfiles {
-          system = "aarch64-darwin";
-          mkConfiguration = mkConfiguration;
-        };
-
-      # ==================================== #
-      # Formatting #
-
-      # Nix formatter available through "nix fmt"
-      # https://nix.dev/manual/nix/stable/command-ref/new-cli/nix3-fmt#example
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
-
-      # ==================================== #
-      # DevShells #
-
-      devShells = forAllSystems (
-        system:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [ self.overlays.default ];
-          };
-        in
-        import ./shell.nix { inherit pkgs system; }
-      );
-
-      # ==================================== #
-      # Other #
-
-      # Bootstrap script
-      packages.${system} =
-        let
-          pkgs = import nixpkgs { inherit system; };
-        in
-        {
-          default = self.packages.${system}.install;
-          install = pkgs.writeShellApplication {
-            name = "install";
-            runtimeInputs = with pkgs; [ git ];
-            text = ''${builtins.readFile ./install.sh}'';
-          };
-        };
-      apps.${system} = {
-        default = self.apps.${system}.install;
-        install = {
-          type = "app";
-          program = "${self.packages.${system}.install}/bin/install";
-        };
-      };
-
+      _module.args.outputs = outputs;
+      _module.args.rootPath = ./.;
     };
+
 }
+
+# References:
+# - https://dendrix.oeiuwq.com/Dendritic.html
+# - https://github.com/mightyiam/infra
+# - https://flake.parts
+# - https://github.com/EmergentMind/nix-config
+
+# - https://github.com/mightyiam/dendritic
+# - https://github.com/Doc-Steve/dendritic-design-with-flake-parts/wiki/Dendritic_Aspects
+# - https://github.com/weegs710/AnomalOS

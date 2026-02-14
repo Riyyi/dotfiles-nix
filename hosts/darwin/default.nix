@@ -34,7 +34,7 @@
     }
 
     # Sops
-    inputs.sops-nix.darwinModules.sops
+    # inputs.sops-nix.darwinModules.sops
   ];
 
   # Set Git commit hash for darwin-version.
