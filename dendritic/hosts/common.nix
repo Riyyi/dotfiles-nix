@@ -1,37 +1,21 @@
-{
-  inputs,
-  lib,
-  outputs,
-  toby, #???
-  ...
-}:
-
 let
-  module = "host-common";
+  module = "hosts-common";
 in
 {
 
   # ====================================== #
   # Common #
 
-  flake.modules.generic.${module} = {
+  flake.modules.generic.${module} =
+    {
+      config,
+      lib,
+      outputs,
+      ...
+    }:
+    {
 
-    # Overlays
-    # nixpkgs.overlays = lib.mkAfter [
-    #   outputs.overlays.default
-    # ];
-    #
-    # # Nix settings
-    # nix = {
-    #   settings.experimental-features = [
-    #     "nix-command"
-    #     "flakes"
-    #     "pipe-operators"
-    #   ]; # enable flakes
-    #   optimise.automatic = true; # store optimizer on a daily timer
-    # };
-
-  };
+    };
 
   # ====================================== #
   # NixOS #
