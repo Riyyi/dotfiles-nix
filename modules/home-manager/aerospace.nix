@@ -30,13 +30,15 @@ in
 
         automatically-unhide-macos-hidden-apps = true; # disable macOS "hide application"
 
+        focus-follows-mouse.enabled = true;
+
         # ------------------------------------
         # Autostart
 
         start-at-login = true;
 
         after-startup-command = [
-          "exec-and-forget ${autoraise}"
+          # "exec-and-forget ${autoraise}"
           "exec-and-forget ${sketchybar}"
           "exec-and-forget open -g -a /Applications/Hammerspoon.app"
         ];

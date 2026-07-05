@@ -30,6 +30,12 @@
           "sikarugir-app/homebrew-sikarugir" = inputs.homebrew-sikarugir;
         };
         mutableTaps = false;
+
+        trust = {
+          taps = [
+            "sikarugir-app/sikarugir"
+          ];
+        };
       };
     }
 

@@ -15,7 +15,7 @@
 
   # User modules
   features.aerospace.enable = true;
-  features.autoraise.enable = true;
+  # features.autoraise.enable = true;
   features.firefox.enable = true;
   features.ghostty.enable = true;
   features.git.enable = true;
