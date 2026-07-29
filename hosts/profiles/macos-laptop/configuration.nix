@@ -65,6 +65,7 @@
     brewPrefix = "/opt/homebrew/bin";
     brews = [
       "mas"
+      "odinfmt"
     ];
     casks = [
       "font-dejavu-sans-mono-nerd-font"
@@ -94,6 +95,7 @@
     coreutils
     cyberduck
     dotnet-ef
+    emacs
     fastfetch
     ff2mpv-go
     firefox
@@ -121,6 +123,9 @@
     nixfmt-tree
     ns
     omnisharp-roslyn
+    odin
+    ols
+    opencode
     openssh
     qbittorrent
     qemu

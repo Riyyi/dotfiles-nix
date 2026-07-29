@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: html
+# key: <html
+# --
+@@html:<${1:tag}>@@${2:content}@@html:</${1:$(yas-text)}>@@$0

@@ -109,13 +109,18 @@ return {
 						},
 					},
 				},
+				ols = { -- Odin, via ols
+					init_options = {
+						enable_checker_only_saved = false, -- live updates
+					},
+				},
 				omnisharp = { -- C#, via omnisharp-roslyn
 					cmd = { "/usr/bin/omnisharp", "--languageserver", "--hostPID", tostring(pid) },
 					handlers = {
 						["textDocument/definition"] = require('omnisharp_extended').handler,
 					},
 				},
-				ts_ls = { -- typescript-language-server
+				ts_ls = { -- Typescript, via typescript-language-server
 					init_options = {
 						plugins = {
 							{

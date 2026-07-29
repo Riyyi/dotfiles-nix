@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: al2
+# key: al2
+# --
+/*
+ * Copyright (C) `(format-time-string "%Y")` ${1:Author} ${2:<${3:Email}>}
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+$0

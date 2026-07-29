@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: gpl3
+# key: gpl3
+# --
+/*
+ * Copyright (C) `(format-time-string "%Y")` ${1:Author} ${2:<${3:Email}>}
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+$0

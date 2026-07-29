@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: hyperref
+# key: hy
+# --
+\hyperref[${1:type}:${2:name}]{${3:a}}$0
