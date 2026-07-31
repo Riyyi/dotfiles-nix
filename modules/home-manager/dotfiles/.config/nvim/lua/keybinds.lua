@@ -193,9 +193,6 @@ M.lspconfig_on_attach = function(_, bufnr)
 	nnoremap("<leader>lf", F.lsp_format_buffer, "Format buffer")
 	nnoremap("<leader>lr", vim.lsp.buf.rename, "Rename")
 
-	nnoremap("<leader>ld", "<cmd>Lspsaga hover_doc<CR>", "Show documentation")
-	-- vim.keymap.set("n", "<leader>ld", "<cmd>Lspsaga hover_doc<CR>", { desc = "Show documentation" })
-
 	F.wk("<leader>lg", "goto", bufnr)
 	nnoremap("<leader>lga", builtin.lsp_dynamic_workspace_symbols, "Workspace symbols")
 	nnoremap("<leader>lgd", vim.lsp.buf.declaration, "Declaration")
@@ -204,6 +201,9 @@ M.lspconfig_on_attach = function(_, bufnr)
 	nnoremap("<leader>lgr", builtin.lsp_references, "References")
 	nnoremap("<leader>lgs", builtin.lsp_document_symbols, "Document symbols")
 	nnoremap("<leader>lgt", builtin.lsp_type_definitions, "Type definition")
+
+	F.wk("<leader>lh", "help", bufnr)
+	nnoremap("<leader>lhh", "<cmd>Lspsaga hover_doc<CR>", "Describe symbol at point")
 
 	-- See `:help K` for why this keymap
 	nnoremap("K", vim.lsp.buf.hover, "Hover Documentation")

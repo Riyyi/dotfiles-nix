@@ -13,11 +13,12 @@ return {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
 		build = ":TSUpdate",
+		main = "nvim-treesitter.configs",
 		opts = {
 			ensure_installed = {
 				"bash", "c", "cmake", "cpp", "c_sharp", "css", "go",
 				"haskell", "html", "java", "javascript", "jsdoc", "json",
-				"latex", "lua", "make", "markdown", "php", "python",
+				"latex", "lua", "make", "markdown", "markdown_inline", "php", "python",
 				"query", "regex", "rust", "toml", "tsx", "typescript",
 				"vim", "vimdoc", "yaml",
 			},

@@ -75,7 +75,11 @@ return {
 		},
 		config = function()
 			-- Setup neovim Lua configuration
-			require("lspsaga").setup() -- ?? does this do anything with doc hover
+			require("lspsaga").setup({
+				diagnostic = {
+					diagnostic_only_current = true,
+				},
+			})
 			require("neodev").setup()
 
 			-- Vim process
@@ -109,7 +113,7 @@ return {
 						},
 					},
 				},
-				ols = { -- Odin, via ols
+				ols = {                  -- Odin, via ols
 					init_options = {
 						enable_checker_only_saved = false, -- live updates
 					},
@@ -172,7 +176,8 @@ return {
 					vim.lsp.enable(server)
 				else
 					require("lspconfig")[server].setup(opts)
-				end	end
+				end
+			end
 		end,
 	},
 

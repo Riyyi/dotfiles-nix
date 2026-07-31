@@ -136,18 +136,21 @@ return {
 			require("trouble").setup(opts)
 
 			-- Gutter/fringe icons
-			--   https://github.com/folke/trouble.nvim/issues/52
-			local signs = {
-				Error = "»",
-				Warn = "»",
-				Hint = "»",
-				Info = "»",
-				Other = "»",
-			}
-			for type, icon in pairs(signs) do
-				local hl = "DiagnosticSign" .. type
-				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-			end
+			vim.diagnostic.config({
+				virtual_text = false,
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = "»",
+						[vim.diagnostic.severity.WARN] = "»",
+						[vim.diagnostic.severity.HINT] = "»",
+						[vim.diagnostic.severity.INFO] = "»",
+					},
+				},
+				underline = true,
+				update_in_insert = false,
+				severity_sort = true,
+				float = { border = "rounded" },
+			})
 		end,
 	},
 
