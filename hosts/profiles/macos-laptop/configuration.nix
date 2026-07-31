@@ -140,6 +140,7 @@
     syncthing
     tokei
     tree
+    tree-sitter
     typescript-language-server
     util-linux
     utm

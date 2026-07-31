@@ -22,39 +22,6 @@ return {
 			"fzf",
 		},
 		config = function()
-			require("telescope").setup({
-				defaults = {
-					sorting_strategy = "ascending",
-
-					layout_strategy = "config",
-					layout_config = {
-						height = 10, -- amount of results
-						config = { -- apply settings to the "config" layout
-							search_condensed = true,
-						}
-					},
-					border = true,
-
-					history = {
-						path = vim.fn.stdpath("cache") .. "/telescope_history",
-					},
-
-					mappings = require("keybinds").telescope_default_mappings(),
-				},
-				extensions = {
-					file_browser = {
-						hide_parent_dir = true, -- hide "../"
-						prompt_path = true, -- set path as prompt prefix
-					},
-					projects = {
-						prompt_title = "Select Project",
-					},
-				},
-			})
-			require("telescope").load_extension("fzf")
-			require("telescope").load_extension "file_browser"
-			require("telescope").load_extension("recent_files")
-
 			--- ┌──────────────────────────────────────────────────┐
 			--- │                                                  │
 			--- │               ┌───────────────────┐              │
@@ -109,6 +76,40 @@ return {
 					results = results,
 				}
 			end
+
+			require("telescope").setup({
+				defaults = {
+					sorting_strategy = "ascending",
+
+					layout_strategy = "config",
+					layout_config = {
+						height = 10, -- amount of results
+						config = { -- apply settings to the "config" layout
+							search_condensed = true,
+						}
+					},
+					border = true,
+
+					history = {
+						path = vim.fn.stdpath("cache") .. "/telescope_history",
+					},
+
+					mappings = require("keybinds").telescope_default_mappings(),
+				},
+				extensions = {
+					file_browser = {
+						hide_parent_dir = true, -- hide "../"
+						prompt_path = true, -- set path as prompt prefix
+					},
+					projects = {
+						prompt_title = "Select Project",
+					},
+				},
+			})
+
+			pcall(require("telescope").load_extension, "fzf") -- dont error on failed load
+			require("telescope").load_extension "file_browser"
+			require("telescope").load_extension("recent_files")
 		end,
 	},
 

@@ -182,7 +182,9 @@ return {
 		opts = {
 			detection_methods = { "lsp", "pattern" },
 			patterns = { ".git", ".project" },
-			datapath = vim.fn.stdpath("cache"),
+			history = {
+				save_dir = vim.fn.stdpath("cache"),
+			},
 		},
 		config = function(_, opts)
 			-- Add syncing between project.nvim and dashboard-nvim project entries.
