@@ -8,34 +8,21 @@ return {
 
 	-- Highlight, edit, and navigate code
 	{
-		"nvim-treesitter/nvim-treesitter",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects",
-		},
-		build = ":TSUpdate",
-		main = "nvim-treesitter.configs",
-		opts = {
-			ensure_installed = {
-				"bash", "c", "cmake", "cpp", "c_sharp", "css", "go",
-				"haskell", "html", "java", "javascript", "jsdoc", "json",
-				"latex", "lua", "make", "markdown", "markdown_inline", "php", "python",
-				"query", "regex", "rust", "toml", "tsx", "typescript",
-				"vim", "vimdoc", "yaml",
-			},
-			sync_install = false,
-			auto_install = true,
-
-			-- Default install directory is <plugin_path>/parser
-			-- parser_install_dir
-
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false,
-			},
-			indent = {
-				enable = true,
-			},
-		}
+		"romus204/tree-sitter-manager.nvim",
+		dependencies = {}, -- tree-sitter CLI must be installed system-wide
+		config = function()
+			require("tree-sitter-manager").setup({
+				ensure_installed = {
+					"bash", "c", "cmake", "cpp", "c_sharp", "css", "go",
+					"haskell", "html", "java", "javascript", "jsdoc", "json",
+					"latex", "lua", "make", "markdown", "odin", "php", "python",
+					"query", "regex", "rust", "toml", "tsx", "typescript",
+					"vim", "vimdoc", "yaml",
+				},
+				auto_install = true,
+				highlight = true,
+			})
+		end,
 	},
 
 	-- Auto-save
@@ -44,7 +31,7 @@ return {
 		cmd = "ASToggle",                   -- defer, until run command
 		event = { "InsertLeave", "TextChanged" }, -- defer, until event trigger
 		opts = {
-			debounce_delay = 5000, -- delay for `defer_save`, in ms
+			debounce_delay = 5000,          -- delay for `defer_save`, in ms
 			condition = function(buf)
 				-- Dont save special-buffers
 				return vim.fn.getbufvar(buf, "&buftype") == ""
