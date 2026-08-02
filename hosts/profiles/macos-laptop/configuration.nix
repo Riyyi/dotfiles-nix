@@ -62,10 +62,9 @@
       upgrade = true;
     };
     taps = builtins.attrNames config.nix-homebrew.taps;
-    brewPrefix = "/opt/homebrew/bin";
+    prefix = "/opt/homebrew";
     brews = [
       "mas"
-      "odinfmt"
     ];
     casks = [
       "font-dejavu-sans-mono-nerd-font"

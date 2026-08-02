@@ -9,7 +9,7 @@ let
   cfg = config.features.aerospace;
 
   aerospace-pkg = pkgs.unstable.aerospace;
-  autoraise = "${pkgs.autoraise}/bin/autoraise";
+  # autoraise = "${pkgs.autoraise}/bin/autoraise";
   sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
   sketchybar-trigger = "exec-and-forget ${sketchybar} --trigger aerospace_workspace_change";
 in
@@ -23,8 +23,9 @@ in
     programs.aerospace = {
       enable = true;
       package = aerospace-pkg;
+      launchd.enable = true;
 
-      userSettings = {
+      settings = {
 
         config-version = 2;
 
@@ -35,7 +36,7 @@ in
         # ------------------------------------
         # Autostart
 
-        start-at-login = true;
+        start-at-login = false; # handled by launchd
 
         after-startup-command = [
           # "exec-and-forget ${autoraise}"

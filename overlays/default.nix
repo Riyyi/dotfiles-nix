@@ -7,6 +7,8 @@ let
 
     firefox-addons = inputs.firefox-addons.overlays.default;
 
+    odin = (import ./odin.nix);
+
     soundsource = (import ./soundsource.nix);
 
     # --------------------------------------
