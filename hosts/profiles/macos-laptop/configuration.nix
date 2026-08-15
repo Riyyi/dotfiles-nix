@@ -146,6 +146,7 @@
     wget
     windsurf
     yt-dlp
+    xxd
     zsh
   ];
 
