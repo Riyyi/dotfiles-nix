@@ -124,7 +124,7 @@
     omnisharp-roslyn
     odin
     ols
-    opencode
+    unstable.opencode
     openssh
     qbittorrent
     qemu
