@@ -54,6 +54,10 @@ in
           "${dataDir}/data:/root/.local/share/opencode"
           "${dataDir}/state:/root/.local/state/opencode"
           "${dataDir}/cache:/root/.cache/opencode"
+
+          # projects visible in the container home directory
+          "${dot.code}/rick:/root/rick"
+          "${dot.code}/janelle:/root/janelle"
         ];
       };
     };
