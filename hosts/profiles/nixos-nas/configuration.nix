@@ -146,7 +146,7 @@
     navidrome
     ncdu
     neovim
-    nextcloud31
+    #nextcloud34
     nfs-utils
     nginx
     nh
@@ -159,7 +159,7 @@
     pciutils # lspci
     php
     postgresql_16
-    postgresql16Packages.pgvecto-rs
+    postgresql16Packages.vectorchord
     qbittorrent-nox
     rclone
     redis

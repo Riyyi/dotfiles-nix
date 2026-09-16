@@ -31,7 +31,7 @@ in
       datadir = config.services.nextcloud.home;
       hostName = "cloud.${dot.domain}";
 
-      package = pkgs.nextcloud31;
+      package = pkgs.nextcloud34;
       database.createLocally = true;
       configureRedis = true;
 
@@ -41,7 +41,7 @@ in
       autoUpdateApps.enable = true;
       extraAppsEnable = true;
       extraApps = {
-        inherit (pkgs.nextcloud31Packages.apps)
+        inherit (pkgs.nextcloud34Packages.apps)
           contacts
           calendar
           tasks
