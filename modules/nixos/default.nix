@@ -13,6 +13,7 @@
     ./nextcloud.nix
     ./nfs.nix
     ./nginx.nix
+    ./opencode.nix
     ./postgresql.nix
     ./qbittorrent-nox.nix
     ./samba.nix

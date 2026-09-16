@@ -87,6 +87,10 @@
       enable = lib.mkEnableOption "nvim";
     };
 
+    opencode = {
+      enable = lib.mkEnableOption "opencode";
+    };
+
     postgresql = {
       enable = lib.mkEnableOption "postgresql";
     };

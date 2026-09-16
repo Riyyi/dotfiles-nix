@@ -204,6 +204,7 @@
   # features.nextcloud.enable = true;
   features.nfs.enable = true;
   features.nginx.enable = true;
+  features.opencode.enable = true;
   features.qbittorrent-nox.enable = true;
   # features.samba.enable = true;
   features.syncthing.enable = true;
