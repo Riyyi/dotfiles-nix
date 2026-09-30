@@ -119,6 +119,10 @@
       enable = lib.mkEnableOption "transmission";
     };
 
+    vaultwarden = {
+      enable = lib.mkEnableOption "vaultwarden";
+    };
+
     zsh = {
       enable = lib.mkEnableOption "zsh";
     };

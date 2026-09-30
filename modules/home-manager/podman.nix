@@ -9,6 +9,7 @@
   imports = [
     ../.
     ./opencode.nix
+    ./vaultwarden.nix
   ];
 
   home.username = "podman";
@@ -20,5 +21,6 @@
   };
 
   features.opencode.enable = true;
+  features.vaultwarden.enable = true;
 
 }

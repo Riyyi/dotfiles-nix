@@ -229,6 +229,7 @@
   features.nginx.enable = true;
   features.opencode.enable = true;
   features.qbittorrent-nox.enable = true;
+  features.vaultwarden.enable = true;
   # features.samba.enable = true;
   features.syncthing.enable = true;
   # features.transmission.enable = true;

@@ -30,9 +30,6 @@ in
       shell = pkgs.bash;
     };
 
-    # Allow user to use home-manager
-    nix.settings.allowed-users = [ user ];
-
     virtualisation.podman = {
       enable = true;
       autoPrune.enable = true;

@@ -193,7 +193,7 @@
           install = pkgs.writeShellApplication {
             name = "install";
             runtimeInputs = with pkgs; [ git ];
-            text = ''${builtins.readFile ./install.sh}'';
+            text = "${builtins.readFile ./install.sh}";
           };
         };
       apps.${system} = {

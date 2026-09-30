@@ -15,6 +15,7 @@
     ./nvim.nix
     ./opencode.nix
     ./sketchybar.nix
+    ./vaultwarden.nix
     ./zsh.nix
   ];
 

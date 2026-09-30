@@ -20,6 +20,7 @@
     ./samba.nix
     ./syncthing.nix
     ./transmission.nix
+    ./vaultwarden.nix
   ];
 
 }
