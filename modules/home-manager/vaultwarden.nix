@@ -29,10 +29,16 @@ in
 
       environment = {
         DOMAIN = "https://vault.${dot.domain}";
+        SIGNUPS_ALLOWED = "false";
       };
+
+      environmentFile = [
+        "/run/secrets/vaultwarden/env"
+      ];
 
       volumes = [
         "${dataDir}/data:/data"
+        "/run/postgresql:/run/postgresql"
       ];
     };
 
