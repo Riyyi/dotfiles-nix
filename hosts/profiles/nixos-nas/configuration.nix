@@ -1,4 +1,5 @@
 {
+  config,
   cwd,
   dot,
   inputs,
@@ -31,8 +32,20 @@
   };
   boot.kernelParams = [ "zfs.zfs_arc_max=21474836480" ]; # 20 GiB
   boot.zfs.extraPools = [ "znas" ];
+
+  # Software RAID support must be enabled explicitly so mdadm is included in
+  # the initrd and the root RAID1 array is assembled before fsck/mount.
+  boot.swraid.enable = true;
   boot.swraid.mdadmConf = ''
     MAILADDR=nobody@nowhere
+    # Treat arrays from any homehost as local. This matches the by-id symlink
+    # naming used by disko (md-name-any:raid1) and avoids assembly failures
+    # after hostname changes or reinstalls.
+    HOMEHOST <ignore>
+    # Deterministic assembly for the root array.
+    # Fill in the UUID by running:
+    #   mdadm --detail /dev/md/raid1 | grep UUID
+    ARRAY /dev/md/raid1 metadata=1.2 UUID=0ec5db07:9a033314:bb7c2184:808532f7
   '';
 
   # Some modules we don't need on a headless server
@@ -76,10 +89,19 @@
   # ----------------------------------------
   # Users
 
+  # NOTE: Add the root password to sops/secrets/secrets.yaml under the key
+  # `root-password` by running:
+  #   sops sops/secrets/secrets.yaml
+  # Generate the hash with: mkpasswd -m sha-512
+  # This unlocks the root account so emergency mode can spawn a console.
+  sops.secrets.root-password = {
+    neededForUsers = true;
+  };
+
   users.users.root = {
-    isSystemUser = true;
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [ dot.sshKey ];
+    hashedPasswordFile = config.sops.secrets.root-password.path;
   };
 
   # Define a user account

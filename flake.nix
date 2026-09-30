@@ -116,7 +116,8 @@
                   ./hosts/profiles/${profile}/configuration.nix
                   ./hosts/profiles/${profile}/disko.nix
                   ./hosts/profiles/${profile}/disko-mount.nix
-                ];
+                ]
+                ++ nixpkgs.lib.optional (builtins.pathExists ./hosts/profiles/${profile}/hardware-configuration.nix) ./hosts/profiles/${profile}/hardware-configuration.nix;
               };
             };
         in
