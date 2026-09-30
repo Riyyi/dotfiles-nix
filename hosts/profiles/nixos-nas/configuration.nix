@@ -123,6 +123,7 @@
     extraSpecialArgs = { inherit inputs dot cwd; };
     users.root = import ./root.nix;
     users.${dot.user} = import ./home.nix;
+    users.podman = import ../../../modules/home-manager/podman.nix;
   };
 
   # Allow default user to write to SMB share directories

@@ -91,6 +91,10 @@
       enable = lib.mkEnableOption "opencode";
     };
 
+    podman = {
+      enable = lib.mkEnableOption "podman";
+    };
+
     postgresql = {
       enable = lib.mkEnableOption "postgresql";
     };

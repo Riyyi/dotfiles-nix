@@ -13,6 +13,7 @@
     ./jankyborders.nix
     ./mpv.nix
     ./nvim.nix
+    ./opencode.nix
     ./sketchybar.nix
     ./zsh.nix
   ];

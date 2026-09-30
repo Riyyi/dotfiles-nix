@@ -14,6 +14,7 @@
     ./nfs.nix
     ./nginx.nix
     ./opencode.nix
+    ./podman.nix
     ./postgresql.nix
     ./qbittorrent-nox.nix
     ./samba.nix
