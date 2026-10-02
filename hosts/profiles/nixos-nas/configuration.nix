@@ -188,6 +188,7 @@
     redis
     rsync
     samba4Full
+    smartmontools
     sops
     sqlite
     ssh-to-age
