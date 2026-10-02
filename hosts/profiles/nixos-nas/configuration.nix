@@ -37,7 +37,7 @@
   # the initrd and the root RAID1 array is assembled before fsck/mount.
   boot.swraid.enable = true;
   boot.swraid.mdadmConf = ''
-    MAILADDR=nobody@nowhere
+    MAILADDR=root
     # Treat arrays from any homehost as local. This matches the by-id symlink
     # naming used by disko (md-name-any:raid1) and avoids assembly failures
     # after hostname changes or reinstalls.
